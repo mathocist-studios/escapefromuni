@@ -1,17 +1,17 @@
 package com.mathochiststudios.escapefromuni.levels;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.entities.Player;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 
-public class ShopLevel extends Level{
+public class LakeLevel extends Level {
 
-    public ShopLevel(Game game) {
+    public LakeLevel(Game game) {
         super(game);
 
-        mapName = "ShopLevel.tmx";
+        mapName = "maps/Lake.tmx";
 
         levelCoins = new ArrayList<>();
         levelSpeedPowerups = new ArrayList<>();
@@ -20,11 +20,14 @@ public class ShopLevel extends Level{
         startX = 28;
         startY = 15;
 
-        endX = 16;
+        endX = 2;
         endY = 3;
 
-        sideX = 15;
-        sideY = 2;
+        sideX = 6;
+        sideY = 20;
+
+        side2X = 28;
+        side2Y = 2;
 
     }
 

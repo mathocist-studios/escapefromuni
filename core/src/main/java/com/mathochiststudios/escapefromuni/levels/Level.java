@@ -29,10 +29,14 @@ public abstract class Level {
     protected int endX = -1;
     protected int endY = -1;
 
+    protected int side2X = -1;
+    protected int side2Y = -1;
+
     protected String mapName;
 
     protected Level nextLevel = null;
     protected Level sideLevel = null;
+    protected Level side2Level = null;
     protected Level prevLevel = null;
 
     protected Sprite minimapIcon;
@@ -74,6 +78,13 @@ public abstract class Level {
         return sideY;
     }
 
+    public int getSide2X() {
+        return side2X;
+    }
+    public int getSide2Y() {
+        return side2Y;
+    }
+
     public int getEndX() {
         return endX;
     }
@@ -93,6 +104,13 @@ public abstract class Level {
     }
     public void setSideLevel(Level sideLevel) {
         this.sideLevel = sideLevel;
+    }
+
+    public Level getSide2Level() {
+        return side2Level;
+    }
+    public void setSide2Level(Level side2Level) {
+        this.side2Level = side2Level;
     }
 
     public Level getPrevLevel() {

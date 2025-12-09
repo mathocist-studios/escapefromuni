@@ -5,7 +5,6 @@ import com.mathochiststudios.escapefromuni.levels.*;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,7 +20,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.collectibles.Collectible;
 import com.mathochiststudios.escapefromuni.entities.Enemy;
-import com.badlogic.gdx.audio.Sound;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,6 +66,9 @@ public class Game {
     TiledMapTileLayer mapExitSideLayer;
     ArrayList<Rectangle> mapExitSideCollisions;
 
+    TiledMapTileLayer mapExitSide2Layer;
+    ArrayList<Rectangle> mapExitSide2Collisions;
+
     //added for shop ui logic
     TiledMapTileLayer mapShopLayer;
     ArrayList<Rectangle> mapShopCollisions;
@@ -104,7 +105,8 @@ public class Game {
         // levels = new ArrayList<Level>(Arrays.asList(new R01_LibraryFloor3(), new R02_LibraryFloor2(), new R03_LibraryFloor1(), new R04_LibraryFloor0(), new R05_MarketSquare(), new R06_westToEastLevel(), new R07_BusLevel()));
 
         // remove library floor 1 and 2 to shorten game
-        levels = new ArrayList<>(Arrays.asList(new R01_LibraryFloor3(this),
+        levels = new ArrayList<>(Arrays.asList(
+            new R01_LibraryFloor3(this),
             new R04_LibraryFloor0(this),
             new R05_MarketSquare(this),
             new R06_westToEastLevel(this),
@@ -141,6 +143,16 @@ public class Game {
         ShopLevel.getMinimapSprite().setSize(minimapTileSize-0.1f,minimapTileSize-0.1f);
         ShopLevel.setNextLevel(levels.get(3));
 
+        // Setup lake level
+        Level LakeLevel = new LakeLevel(this);
+        levels.get(2).setSide2Level(LakeLevel);
+        LakeLevel.setSide2Level(levels.get(2));
+        LakeLevel.setPrevLevel(levels.get(2));
+        //generate minimap for side level
+        LakeLevel.setMinimapSprite(new Sprite(emptyMinimapIcon));
+        LakeLevel.getMinimapSprite().setX(38f-2*minimapTileSize);
+        LakeLevel.getMinimapSprite().setSize(minimapTileSize-0.1f,minimapTileSize-0.1f);
+        LakeLevel.setNextLevel(levels.get(3));
 
         // The player always starts at the first level in the array.
         currentLevel = levels.get(0);
@@ -188,24 +200,36 @@ public class Game {
 
         map = new TmxMapLoader().load(newLevel.getMapName());
         mapRenderer.setMap(map);
-        if (Objects.equals(enterDirection, "Forward")) {
-            player.getMoneySprite().setX(newLevel.getStartX());
-            player.getMoneySprite().setY(newLevel.getStartY());
-            if (newLevel.getPrevLevel() != null) {
-                newLevel.getPrevLevel().getMinimapSprite().setTexture(emptyMinimapIcon);
-            }
-        } else if (Objects.equals(enterDirection, "Side")) {
-            player.getMoneySprite().setX(newLevel.getSideX());
-            player.getMoneySprite().setY(newLevel.getSideY());
-            if (newLevel.getSideLevel() != null) {
-                newLevel.getSideLevel().getMinimapSprite().setTexture(emptyMinimapIcon);
-            }
-        } else if (Objects.equals(enterDirection, "Back")) {
-            player.getMoneySprite().setX(newLevel.getEndX());
-            player.getMoneySprite().setY(newLevel.getEndY());
-            if (newLevel.getNextLevel() != null) {
-                newLevel.getNextLevel().getMinimapSprite().setTexture(emptyMinimapIcon);
-            }
+
+        switch (enterDirection) {
+            case "Forward":
+                player.getMoneySprite().setX(newLevel.getStartX());
+                player.getMoneySprite().setY(newLevel.getStartY());
+                if (newLevel.getPrevLevel() != null) {
+                    newLevel.getPrevLevel().getMinimapSprite().setTexture(emptyMinimapIcon);
+                }
+                break;
+            case "Side":
+                player.getMoneySprite().setX(newLevel.getSideX());
+                player.getMoneySprite().setY(newLevel.getSideY());
+                if (newLevel.getSideLevel() != null) {
+                    newLevel.getSideLevel().getMinimapSprite().setTexture(emptyMinimapIcon);
+                }
+                break;
+            case "Side2":
+                player.getMoneySprite().setX(newLevel.getSide2X());
+                player.getMoneySprite().setY(newLevel.getSide2Y());
+                if (newLevel.getSide2Level() != null) {
+                    newLevel.getSide2Level().getMinimapSprite().setTexture(emptyMinimapIcon);
+                }
+                break;
+            case "Back":
+                player.getMoneySprite().setX(newLevel.getEndX());
+                player.getMoneySprite().setY(newLevel.getEndY());
+                if (newLevel.getNextLevel() != null) {
+                    newLevel.getNextLevel().getMinimapSprite().setTexture(emptyMinimapIcon);
+                }
+                break;
         }
 
         // Handle both "Collision" and "collision" layer names
@@ -226,7 +250,7 @@ public class Game {
             mapExitBackCollisions = createCollisionRects(mapExitBackLayer);
         } else {
             mapExitBackLayer = null;
-            mapExitBackCollisions = new ArrayList<Rectangle>();
+            mapExitBackCollisions = new ArrayList<>();
         }
 
         // Handle ExitForward layer (may not exist in all maps)
@@ -235,7 +259,7 @@ public class Game {
             mapExitForwardCollisions = createCollisionRects(mapExitForwardLayer);
         } else {
             mapExitForwardLayer = null;
-            mapExitForwardCollisions = new ArrayList<Rectangle>();
+            mapExitForwardCollisions = new ArrayList<>();
         }
 
         //check for ExitSide
@@ -245,6 +269,15 @@ public class Game {
         } else {
             mapExitSideLayer = null;
             mapExitSideCollisions = new ArrayList<>();
+        }
+
+        //check for ExitSide2
+        if (mapLayersToList(map.getLayers()).contains("ExitSide2")) {
+            mapExitSide2Layer = (TiledMapTileLayer) map.getLayers().get("ExitSide2");
+            mapExitSide2Collisions = createCollisionRects(mapExitSide2Layer);
+        } else {
+            mapExitSide2Layer = null;
+            mapExitSide2Collisions = new ArrayList<>();
         }
 
         //same logic for shopblock layer
@@ -336,7 +369,7 @@ public class Game {
         if (!isMoving) {
             player.setMoveDirection("Stationary");
         }
-        if (player.getMoveDirection() != oldMoveDir) {
+        if (!Objects.equals(player.getMoveDirection(), oldMoveDir)) {
             stateTime = 0f;
         }
 
@@ -435,6 +468,15 @@ public class Game {
             }
         }
 
+        for (Rectangle tileRect : mapExitSide2Collisions) {
+            if (pRect.overlaps(tileRect)) {
+                if (currentLevel.getSide2Level() != null) {
+                    switchToLevel(currentLevel.getSide2Level(),"Side2");
+                }
+                break;
+            }
+        }
+
         for (Rectangle tileRect : mapExitBackCollisions) {
             if (pRect.overlaps(tileRect)) {
                 if (currentLevel.getPrevLevel() != null) {
@@ -446,14 +488,15 @@ public class Game {
 
         //added for Shop Ui to be detected when the player collides
         //with the player
-        for (Rectangle tileRect : mapShopCollisions) {
-            if (pRect.overlaps((tileRect))) {
-                shopActive = true;
-                break;
-            }
-            else{
-                shopActive = false;
-                break;
+        if (mapShopCollisions == null || mapShopCollisions.isEmpty()) {
+            shopActive = false;
+        } else {
+            shopActive = false;
+            for (Rectangle tileRect : mapShopCollisions) {
+                if (pRect.overlaps(tileRect)) {
+                    shopActive = true;
+                    break;
+                }
             }
         }
 
@@ -537,17 +580,17 @@ public class Game {
 
         TextureRegion currentFrame;
 
-        if (player.getMoveDirection() == "Stationary") {
+        if (Objects.equals(player.getMoveDirection(), "Stationary")) {
             currentFrame = player.getStationaryAnimation().getKeyFrame(stateTime, true);
-        } else if (player.getMoveDirection() == "Down") {
+        } else if (Objects.equals(player.getMoveDirection(), "Down")) {
             currentFrame = player.getDownAnimation().getKeyFrame(stateTime, true);
-        } else if (player.getMoveDirection() == "Up") {
+        } else if (Objects.equals(player.getMoveDirection(), "Up")) {
             currentFrame = player.getUpAnimation().getKeyFrame(stateTime, true);
         } else {
             currentFrame = player.getRightAnimation().getKeyFrame(stateTime, true);
         }
 
-        if (player.getMoveDirection() == "Left") {
+        if (Objects.equals(player.getMoveDirection(), "Left")) {
             spriteBatch.draw(currentFrame, player.getMoneySprite().getX() + player.getMoneyWidth() / 2 + 1.3f, player.getMoneySprite().getY() - player.getMoneyHeight() / 2 - 0.25f, -2.5f, 2.5f);
         } else {
             spriteBatch.draw(currentFrame, player.getMoneySprite().getX() - player.getMoneyWidth() / 2 - 0.3f, player.getMoneySprite().getY() - player.getMoneyHeight() / 2 - 0.25f, 2.5f, 2.5f);
@@ -637,6 +680,10 @@ public class Game {
             if (levels.get(i).getSideLevel() != null) {
                 levels.get(i).getSideLevel().getMinimapSprite().setY(h);
                 levels.get(i).getSideLevel().getMinimapSprite().draw(spriteBatch);
+            }
+            if (levels.get(i).getSide2Level() != null) {
+                levels.get(i).getSide2Level().getMinimapSprite().setY(h);
+                levels.get(i).getSide2Level().getMinimapSprite().draw(spriteBatch);
             }
             levels.get(i).getMinimapSprite().draw(spriteBatch);
         }

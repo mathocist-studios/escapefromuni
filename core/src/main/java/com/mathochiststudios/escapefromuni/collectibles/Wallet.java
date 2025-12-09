@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -18,7 +17,9 @@ public class Wallet {
 
     Texture texture = new Texture("wallet.png");
     Sprite sprite = new Sprite(texture);
-    List<List<Integer>> spawns = this.populateSpawns();
+    int[][] spawns = {
+        {25, 10}
+    };
     Rectangle rectangle;
     List<Integer> spawn;
     boolean isDisposed;
@@ -36,26 +37,13 @@ public class Wallet {
         this.sprite.setY(this.spawn.get(1));
     }
 
-    // Populates the spawns for the library card.
-    // These are hard-coded as it will spawn on only LibraryFloor1.
-    private List<List<Integer>> populateSpawns() {
-        List<List<Integer>> spawns = new ArrayList<>();
-        List<Integer> spawn1 = List.of(13, 3);
-        List<Integer> spawn2 = List.of(37, 3);
-        List<Integer> spawn4 = List.of(25, 26);
-        spawns.add(spawn1);
-        spawns.add(spawn2);
-        spawns.add(spawn4);
-        return spawns;
-    }
-
     /**
      * This method randomly assigns the spawn for the Wallet.
      */
     private void assignSpawn() {
         Random random = new Random();
-        int randomIndex = random.nextInt(this.spawns.size());
-        this.spawn = this.spawns.get(randomIndex);
+        int randomIndex = random.nextInt(this.spawns.length);
+        this.spawn = List.of(this.spawns[randomIndex][0], this.spawns[randomIndex][1]);
     }
 
     // Now need to set up the interaction between the player and the Wallet.

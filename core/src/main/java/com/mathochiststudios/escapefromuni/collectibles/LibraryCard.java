@@ -17,11 +17,11 @@ public class LibraryCard {
     private Texture texture = new Texture("pixelartkeycard.png");
     private Sprite sprite = new Sprite(texture);
     private int[][] spawnArray = {
-            {10, 5},
-            {22, 8},
-            {30, 15},
-            {5, 20},
-            {18, 25}
+//            {10, 5},
+//            {22, 8},
+//            {30, 15},
+//            {5, 20},
+            {18, 24}
     };
     private Rectangle rectangle;
     private int[] spawn;
