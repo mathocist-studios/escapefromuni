@@ -50,7 +50,7 @@ public class Main implements ApplicationListener {
     }
 
     public void startGame() {
-        game = new Game();
+        game = new Game(this);
 
         gameStarted = true;
         paused = false;
@@ -83,9 +83,7 @@ public class Main implements ApplicationListener {
                     ScreenUtils.clear(Color.CLEAR);
                 }
 
-
-
-                game.draw();
+                game.draw(batch, viewport);
 
                 if (!paused) {
                     game.input();
@@ -93,24 +91,6 @@ public class Main implements ApplicationListener {
                 } else {
                     drawPauseMenu();
                     inputPauseMenu();
-                }
-                if (game.shopActive){
-                    textureManager.getShopUIObject().drawShopMenu(
-                        viewport,
-                        batch,
-                        textureManager.getShopIconSprite(),
-                        textureManager.getBuyEDSprite(),
-                        textureManager.getBuyBFSprite(),
-                        textureManager.getShopFont(),
-                        textureManager.getMainLayout()
-                    );
-                    textureManager.getShopUIObject().inputShopMenu(
-                        viewport,
-                        textureManager.getBuyEDSprite(),
-                        textureManager.getBuyBFSprite(),
-                        buttonCD,
-                        game.getPlayer()
-                    );
                 }
             } else {
                 endGame(Game.Score, game.WinOrLose);
@@ -238,13 +218,17 @@ public class Main implements ApplicationListener {
                 if (textureManager.getResumeButtonSprite().getBoundingRectangle().contains(new Vector2(mouse.getX(), mouse.getY()))) {
                     paused = false;
                     ScreenUtils.clear(Color.CLEAR);
-                    game.draw();
+                    game.draw(batch, viewport);
                 } else if (textureManager.getReturnToMenuButtonSprite().getBoundingRectangle().contains(new Vector2(mouse.getX(), mouse.getY()))) {
                     endGame(Game.Score, game.WinOrLose);
                     buttonCD = true;
                 }
             }
         }
+    }
+
+    public boolean getButtonCD() {
+        return buttonCD;
     }
 
 }

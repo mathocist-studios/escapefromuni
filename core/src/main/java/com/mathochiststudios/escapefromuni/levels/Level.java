@@ -173,8 +173,8 @@ public abstract class Level {
         // default: no-op
     }
 
-    protected Game getGame() { // protected so subclasses can access it (this is how u use protected *facepalm*)
-        return game;
+    public Game getGame() {
+        return this.game;
     }
 
 }

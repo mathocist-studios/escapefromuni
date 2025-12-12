@@ -3,8 +3,6 @@ package com.mathochiststudios.escapefromuni.collectibles;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.mathochiststudios.escapefromuni.Game;
-import java.util.ArrayList;
 import com.badlogic.gdx.audio.Sound;
 
 public class Collectible {

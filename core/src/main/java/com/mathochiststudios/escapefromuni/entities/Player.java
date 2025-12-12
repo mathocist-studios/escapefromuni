@@ -1,7 +1,7 @@
 package com.mathochiststudios.escapefromuni.entities;
 
-import com.mathochiststudios.escapefromuni.ShopStuff.Item;
 import com.mathochiststudios.escapefromuni.Timer;
+import com.mathochiststudios.escapefromuni.entities.PlayerInventory.Inventory;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Player {
@@ -52,15 +51,12 @@ public class Player {
     // This will be the list containing all the active power-ups.
     private List<SpeedPowerup> activePowerUps = new ArrayList<>();
     private int coins;
-    private List<Item> inventory = new ArrayList<>();
-    private boolean hasBirdFeed;
-    private boolean hasLibraryCard;
-    private boolean hasWallet;
+
+    private final Inventory inventory;
 
     public Player() {
         this.speed = defaultSpeed;
         this.coins = 0;
-        this.hasLibraryCard = false;
         this.populateFrames();
         this.stationaryAnimation = new Animation<>(0.1f, this.stationaryFrames);
         this.upAnimation = new Animation<>(0.025f, this.upFrames);
@@ -75,6 +71,8 @@ public class Player {
         this.moneyRectangle.setSize(1, 1);
         this.moneyRectangle.x = this.moneySprite.getX();
         this.moneyRectangle.y = this.moneySprite.getY();
+
+        this.inventory = new Inventory();
     }
 
     // Getter for timer.
@@ -85,16 +83,6 @@ public class Player {
     // Setter for timer.
     public void setGameTimer(Timer gameTimer) {
         this.gameTimer = gameTimer;
-    }
-
-    // Getter for hasWallet.
-    public boolean isHasWallet() {
-        return this.hasWallet;
-    }
-
-    // Setter for hasWallet.
-    public void setHasWallet(boolean hasWallet) {
-        this.hasWallet = hasWallet;
     }
 
     // Getter for oldMoneyX.
@@ -120,16 +108,6 @@ public class Player {
     // Getter for stationaryAnimation.
     public Animation<TextureRegion> getStationaryAnimation() {
         return this.stationaryAnimation;
-    }
-
-    // Getter for hasLibraryCard.
-    public boolean isHasLibraryCard() {
-        return hasLibraryCard;
-    }
-
-    // Setter for hasLibraryCard.
-    public void setHasLibraryCard(boolean hasLibraryCard) {
-        this.hasLibraryCard = hasLibraryCard;
     }
 
     // Getter for upAnimation.
@@ -255,12 +233,6 @@ public class Player {
     //this.speed = defaultSpeed;
     //}
 
-    public void setHasBirdFeed(){
-        this.hasBirdFeed = true;
-    }
-    public boolean isHasBirdFeed(){
-        return this.hasBirdFeed;
-    }
     public int getCoins() {
         return coins;
     }
@@ -276,11 +248,7 @@ public class Player {
         return false;
     }
 
-    public void addItem(Item item) {
-        inventory.add(item);
-    }
-
-    public List<Item> getInventory() {
+    public Inventory getInventory() {
         return inventory;
     }
 
@@ -304,13 +272,7 @@ public class Player {
 
     public void update(float deltaTime) {
 
-        Iterator<SpeedPowerup> iterator = activePowerUps.iterator();
-        while (iterator.hasNext()) {
-            SpeedPowerup p = iterator.next();
-            if (p.update(this, deltaTime)) {
-                iterator.remove();
-            }
-        }
+        activePowerUps.removeIf(p -> p.update(this, deltaTime));
 
     }
 }

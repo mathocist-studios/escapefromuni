@@ -1,10 +1,14 @@
 package com.mathochiststudios.escapefromuni.collectibles;
 
+import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
+import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
+import com.mathochiststudios.escapefromuni.levels.Level;
 
 import java.util.List;
 import java.util.Random;
@@ -56,10 +60,17 @@ public class Wallet {
      *
      * @param player is Player player, the player class.
      */
-    public void update(Player player) {
+    public void update(Player player, Level level) {
         // Interaction between the player and the Wallet checked every frame.
         if (this.isCollidingWithPlayer(player)) {
             this.pickUp(player);
+            Notification notification = new Notification(
+                "You found someones wallet!, hand it into the receptionist",
+                2,
+                NotificationType.SPEECH,
+                level.getGame().getTextureManager().getGameSmallFont()
+            );
+            level.getGame().getHud().getNotificationManager().addNotification(notification);
         }
     }
 
@@ -70,7 +81,7 @@ public class Wallet {
      * @param player is Player player, the player class.
      */
     private void pickUp(Player player) {
-        player.setHasWallet(true);
+        player.getInventory().addItem(InventoryObject.WALLET);
         this.isDisposed = true;
     }
 

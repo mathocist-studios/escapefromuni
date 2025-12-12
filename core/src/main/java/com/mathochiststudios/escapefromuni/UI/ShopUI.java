@@ -16,17 +16,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mathochiststudios.escapefromuni.ShopStuff.Item;
+import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.ShopStuff.Shop;
+import com.mathochiststudios.escapefromuni.ShopStuff.ShopItem;
 import com.mathochiststudios.escapefromuni.entities.Player;
 
 public class ShopUI {
 
     Mouse mouse = new Mouse();
-    Shop shop = new Shop();
-
-    Item energyDrink = new Item("energyDrink", 0);
-    Item birdFeed = new Item("birdFeed", 5);
 
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -138,7 +135,7 @@ public class ShopUI {
         stage.draw();
     }
 
-    public void inputShopMenu(Viewport viewport, Sprite buyEDSprite, Sprite buyBFSprite, boolean buttonCD, Player player) {
+    public void inputShopMenu(Game game, Viewport viewport, boolean buttonCD, Player player) {
         if (stage == null) return;
         if (Gdx.input.isTouched()) {
             mouse.update(viewport);
@@ -148,9 +145,9 @@ public class ShopUI {
                     hit = hit.getParent();
                 }
                 if (hit == edImage) {
-                    shop.buyItem(player, energyDrink);
+                    Shop.buyItem(game, player, Shop.energyDrink);
                 } else if (hit == bfImage) {
-                    shop.buyItem(player, birdFeed);
+                    Shop.buyItem(game, player, Shop.birdFeed);
                 }
             }
         }

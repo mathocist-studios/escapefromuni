@@ -26,7 +26,7 @@ public class LakeLevel extends Level {
         sideX = 6;
         sideY = 20;
 
-        side2X = 28;
+        side2X = 33;
         side2Y = 2;
 
     }

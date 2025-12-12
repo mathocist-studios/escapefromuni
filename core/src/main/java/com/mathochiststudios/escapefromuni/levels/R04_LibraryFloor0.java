@@ -3,7 +3,7 @@ package com.mathochiststudios.escapefromuni.levels;
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.entities.Receptionist;
-import com.mathochiststudios.escapefromuni.miscellaneous.Door;
+import com.mathochiststudios.escapefromuni.miscellaneous.LibraryDoor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -20,7 +20,7 @@ public class R04_LibraryFloor0 extends Level{
     Receptionist receptionist = new Receptionist(receptionistTexture, 35, 24, 2f, 1, 1, 34, 36);
 
     // Door constructed, to block the path of the player.
-    Door door = new Door();
+    LibraryDoor libraryDoor = new LibraryDoor();
 
     /**
      * Constructs a new LibraryFloor0 with its name (path), in addition to start and end coordinates.
@@ -51,8 +51,8 @@ public class R04_LibraryFloor0 extends Level{
     public void update(float deltaTime, Player player) {
         // Updates the position and logic of the receptionist.
         this.receptionist.update(deltaTime);
-        this.door.update(player);
-        this.receptionist.update(deltaTime, player);
+        this.libraryDoor.update(player, this);
+        this.receptionist.update(deltaTime, player, this);
     }
 
     // To be invoked in Game to draw the entities on this level, when it is the active level.
@@ -63,7 +63,8 @@ public class R04_LibraryFloor0 extends Level{
 
     // To be invoked in Game to check collision between the player sprite and the entities on this level.
     public boolean collides(Player player) {
-        Rectangle receptionistRectangle = new Rectangle(receptionist.getSprite().getX(), receptionist.getSprite().getY(), 1,1);
-        return receptionistRectangle.overlaps(player.getMoneyRectangle());
+//        Rectangle receptionistRectangle = new Rectangle(receptionist.getSprite().getX(), receptionist.getSprite().getY(), 1,1);
+//        return receptionistRectangle.overlaps(player.getMoneyRectangle());
+        return false;
     }
 }

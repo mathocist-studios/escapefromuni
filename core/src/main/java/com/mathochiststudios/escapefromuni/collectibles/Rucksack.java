@@ -1,56 +1,28 @@
 package com.mathochiststudios.escapefromuni.collectibles;
 
-import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
-import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
-import com.mathochiststudios.escapefromuni.entities.Player;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
-import com.mathochiststudios.escapefromuni.levels.Level;
 
-import java.util.Random;
+public class Rucksack {
 
-/**
- * Class LibraryCard represents the library card, it has collision, texture, sprite, a list of spawns.
- * It will be instantiated in LibraryFloor1 and its spawns are therefore hard-coded.
- */
-public class LibraryCard {
-
-    private final Texture texture = new Texture("pixelartkeycard.png");
+    private final Texture texture = new Texture("rucksack.png");
     private final Sprite sprite = new Sprite(texture);
-    private int[][] spawnArray = {
-//            {10, 5},
-//            {22, 8},
-//            {30, 15},
-//            {5, 20},
-            {18, 24}
-    };
+
+    private int[] spawn = {35, 24}; // Fixed spawn location for the Rucksack
+
     private Rectangle rectangle;
-    private int[] spawn;
     private boolean isDisposed;
 
-    public LibraryCard() {
-        // logic for assigning spawn randomly and creating rectangle
+    public Rucksack() {
         this.isDisposed = false;
-        this.assignSpawn();
         this.sprite.setSize(1, 1);
-        // Creates the rectangle for the LibraryCard around its spawn with the size of the sprite.
-        // spawn.get(0) being the x-coordinate and spawn.get(y) being the y-coordinate.
         this.rectangle = new Rectangle(this.spawn[0], this.spawn[1], 1, 1);
-        // Setting the location of the library card.
         this.sprite.setX(this.spawn[0]);
         this.sprite.setY(this.spawn[1]);
-    }
-
-    /**
-     * This method randomly assigns the spawn for the LibraryCard.
-     */
-    private void assignSpawn() {
-        Random random = new Random();
-        int randomIndex = random.nextInt(this.spawnArray.length);
-        this.spawn = this.spawnArray[randomIndex];
     }
 
     // Now need to set up the interaction between the player and the LibraryCard.
@@ -63,17 +35,10 @@ public class LibraryCard {
      *
      * @param player is Player player, the player class.
      */
-    public void update(Player player, Level level) {
+    public void update(Player player) {
         // Interaction between the player and the LibraryCard checked every frame.
         if (this.isCollidingWithPlayer(player)) {
             this.pickUp(player);
-            Notification notification = new Notification(
-                "You found your Library Card! You can now exit the library.",
-                2,
-                NotificationType.SPEECH,
-                level.getGame().getTextureManager().getGameSmallFont()
-            );
-            level.getGame().getHud().getNotificationManager().addNotification(notification);
         }
     }
 
@@ -84,7 +49,7 @@ public class LibraryCard {
      * @param player is Player player, the player class.
      */
     private void pickUp(Player player) {
-        player.getInventory().addItem(InventoryObject.KEYCARD);
+        player.getInventory().addItem(InventoryObject.RUCKSACK);
         this.isDisposed = true;
     }
 
@@ -100,4 +65,5 @@ public class LibraryCard {
             this.sprite.draw(batch);
         }
     }
+
 }

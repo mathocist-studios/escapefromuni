@@ -1,5 +1,8 @@
 package com.mathochiststudios.escapefromuni;
 
+import com.mathochiststudios.escapefromuni.UI.HUD;
+import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
+import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.*;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
@@ -7,7 +10,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.math.Rectangle;
@@ -31,22 +33,19 @@ public class Game {
     public static int Score;
     public String WinOrLose;
 
-    final float root2 = 1.41f; // i like this
+    private final float root2 = 1.41f; // i like this
 
-    float minimapTileSize = 1.4f;
+    private float minimapTileSize = 1.4f;
 
-    Player player = new Player();
+    private Player player = new Player();
 
-    ArrayList<Level> levels;
+    private ArrayList<Level> levels;
 
     TiledMap map; // define map
     OrthogonalTiledMapRenderer mapRenderer; // define map renderer
     FitViewport viewport;
     OrthographicCamera camera;
     SpriteBatch spriteBatch;
-
-    FitViewport uiViewport;
-    OrthographicCamera uiCamera;
 
     public static Level currentLevel;
 
@@ -73,24 +72,22 @@ public class Game {
     TiledMapTileLayer mapShopLayer;
     ArrayList<Rectangle> mapShopCollisions;
 
-    Texture emptyMinimapIcon;
-    Texture playerMinimapIcon;
-    float minimapBottomHeight;
-
     float stateTime;
 
     public boolean shopActive;
 
+    private HUD hud;
     private TextureManager textureManager;
 
+    private final Main mainApp;
+
     // Runs at start
-    public Game() {
+    public Game(Main mainApp) {
 
-        uiCamera = new OrthographicCamera();
-        uiViewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), uiCamera);
-        uiCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        this.mainApp = mainApp;
 
-        textureManager = new TextureManager(uiViewport);
+        hud = new HUD(this, player);
+        textureManager = new TextureManager(hud.getUiViewport());
 
         WinOrLose = "Return"; // Should be "Return"
         gameEnded = false;
@@ -113,14 +110,9 @@ public class Game {
             new R07_BusLevel(this)
         ));
 
-
-        emptyMinimapIcon = new Texture("emptyminimap.png");
-        playerMinimapIcon = new Texture("occupiedminimap.png");
-        minimapBottomHeight = 22;
-
         // This sets the next and previous level attributes of the room objects for ease of use
         for (int i = 0; i < levels.size(); i++){
-            levels.get(i).setMinimapSprite(new Sprite(emptyMinimapIcon));
+            levels.get(i).setMinimapSprite(new Sprite(hud.getEmptyMinimapIcon()));
             levels.get(i).getMinimapSprite().setX(38f);
             levels.get(i).getMinimapSprite().setSize(minimapTileSize-0.1f,minimapTileSize-0.1f);
             if (i-1>=0){
@@ -138,7 +130,7 @@ public class Game {
         levels.get(2).setSideLevel(ShopLevel);
         ShopLevel.setSideLevel(levels.get(2));
         //generate minimap for side level
-        ShopLevel.setMinimapSprite(new Sprite(emptyMinimapIcon));
+        ShopLevel.setMinimapSprite(new Sprite(hud.getEmptyMinimapIcon()));
         ShopLevel.getMinimapSprite().setX(38f-minimapTileSize);
         ShopLevel.getMinimapSprite().setSize(minimapTileSize-0.1f,minimapTileSize-0.1f);
         ShopLevel.setNextLevel(levels.get(3));
@@ -146,10 +138,10 @@ public class Game {
         // Setup lake level
         Level LakeLevel = new LakeLevel(this);
         levels.get(2).setSide2Level(LakeLevel);
-        LakeLevel.setSide2Level(levels.get(2));
+        LakeLevel.setSideLevel(levels.get(2));
         LakeLevel.setPrevLevel(levels.get(2));
         //generate minimap for side level
-        LakeLevel.setMinimapSprite(new Sprite(emptyMinimapIcon));
+        LakeLevel.setMinimapSprite(new Sprite(hud.getEmptyMinimapIcon()));
         LakeLevel.getMinimapSprite().setX(38f-2*minimapTileSize);
         LakeLevel.getMinimapSprite().setSize(minimapTileSize-0.1f,minimapTileSize-0.1f);
         LakeLevel.setNextLevel(levels.get(3));
@@ -170,6 +162,14 @@ public class Game {
         switchToLevel(currentLevel, "Forward");
 
         stateTime = 0f;
+
+        Notification welcomeNotification = new Notification(
+            "Ohh.. I think I fell asleep in the library again...\nI better get going before it closes!",
+            2,
+            NotificationType.SPEECH,
+            textureManager.getGameSmallFont()
+        );
+        hud.getNotificationManager().addNotification(welcomeNotification);
 
     }
 
@@ -196,7 +196,7 @@ public class Game {
         currentLevel = newLevel;
 
 
-        newLevel.getMinimapSprite().setTexture(playerMinimapIcon);
+        newLevel.getMinimapSprite().setTexture(hud.getPlayerMinimapIcon());
 
         map = new TmxMapLoader().load(newLevel.getMapName());
         mapRenderer.setMap(map);
@@ -206,28 +206,28 @@ public class Game {
                 player.getMoneySprite().setX(newLevel.getStartX());
                 player.getMoneySprite().setY(newLevel.getStartY());
                 if (newLevel.getPrevLevel() != null) {
-                    newLevel.getPrevLevel().getMinimapSprite().setTexture(emptyMinimapIcon);
+                    newLevel.getPrevLevel().getMinimapSprite().setTexture(hud.getEmptyMinimapIcon());
                 }
                 break;
             case "Side":
                 player.getMoneySprite().setX(newLevel.getSideX());
                 player.getMoneySprite().setY(newLevel.getSideY());
                 if (newLevel.getSideLevel() != null) {
-                    newLevel.getSideLevel().getMinimapSprite().setTexture(emptyMinimapIcon);
+                    newLevel.getSideLevel().getMinimapSprite().setTexture(hud.getEmptyMinimapIcon());
                 }
                 break;
             case "Side2":
                 player.getMoneySprite().setX(newLevel.getSide2X());
                 player.getMoneySprite().setY(newLevel.getSide2Y());
                 if (newLevel.getSide2Level() != null) {
-                    newLevel.getSide2Level().getMinimapSprite().setTexture(emptyMinimapIcon);
+                    newLevel.getSide2Level().getMinimapSprite().setTexture(hud.getEmptyMinimapIcon());
                 }
                 break;
             case "Back":
                 player.getMoneySprite().setX(newLevel.getEndX());
                 player.getMoneySprite().setY(newLevel.getEndY());
                 if (newLevel.getNextLevel() != null) {
-                    newLevel.getNextLevel().getMinimapSprite().setTexture(emptyMinimapIcon);
+                    newLevel.getNextLevel().getMinimapSprite().setTexture(hud.getEmptyMinimapIcon());
                 }
                 break;
         }
@@ -320,7 +320,7 @@ public class Game {
 
     public void resize(int width, int height) {
         viewport.update(width, height, true); // true centers the camera
-        uiViewport.update(width, height, true);
+        hud.getUiViewport().update(width, height, true);
         // If the window is minimized on a desktop (LWJGL3) platform, width and height are 0, which causes problems.
         // In that case, we don't resize anything, and wait for the window to be a normal size before updating.
         if(width <= 0 || height <= 0) return;
@@ -565,7 +565,7 @@ public class Game {
 
     }
 
-    public void draw() {
+    public void draw(SpriteBatch masterBatch, FitViewport masterViewport) {
         ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
@@ -597,14 +597,11 @@ public class Game {
         }
         //moneySprite.draw(spriteBatch); // Draw the character
 
-        drawMinimap();
-
         for (Collectible coin : currentLevel.getLevelCoins()) {
             if (!(coin.isCollected())) {
                 coin.render(spriteBatch);
             }
             else if (coin.isCollected() && coin.getCollectibleAdded()) {
-                continue;
             }
             else if (coin.isCollected()) {
                 this.player.addCoins(1);
@@ -618,7 +615,6 @@ public class Game {
                 planet.render(spriteBatch);
             }
             else if (planet.isCollected() && planet.isSpeedPowerUpAdded()) {
-                continue;
             }
             else if (planet.isCollected()) {
                 this.player.setPositiveEventsEncountered(this.player.getPositiveEventsEncountered() + 1);
@@ -635,58 +631,30 @@ public class Game {
             }
         }
 
+        player.getInventory().render(spriteBatch);
+
         spriteBatch.end();
+
+        if (shopActive) {
+            textureManager.getShopUIObject().drawShopMenu(
+                masterViewport,
+                masterBatch,
+                textureManager.getShopIconSprite(),
+                textureManager.getBuyEDSprite(),
+                textureManager.getBuyBFSprite(),
+                textureManager.getShopFont(),
+                textureManager.getMainLayout()
+            );
+            textureManager.getShopUIObject().inputShopMenu(
+                this,
+                masterViewport,
+                mainApp.getButtonCD(),
+                player
+            );
+        }
 
         // Draw the ui after this spritebatch as we use a separate viewport / camera
-        drawUI();
-    }
-
-    private void drawUI() {
-        // We use a separate ui viewport / camera as the game's resolution is too low to write any text.
-        uiViewport.apply();
-        spriteBatch.setProjectionMatrix(uiCamera.combined);
-
-        spriteBatch.begin();
-
-        // Format the time as mm:ss from the second remaining
-        String tempSecs = ""+(player.getGameTimer().getSecsRemaining()%60);
-        if (tempSecs.length() == 1) {
-            tempSecs = "0"+tempSecs;
-        }
-        String tempMins = "0"+(player.getGameTimer().getSecsRemaining()/60);
-
-        // Draw the formatted timer at the top center of the screen
-        textureManager.getMainLayout().setText(textureManager.getGameLargeFont(), tempMins+":"+tempSecs);
-        float tempx = (uiViewport.getWorldWidth() - textureManager.getMainLayout().width) / 2f;
-        textureManager.getGameLargeFont().draw(spriteBatch, textureManager.getMainLayout(), tempx, 900);
-
-        // Draw the coin counter at the top center of the screen, under the timer
-        textureManager.getMainLayout().setText(textureManager.getGameSmallFont(), "Coins: "+player.getCoins());
-        tempx = (uiViewport.getWorldWidth() - textureManager.getMainLayout().width) / 2f;
-        textureManager.getGameSmallFont().draw(spriteBatch, textureManager.getMainLayout(), tempx, 820);
-
-        // Draw all the event counters
-        textureManager.getGameSmallFont().draw(spriteBatch, "Positive Events: " + player.getPositiveEventsEncountered(), 20, 950);
-        textureManager.getGameSmallFont().draw(spriteBatch, "Negative Events: " + player.getNegativeEventsEncountered(), 20, 900);
-        textureManager.getGameSmallFont().draw(spriteBatch, "Hidden Events: " + player.getHiddenEventsEncountered(), 20, 850);
-
-        spriteBatch.end();
-    }
-
-    private void drawMinimap() {
-        for (int i = 0; i < levels.size(); i++){
-            float h = minimapBottomHeight+i*minimapTileSize;
-            levels.get(i).getMinimapSprite().setY(h);
-            if (levels.get(i).getSideLevel() != null) {
-                levels.get(i).getSideLevel().getMinimapSprite().setY(h);
-                levels.get(i).getSideLevel().getMinimapSprite().draw(spriteBatch);
-            }
-            if (levels.get(i).getSide2Level() != null) {
-                levels.get(i).getSide2Level().getMinimapSprite().setY(h);
-                levels.get(i).getSide2Level().getMinimapSprite().draw(spriteBatch);
-            }
-            levels.get(i).getMinimapSprite().draw(spriteBatch);
-        }
+        hud.render(masterBatch);
     }
 
     public void pause() {
@@ -705,4 +673,21 @@ public class Game {
     public TextureManager getTextureManager() {
         return textureManager;
     }
+
+    public ArrayList<Level> getLevels() {
+        return levels;
+    }
+
+    public float getMinimapTileSize() {
+        return minimapTileSize;
+    }
+
+    public HUD getHud() {
+        return hud;
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
 }

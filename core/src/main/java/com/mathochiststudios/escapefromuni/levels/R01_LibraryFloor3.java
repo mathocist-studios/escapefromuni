@@ -1,6 +1,10 @@
 package com.mathochiststudios.escapefromuni.levels;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector3;
 import com.mathochiststudios.escapefromuni.collectibles.LibraryCard;
+import com.mathochiststudios.escapefromuni.collectibles.Rucksack;
 import com.mathochiststudios.escapefromuni.collectibles.Wallet;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
@@ -16,8 +20,10 @@ public class R01_LibraryFloor3 extends Level {
 
     // Instantiate the LibraryCard.
     LibraryCard libraryCard = new LibraryCard();
-
+    Rucksack rucksack = new Rucksack();
     Wallet wallet = new Wallet();
+
+    ShaderProgram shader;
 
     /**
      * Constructs a new LibraryFloor3 with its name (path in assets), in addition to start and end coordinates.
@@ -50,7 +56,7 @@ public class R01_LibraryFloor3 extends Level {
 
         // Tile that the player spawns at when first entering the level.
         startX = 38;
-        startY = 25;
+        startY = 24;
 
         // Tile that takes player to next level, or starting tile if the player re-enters the level.
         endX = 3;
@@ -58,13 +64,17 @@ public class R01_LibraryFloor3 extends Level {
     }
 
     public void update(float deltaTime, Player player) {
-        this.libraryCard.update(player);
-        this.wallet.update(player);
+        this.libraryCard.update(player, this);
+        this.wallet.update(player, this);
+        this.rucksack.update(player);
     }
+
     public void draw(SpriteBatch batch) {
         this.libraryCard.draw(batch);
         this.wallet.draw(batch);
+        this.rucksack.draw(batch);
     }
+
     public boolean collides(Player player) {
         return false;
     }

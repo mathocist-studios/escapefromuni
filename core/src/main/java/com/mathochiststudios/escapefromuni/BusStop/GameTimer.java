@@ -4,6 +4,7 @@ package com.mathochiststudios.escapefromuni.BusStop;
  * Timer class to handle countdown functionality for the bus stop game
  */
 public class GameTimer {
+
     private float timeRemaining;
     private float maxTime;
     private boolean isRunning;
