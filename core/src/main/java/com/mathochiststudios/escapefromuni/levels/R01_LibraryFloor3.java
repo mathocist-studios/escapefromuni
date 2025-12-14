@@ -1,9 +1,6 @@
 package com.mathochiststudios.escapefromuni.levels;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Vector3;
-import com.mathochiststudios.escapefromuni.collectibles.LibraryCard;
 import com.mathochiststudios.escapefromuni.collectibles.Rucksack;
 import com.mathochiststudios.escapefromuni.collectibles.Wallet;
 import com.mathochiststudios.escapefromuni.entities.Player;
@@ -18,8 +15,6 @@ import java.util.ArrayList;
  */
 public class R01_LibraryFloor3 extends Level {
 
-    // Instantiate the LibraryCard.
-    LibraryCard libraryCard = new LibraryCard();
     Rucksack rucksack = new Rucksack();
     Wallet wallet = new Wallet();
 
@@ -42,16 +37,6 @@ public class R01_LibraryFloor3 extends Level {
         // levelCoins = Level.generateLevelCoins(14, 20, 14, 8); // Needs even int pairs
         levelCoins = super.generateLevelCoins(new int[][]{{14, 20}, {14, 8}}); // this is just better
 
-        levelSpeedPowerups.add(
-            new SpeedPowerup(
-                this.getGame().getTextureManager().getPlanetTexture(),
-                this.getGame().getTextureManager().getPlanetSound(),
-                25,
-                15,
-                1.5f,
-                300.0f
-            )
-        );
         //levelEnemies.add(new Enemy(Game.duckTexture, Game.duckSound, 14, 12, "Duck"));
 
         // Tile that the player spawns at when first entering the level.
@@ -64,13 +49,11 @@ public class R01_LibraryFloor3 extends Level {
     }
 
     public void update(float deltaTime, Player player) {
-        this.libraryCard.update(player, this);
         this.wallet.update(player, this);
         this.rucksack.update(player);
     }
 
     public void draw(SpriteBatch batch) {
-        this.libraryCard.draw(batch);
         this.wallet.draw(batch);
         this.rucksack.draw(batch);
     }

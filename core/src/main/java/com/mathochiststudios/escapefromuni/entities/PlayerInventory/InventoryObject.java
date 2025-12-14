@@ -7,7 +7,7 @@ public enum InventoryObject {
     RUCKSACK(false, "rucksack.png"),
     BIRDSEED(true, "birdseed"),
     ENERGY_DRINK(false, "energy_drink.png"),
-    BASEMENT_KEY(false, "basement_key"),
+    BASEMENT_KEY(false, "basement_key.png"),
     FLASHLIGHT(true, "flashlight"),
     BATTERY(true, "battery"),
     MAP(false, "map"),

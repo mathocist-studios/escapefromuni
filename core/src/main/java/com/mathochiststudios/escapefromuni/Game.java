@@ -146,6 +146,17 @@ public class Game {
         LakeLevel.getMinimapSprite().setSize(minimapTileSize-0.1f,minimapTileSize-0.1f);
         LakeLevel.setNextLevel(levels.get(3));
 
+        // setup basement level
+        Level BasementLevel = new BasementLevel(this);
+        levels.get(1).setSideLevel(BasementLevel);
+        BasementLevel.setSideLevel(levels.get(1));
+        BasementLevel.setPrevLevel(levels.get(1));
+        //generate minimap for side level
+        BasementLevel.setMinimapSprite(new Sprite(hud.getEmptyMinimapIcon()));
+        BasementLevel.getMinimapSprite().setX(38f-minimapTileSize);
+        BasementLevel.getMinimapSprite().setSize(minimapTileSize-0.1f,minimapTileSize-0.1f);
+        BasementLevel.setNextLevel(levels.get(2));
+
         // The player always starts at the first level in the array.
         currentLevel = levels.get(0);
 
