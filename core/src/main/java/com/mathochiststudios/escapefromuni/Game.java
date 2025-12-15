@@ -3,6 +3,7 @@ package com.mathochiststudios.escapefromuni;
 import com.mathochiststudios.escapefromuni.UI.HUD;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
+import com.mathochiststudios.escapefromuni.entities.InteractableEntity.InteractableEntity;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.*;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
@@ -21,7 +22,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.collectibles.Collectible;
-import com.mathochiststudios.escapefromuni.entities.Enemy;
+import com.mathochiststudios.escapefromuni.entities.Enemy.Enemy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,13 +79,15 @@ public class Game {
 
     private HUD hud;
     private TextureManager textureManager;
+    private GameDifficulty gameDifficulty;
 
     private final Main mainApp;
 
     // Runs at start
-    public Game(Main mainApp) {
+    public Game(Main mainApp, GameDifficulty gameDifficulty) {
 
         this.mainApp = mainApp;
+        this.gameDifficulty = gameDifficulty;
 
         hud = new HUD(this, player);
         textureManager = new TextureManager(hud.getUiViewport());
@@ -446,6 +449,36 @@ public class Game {
                 break; // Exit loop after first collision to prevent multiple reactions
             }
         }
+
+        for (InteractableEntity entity : getInteractableInRange(
+            player.getMoneySprite().getX() + player.getMoneyWidth() / 2,
+            player.getMoneySprite().getY() + player.getMoneyHeight() / 2)) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                entity.onInteract(player, currentLevel);
+            }
+        }
+
+    }
+
+    private ArrayList<InteractableEntity> getInteractableInRange(float playerX, float playerY) {
+        ArrayList<InteractableEntity> interactablesInRange = new ArrayList<>();
+
+        for (InteractableEntity entity : currentLevel.getLevelInteractableEntities()) {
+            float interactionRange = entity.getInteractionRadius();
+            float[] entityBBox = new float[] {
+                entity.getEntityX(),
+                entity.getEntityY(),
+                entity.getEntityWidth(),
+                entity.getEntityHeight()
+            };
+
+            boolean is_in_range = distanceFromBBox(entityBBox, playerX, playerY) <= interactionRange;
+            if (is_in_range) {
+                interactablesInRange.add(entity);
+            }
+        }
+
+        return interactablesInRange;
     }
 
     // USE FOR NON-WALL COLLISIONS, I.E ITEMS OR ROOM TRANSITIONS
@@ -642,6 +675,10 @@ public class Game {
             }
         }
 
+        for (InteractableEntity entity : currentLevel.getLevelInteractableEntities()) {
+            entity.render(spriteBatch);
+        }
+
         player.getInventory().render(spriteBatch, camera);
 
         spriteBatch.end();
@@ -699,6 +736,36 @@ public class Game {
 
     public OrthographicCamera getCamera() {
         return camera;
+    }
+
+    /**
+     * Calculate the distance from a point to the nearest edge of an entity's bounding box.
+     * <br>
+     * <br>
+     * <b>CREDITS: <a href="https://stackoverflow.com/questions/5254838/calculating-distance-between-a-point-and-a-rectangular-box-nearest-point">StackOverflow</a></b>
+     *
+     * @param entityBBox the bounding box of the entity in tile coordinates [x, y, width, height]
+     * @param tileX1 the x coordinate of the point in tile units
+     * @param tileY1 the y coordinate of the point in tile units
+     * @return the distance from the point to the nearest edge of the bounding box
+     */
+    public static double distanceFromBBox(float[] entityBBox, float tileX1, float tileY1) {
+        float rx_min = entityBBox[0];
+        float rx_max = entityBBox[0] + entityBBox[2];
+        float ry_min = entityBBox[1];
+        float ry_max = entityBBox[1] + entityBBox[3];
+
+        if (rx_min <= tileX1 && tileX1 <= rx_max && ry_min <= tileY1 && tileY1 <= ry_max) {
+            return Math.min(Math.min(tileX1 - rx_min, rx_max - tileX1), Math.min(tileY1 - ry_min, ry_max - tileY1));
+        }
+
+        double dx = Math.max(0, Math.max(rx_min - tileX1, tileX1 - rx_max));
+        double dy = Math.max(0, Math.max(ry_min - tileY1, tileY1 - ry_max));
+        return Math.sqrt(dx*dx + dy*dy);
+    }
+
+    public GameDifficulty getGameDifficulty() {
+        return gameDifficulty;
     }
 
 }

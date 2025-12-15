@@ -1,4 +1,4 @@
-package com.mathochiststudios.escapefromuni.entities.EnemyAI;
+package com.mathochiststudios.escapefromuni.entities.Enemy.EnemyAI;
 
 public enum EnemyAI {
 

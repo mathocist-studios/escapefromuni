@@ -42,12 +42,12 @@ public class SpeedPowerup {
     //if changing speed then remember it is a multiplicative change rather then linear
     //@Override
     public void apply(Player player) {
-        player.increaseSpeed(speedMult);
+        player.addSpeed(speedMult);
     }
 
     //@Override
     public void remove(Player player) {
-        player.setSpeed(player.defaultSpeed);
+        player.addSpeed(-speedMult);
     }
 
     //@Override

@@ -49,7 +49,7 @@ public class Shop {
 
         player.getInventory().addItem(item.getItemObject());
         if (item.getItemObject() == InventoryObject.ENERGY_DRINK) {
-            SpeedPowerup drinkPowerUp = new SpeedPowerup(null, null, 0, 0, 1.1f, 30.0f);
+            SpeedPowerup drinkPowerUp = new SpeedPowerup(null, null, 0, 0, 1f, 30.0f);
             player.addSpeedPowerUp(drinkPowerUp);
         }
         Notification notification = new Notification(item.getDisplayName() + " purchased!", 2.0f, NotificationType.SPEECH, game.getTextureManager().getGameSmallFont());

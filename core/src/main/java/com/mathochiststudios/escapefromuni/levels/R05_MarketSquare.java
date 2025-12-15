@@ -24,6 +24,7 @@ public class R05_MarketSquare extends Level{
         levelCoins = new ArrayList<>();
         levelSpeedPowerups = new ArrayList<>();
         levelEnemies = new ArrayList<>();
+        levelInteractableEntities = new ArrayList<>();
 
         // Tile that the player spawns at when first entering the level.
         startX = 31;

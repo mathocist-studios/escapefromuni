@@ -11,6 +11,7 @@ public class EventsCounter {
     private boolean foundBasementKey = false;
     private boolean handedInWallet = false;
     private boolean caughtByDean = false;
+    private boolean buyRollerSkates = false;
 
     private boolean hasExitLibraryAchieved = false;
 
@@ -76,6 +77,14 @@ public class EventsCounter {
 
     public boolean getCaughtByDean() {
         return this.caughtByDean;
+    }
+
+    public void boughtRollerSkates() {
+        if (this.buyRollerSkates) {
+            return;
+        }
+        this.positiveEventsEncountered += 1;
+        this.buyRollerSkates = true;
     }
 
 }

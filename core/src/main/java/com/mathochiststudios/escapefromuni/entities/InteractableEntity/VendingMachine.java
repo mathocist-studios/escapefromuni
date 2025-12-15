@@ -1,0 +1,67 @@
+package com.mathochiststudios.escapefromuni.entities.InteractableEntity;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mathochiststudios.escapefromuni.Game;
+import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
+import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
+import com.mathochiststudios.escapefromuni.entities.Player;
+import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
+import com.mathochiststudios.escapefromuni.levels.Level;
+
+public class VendingMachine extends InteractableEntity {
+
+    private float notificationCooldown = 0.0f;
+
+    public VendingMachine(Game game, float x, float y, float interactionRadius) {
+        super(game, new Texture("vending_machine.png"), x, y, 2, 4, interactionRadius);
+    }
+
+    private void sendNotification(String message) {
+
+        if (System.currentTimeMillis() - notificationCooldown < (float) 2.0 * 1000) {
+            return;
+        }
+
+        notificationCooldown = System.currentTimeMillis();
+
+        Notification notification = new Notification(
+            message,
+            (float) 2.0,
+            NotificationType.SPEECH,
+            game.getTextureManager().getGameSmallFont()
+        );
+        game.getHud().getNotificationManager().addNotification(notification);
+    }
+
+    @Override
+    public void onInteract(Player p, Level level) {
+        if (p.getInventory().hasItem(InventoryObject.ROLLERBLADES)) {
+            sendNotification("Vending machine is empty!");
+            return;
+        }
+        if (p.getCoins() < 4) {
+            sendNotification("You need 4 coins to use the vending machine.");
+            return;
+        }
+
+        p.getInventory().addItem(InventoryObject.ROLLERBLADES);
+        p.addCoins(-4);
+        sendNotification("You bought rollerblades! You can now move faster.");
+        p.addSpeed(5.0f);
+        Notification notification = new Notification(
+            "Buy rollerblades",
+            5,
+            NotificationType.ACHIEVEMENT,
+            game.getTextureManager().getGameSmallFont()
+        );
+        game.getHud().getNotificationManager().addNotification(notification);
+        p.getEventsCounter().boughtRollerSkates();
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        batch.draw(getTexture(), getEntityX(), getEntityY(), getEntityWidth(), getEntityHeight());
+    }
+
+}

@@ -32,10 +32,11 @@ public class R01_LibraryFloor3 extends Level {
         levelCoins = new ArrayList<>();
         levelSpeedPowerups = new ArrayList<>();
         levelEnemies = new ArrayList<>();
+        levelInteractableEntities = new ArrayList<>();
 
         // wtf is this
         // levelCoins = Level.generateLevelCoins(14, 20, 14, 8); // Needs even int pairs
-        levelCoins = super.generateLevelCoins(new int[][]{{14, 20}, {14, 8}}); // this is just better
+        levelCoins = super.generateLevelCoins(new int[][]{{14, 20}, {14, 8}, {34, 7}}); // this is just better
 
         //levelEnemies.add(new Enemy(Game.duckTexture, Game.duckSound, 14, 12, "Duck"));
 

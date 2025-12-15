@@ -16,6 +16,7 @@ public class ShopLevel extends Level{
         levelCoins = new ArrayList<>();
         levelSpeedPowerups = new ArrayList<>();
         levelEnemies = new ArrayList<>();
+        levelInteractableEntities = new ArrayList<>();
 
         startX = 28;
         startY = 15;

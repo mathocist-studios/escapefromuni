@@ -1,13 +1,14 @@
-package com.mathochiststudios.escapefromuni.entities;
+package com.mathochiststudios.escapefromuni.entities.Enemy;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.Game;
-import com.mathochiststudios.escapefromuni.entities.EnemyAI.EnemyAI;
-import com.mathochiststudios.escapefromuni.entities.EnemyAI.EnemyMoveDirection;
-import com.mathochiststudios.escapefromuni.entities.EnemyAI.IEnemyAI;
+import com.mathochiststudios.escapefromuni.entities.Enemy.EnemyAI.EnemyAI;
+import com.mathochiststudios.escapefromuni.entities.Enemy.EnemyAI.EnemyMoveDirection;
+import com.mathochiststudios.escapefromuni.entities.Enemy.EnemyAI.IEnemyAI;
+import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
 public abstract class Enemy {
@@ -17,11 +18,11 @@ public abstract class Enemy {
     private float enemyY;
     private Rectangle enemyCollision;
     private Boolean isDead = false;
-    private Sprite enemySprite;
-    private EnemyAI enemyAI;
+    private final Sprite enemySprite;
+    private final EnemyAI enemyAI;
 
     private IEnemyAI aiBehavior;
-    private float SPEED = 5.0f;
+    private final float SPEED = 5.0f;
 
     protected Game game;
 

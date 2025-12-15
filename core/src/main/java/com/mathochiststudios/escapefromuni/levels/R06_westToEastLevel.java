@@ -15,6 +15,7 @@ public class R06_westToEastLevel extends Level{
         levelCoins = new ArrayList<>();
         levelSpeedPowerups = new ArrayList<>();
         levelEnemies = new ArrayList<>();
+        levelInteractableEntities = new ArrayList<>();
 
         mapName = "West_to_east_map_v2.tmx";
 
@@ -34,7 +35,7 @@ public class R06_westToEastLevel extends Level{
             this.getGame().getTextureManager().getPlanetSound(),
             33,
             14,
-            1.25f,
+            5f,
             300.0f
         ));
     }

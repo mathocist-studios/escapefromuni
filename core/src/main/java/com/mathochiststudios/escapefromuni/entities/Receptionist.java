@@ -35,11 +35,11 @@ public class Receptionist extends XAxisSlidingEntity{
             if (player.getInventory().hasItem(InventoryObject.WALLET)) {
                 // Add to hidden events encountered, as this is a hidden event.
                 player.getEventsCounter().handedInWallet();
-                player.getGameTimer().addTime(40);
+                player.addCoins(3);
                 player.getInventory().removeItem(InventoryObject.WALLET);
                 // Time + 30s
                 Notification notification = new Notification(
-                    "You handed in the lost wallet to the receptionist (+40s)!",
+                    "You handed in the lost wallet to the receptionist (+3 Coins)!",
                     3f,
                     NotificationType.SPEECH,
                     level.getGame().getTextureManager().getGameSmallFont()

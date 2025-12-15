@@ -232,6 +232,10 @@ public class Player {
         this.speed *= multiplier;
     }
 
+    public void addSpeed(float increment){
+        this.speed += increment;
+    }
+
     public void setSpeed(float speed){
         this.speed = speed;
     }

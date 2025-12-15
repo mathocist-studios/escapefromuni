@@ -1,4 +1,4 @@
-package com.mathochiststudios.escapefromuni.miscellaneous;
+package com.mathochiststudios.escapefromuni.levels.LevelDoors;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;

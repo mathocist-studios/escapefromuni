@@ -2,6 +2,7 @@ package com.mathochiststudios.escapefromuni.levels;
 
 import java.util.ArrayList;
 
+import com.mathochiststudios.escapefromuni.entities.InteractableEntity.InteractableEntity;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -9,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.collectibles.Collectible;
-import com.mathochiststudios.escapefromuni.entities.Enemy;
+import com.mathochiststudios.escapefromuni.entities.Enemy.Enemy;
 
 import com.mathochiststudios.escapefromuni.Game;
 
@@ -18,6 +19,7 @@ public abstract class Level {
     protected ArrayList<Collectible> levelCoins;
     protected ArrayList<SpeedPowerup> levelSpeedPowerups;
     protected ArrayList<Enemy> levelEnemies;
+    protected ArrayList<InteractableEntity> levelInteractableEntities;
 
     protected int startX = -1;
     protected int startY = -1;
@@ -135,6 +137,9 @@ public abstract class Level {
     }
     public ArrayList<Enemy> getLevelEnemies() {
         return levelEnemies;
+    }
+    public ArrayList<InteractableEntity> getLevelInteractableEntities() {
+        return levelInteractableEntities;
     }
 
     // replaced to just make it better...

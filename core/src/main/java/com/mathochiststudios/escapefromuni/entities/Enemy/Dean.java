@@ -1,4 +1,4 @@
-package com.mathochiststudios.escapefromuni.entities;
+package com.mathochiststudios.escapefromuni.entities.Enemy;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
-import com.mathochiststudios.escapefromuni.entities.EnemyAI.EnemyAI;
-import com.mathochiststudios.escapefromuni.entities.EnemyAI.EnemyMoveDirection;
+import com.mathochiststudios.escapefromuni.entities.Enemy.EnemyAI.EnemyAI;
+import com.mathochiststudios.escapefromuni.entities.Enemy.EnemyAI.EnemyMoveDirection;
+import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
 public class Dean extends Enemy {

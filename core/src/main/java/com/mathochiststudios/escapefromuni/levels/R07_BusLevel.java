@@ -58,6 +58,7 @@ public class R07_BusLevel extends Level {
         levelCoins = new ArrayList<>();
         levelSpeedPowerups = new ArrayList<>();
         levelEnemies = new ArrayList<>();
+        levelInteractableEntities = new ArrayList<>();
 
         // Name of the level
         mapName = "Bus.tmx";

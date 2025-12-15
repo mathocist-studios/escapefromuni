@@ -2,10 +2,11 @@ package com.mathochiststudios.escapefromuni.levels;
 
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.collectibles.BasementKey;
+import com.mathochiststudios.escapefromuni.entities.InteractableEntity.VendingMachine;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.entities.Receptionist;
-import com.mathochiststudios.escapefromuni.miscellaneous.LibraryBasementDoor;
-import com.mathochiststudios.escapefromuni.miscellaneous.LibraryDoor;
+import com.mathochiststudios.escapefromuni.levels.LevelDoors.LibraryBasementDoor;
+import com.mathochiststudios.escapefromuni.levels.LevelDoors.LibraryDoor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -26,6 +27,8 @@ public class R04_LibraryFloor0 extends Level{
 
     BasementKey basementKey = new BasementKey();
 
+    VendingMachine vendingMachine;
+
     /**
      * Constructs a new LibraryFloor0 with its name (path), in addition to start and end coordinates.
      */
@@ -38,6 +41,7 @@ public class R04_LibraryFloor0 extends Level{
         levelCoins = new ArrayList<>();
         levelSpeedPowerups = new ArrayList<>();
         levelEnemies = new ArrayList<>();
+        levelInteractableEntities = new ArrayList<>();
 
         // Tile that the player spawns at when first entering the level, or tile that takes player to previous level.
         this.startX = 3;
@@ -50,6 +54,9 @@ public class R04_LibraryFloor0 extends Level{
         // Tile that the player is moved to when entering the side level
         this.sideX = 22;
         this.sideY = 6;
+
+        vendingMachine = new VendingMachine(game, 18, 24, 2f);
+        this.levelInteractableEntities.add(vendingMachine);
 
     }
 

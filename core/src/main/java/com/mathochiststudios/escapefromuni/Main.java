@@ -64,7 +64,7 @@ public class Main implements ApplicationListener {
     }
 
     public void startGame() {
-        game = new Game(this);
+        game = new Game(this, GameDifficulty.NORMAL);
 
         gameStarted = true;
         paused = false;
@@ -123,7 +123,7 @@ public class Main implements ApplicationListener {
                 drawSettingsMenu();
                 inputSettingsMenu();
             }
-            
+
         }
     }
 
@@ -165,7 +165,7 @@ public class Main implements ApplicationListener {
         textureManager.dispose();
     }
 
-    
+
 
     private void inputLeaderboardMenu() {
         mouse.update(viewport);
@@ -389,10 +389,10 @@ public class Main implements ApplicationListener {
         batch.draw(textureManager.getunLeaderboardButtonSprite(),100,300, 700, 100);
         batch.draw(textureManager.getunExitButtonSprite(),100,200, 700, 100);
         }
-        
 
-        
-        
+
+
+
 
         if (latestScore > -1) {
 

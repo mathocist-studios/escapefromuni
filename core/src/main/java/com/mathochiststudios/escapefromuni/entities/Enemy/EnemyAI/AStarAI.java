@@ -1,8 +1,8 @@
-package com.mathochiststudios.escapefromuni.entities.EnemyAI;
+package com.mathochiststudios.escapefromuni.entities.Enemy.EnemyAI;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.Game;
-import com.mathochiststudios.escapefromuni.entities.Enemy;
+import com.mathochiststudios.escapefromuni.entities.Enemy.Enemy;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 

@@ -7,11 +7,8 @@ public enum InventoryObject {
     RUCKSACK(false, "rucksack.png"),
     BIRDSEED(true, "birdseed"),
     ENERGY_DRINK(false, "energy_drink.png"),
-    BASEMENT_KEY(false, "basement_key.png"),
-    FLASHLIGHT(true, "flashlight"),
-    BATTERY(true, "battery"),
-    MAP(false, "map"),
-    MEDKIT(true, "medkit");
+    ROLLERBLADES(false, "roller_skates.png"),
+    BASEMENT_KEY(false, "basement_key.png");
 
     private final boolean allowMultiple;
     private final String objectName;

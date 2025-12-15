@@ -6,8 +6,8 @@ import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
 import com.mathochiststudios.escapefromuni.collectibles.LibraryCard;
-import com.mathochiststudios.escapefromuni.entities.Dean;
-import com.mathochiststudios.escapefromuni.entities.EnemyAI.EnemyAI;
+import com.mathochiststudios.escapefromuni.entities.Enemy.Dean;
+import com.mathochiststudios.escapefromuni.entities.Enemy.EnemyAI.EnemyAI;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
@@ -29,6 +29,7 @@ public class BasementLevel extends Level {
         levelCoins = new ArrayList<>();
         levelSpeedPowerups = new ArrayList<>();
         levelEnemies = new ArrayList<>();
+        levelInteractableEntities = new ArrayList<>();
 
         startX = 28;
         startY = 15;
@@ -48,7 +49,7 @@ public class BasementLevel extends Level {
                 this.getGame().getTextureManager().getPlanetSound(),
                 30,
                 3,
-                1.5f,
+                5f,
                 300.0f
             )
         );
