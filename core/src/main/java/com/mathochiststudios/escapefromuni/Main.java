@@ -46,7 +46,7 @@ public class Main implements ApplicationListener {
 
     String input;
 
-    
+
 
     @Override
     public void create() {
@@ -66,7 +66,7 @@ public class Main implements ApplicationListener {
     }
 
     public void startGame() {
-        game = new Game(this);
+        game = new Game(this, GameDifficulty.NORMAL);
 
         gameStarted = true;
         paused = false;
@@ -83,7 +83,7 @@ public class Main implements ApplicationListener {
         }
     }
 
-    
+
     // Runs every frame
     @Override
     public void render() {
@@ -137,7 +137,7 @@ public class Main implements ApplicationListener {
                 drawSettingsMenu();
                 inputSettingsMenu();
             }
-            
+
         }
     }
 
