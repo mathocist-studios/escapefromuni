@@ -29,6 +29,25 @@ public class TextureManager {
 
     private Sprite playButtonSprite;
     private Texture playButtonTexture;
+    private Sprite settingsButtonSprite;
+    private Texture settingsButtonTexture;
+    private Sprite exitButtonSprite;
+    private Texture exitButtonTexture;
+    private Sprite leaderboardButtonSprite;
+    private Texture leaderboardButtonTexture;
+    private Sprite MenuBackdropSprite;
+    private Texture MenuBackdropTexture;
+
+    private Sprite unplayButtonSprite;
+    private Texture unplayButtonTexture;
+    private Sprite unsettingsButtonSprite;
+    private Texture unsettingsButtonTexture;
+    private Sprite unexitButtonSprite;
+    private Texture unexitButtonTexture;
+    private Sprite unleaderboardButtonSprite;
+    private Texture unleaderboardButtonTexture;
+    private Sprite unMenuBackdropSprite;
+    private Texture unMenuBackdropTexture;
 
     private Sprite returnToMenuButtonSprite;
     private Texture returnToMenuButtonTexture;
@@ -74,8 +93,43 @@ public class TextureManager {
 
         playButtonTexture = new Texture("playButton.png");
         playButtonSprite = new Sprite(playButtonTexture);
-        playButtonSprite.setSize((float) 1280 /3, 200);
-        playButtonSprite.setPosition((float) 1280 /3,100);
+        playButtonSprite.setSize(700, 100);
+        playButtonSprite.setPosition(100,500);
+
+        exitButtonTexture = new Texture("exitButton.png");
+        exitButtonSprite = new Sprite(exitButtonTexture);
+        exitButtonSprite.setSize(700, 100);
+        exitButtonSprite.setPosition(100,200);
+
+        settingsButtonTexture = new Texture("settingsButton.png");
+        settingsButtonSprite = new Sprite(settingsButtonTexture);
+        settingsButtonSprite.setSize(700, 100);
+        settingsButtonSprite.setPosition(100,400);
+
+        leaderboardButtonTexture = new Texture("leaderboardButton.png");
+        leaderboardButtonSprite = new Sprite(leaderboardButtonTexture);
+        leaderboardButtonSprite.setSize(700, 100);
+        leaderboardButtonSprite.setPosition(100,300);
+
+        unplayButtonTexture = new Texture("unplayButton.png");
+        unplayButtonSprite = new Sprite(unplayButtonTexture);
+        unplayButtonSprite.setSize(700, 100);
+        unplayButtonSprite.setPosition(100,500);
+
+        unexitButtonTexture = new Texture("unexitButton.png");
+        unexitButtonSprite = new Sprite(unexitButtonTexture);
+        unexitButtonSprite.setSize(700, 100);
+        unexitButtonSprite.setPosition(100,200);
+
+        unsettingsButtonTexture = new Texture("unsettingsButton.png");
+        unsettingsButtonSprite = new Sprite(unsettingsButtonTexture);
+        unsettingsButtonSprite.setSize(700, 100);
+        unsettingsButtonSprite.setPosition(100,400);
+
+        unleaderboardButtonTexture = new Texture("unleaderboardButton.png");
+        unleaderboardButtonSprite = new Sprite(unleaderboardButtonTexture);
+        unleaderboardButtonSprite.setSize(700, 100);
+        unleaderboardButtonSprite.setPosition(100,300);
 
         returnToMenuButtonTexture = new Texture("returntext.png");
         returnToMenuButtonSprite = new Sprite(returnToMenuButtonTexture);
@@ -86,6 +140,11 @@ public class TextureManager {
         resumeButtonSprite = new Sprite(resumeButtonTexture);
         resumeButtonSprite.setSize((float) 1280 /3, 200);
         resumeButtonSprite.setPosition((float) 1280 /3,330);
+
+        MenuBackdropTexture = new Texture("MenuBackdrop.png");
+        MenuBackdropSprite = new Sprite(MenuBackdropTexture);
+        MenuBackdropSprite.setSize((float) 1280 /3, 200);
+        MenuBackdropSprite.setPosition((float) 1280 /3,330);
 
         //seperate shop UI
         shopIconTexture = new Texture("shop290x248.png");
@@ -341,6 +400,78 @@ public class TextureManager {
 
     public Texture getDuckSpeechBubbleTexture() {
         return duckSpeechBubbleTexture;
+    }
+
+    public Texture getunPlayButtonTexture() {
+        return unplayButtonTexture;
+    }
+
+    public Sprite getunPlayButtonSprite() {
+        return unplayButtonSprite;
+    }
+
+    public Texture getExitButtonTexture() {
+        return exitButtonTexture;
+    }
+
+    public Sprite getExitButtonSprite() {
+        return exitButtonSprite;
+    }
+
+    public Texture getSettingsButtonTexture() {
+        return settingsButtonTexture;
+    }
+
+    public Sprite getSettingsButtonSprite() {
+        return settingsButtonSprite;
+    }
+
+    public Sprite getLeaderboardButtonSprite() {
+        return leaderboardButtonSprite;
+    }
+
+    public Texture getLeaderboardButtonTexture() {
+        return leaderboardButtonTexture;
+    }
+
+    public Sprite getMenuBackdropSprite() {
+        return MenuBackdropSprite;
+    }
+
+    public Texture getMenuBackdropTexture() {
+        return MenuBackdropTexture;
+    }
+    
+    public Texture getunExitButtonTexture() {
+        return unexitButtonTexture;
+    }
+
+    public Sprite getunExitButtonSprite() {
+        return unexitButtonSprite;
+    }
+
+    public Texture getunSettingsButtonTexture() {
+        return unsettingsButtonTexture;
+    }
+
+    public Sprite getunSettingsButtonSprite() {
+        return unsettingsButtonSprite;
+    }
+
+    public Sprite getunLeaderboardButtonSprite() {
+        return unleaderboardButtonSprite;
+    }
+
+    public Texture getunLeaderboardButtonTexture() {
+        return unleaderboardButtonTexture;
+    }
+
+    public Sprite getunMenuBackdropSprite() {
+        return unMenuBackdropSprite;
+    }
+
+    public Texture getunMenuBackdropTexture() {
+        return unMenuBackdropTexture;
     }
 
     public Music getBgm() {

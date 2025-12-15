@@ -1,16 +1,23 @@
 package com.mathochiststudios.escapefromuni;
 
-import com.mathochiststudios.escapefromuni.UI.Mouse;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
-import java.util.Objects;
+import com.mathochiststudios.escapefromuni.UI.Mouse;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main implements ApplicationListener {
@@ -34,6 +41,13 @@ public class Main implements ApplicationListener {
     Mouse mouse = new Mouse();
 
     TextureManager textureManager;
+
+    String menuState = "Main";
+
+    String hoveredOver = "";
+
+    // cached leaderboard lines (loaded when entering leaderboard menu)
+    private List<String> leaderboardLines = new ArrayList<>();
 
     @Override
     public void create() {
@@ -96,8 +110,20 @@ public class Main implements ApplicationListener {
                 endGame(Game.Score, game.WinOrLose);
             }
         } else {
-            drawMainMenu();
-            inputMainMenu();
+            if (menuState.equals("Main")){
+                drawMainMenu();
+                inputMainMenu();
+            }
+            if (menuState.equals("Leaderboard")){
+                drawLeaderboardMenu();
+                inputLeaderboardMenu();
+            }
+            if (menuState.equals("Settings")){
+                menuState = "Main";
+                drawSettingsMenu();
+                inputSettingsMenu();
+            }
+            
         }
     }
 
@@ -139,9 +165,128 @@ public class Main implements ApplicationListener {
         textureManager.dispose();
     }
 
-    private void inputMainMenu() {
+    
+
+    private void inputLeaderboardMenu() {
+        mouse.update(viewport);
         if (Gdx.input.isTouched()) {
-            mouse.update(viewport);
+            if (!buttonCD) {
+                // create a temporary sprite for the back arrow using the existing return texture
+                Sprite back = new Sprite(textureManager.getReturnToMenuButtonTexture());
+                float w = 160; // arrow width
+                float h = 80;  // arrow height
+                float padding = 20;
+                float sx = viewport.getWorldWidth() - padding - w;
+                float sy = padding;
+                back.setSize(w, h);
+                back.setPosition(sx, sy);
+
+                if (back.getBoundingRectangle().contains(new Vector2(mouse.getX(), mouse.getY()))) {
+                    menuState = "Main";
+                    buttonCD = true;
+                    hoveredOver = "";
+                }
+            }
+        }
+    }
+
+    private void inputSettingsMenu() {
+        // settings screen uses same bottom-right back arrow
+        mouse.update(viewport);
+        if (Gdx.input.isTouched()) {
+            if (!buttonCD) {
+                Sprite back = new Sprite(textureManager.getReturnToMenuButtonTexture());
+                float w = 160;
+                float h = 80;
+                float padding = 20;
+                float sx = viewport.getWorldWidth() - padding - w;
+                float sy = padding;
+                back.setSize(w, h);
+                back.setPosition(sx, sy);
+
+                if (back.getBoundingRectangle().contains(new Vector2(mouse.getX(), mouse.getY()))) {
+                    menuState = "Main";
+                    buttonCD = true;
+                    hoveredOver = "";
+                }
+            }
+        }
+    }
+
+    private void drawLeaderboardMenu() {
+        loadLeaderboard();
+
+        viewport.apply();
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
+        batch.draw(textureManager.getMenuBackdropSprite(),0,0, 1280, 960);
+
+        // title
+        textureManager.getMainLayout().setText(textureManager.getGameSmallFont(), "Leaderboard");
+        float titleX = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
+        float titleY = Gdx.graphics.getHeight() - 100;
+        textureManager.getGameSmallFont().draw(batch, "Leaderboard" , titleX, titleY);
+
+        float startY = titleY - 60;
+        float lineSpacing = 48f;
+        if (leaderboardLines.size() == 0) {
+            textureManager.getMainLayout().setText(textureManager.getGameSmallFont(), "No leaderboard found.");
+            float x = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
+            textureManager.getGameSmallFont().draw(batch, textureManager.getMainLayout(), x, startY);
+        } else {
+            float y = startY;
+            for (String line : leaderboardLines) {
+                textureManager.getMainLayout().setText(textureManager.getGameSmallFont(), line);
+                float x = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
+                textureManager.getGameSmallFont().draw(batch, textureManager.getMainLayout(), x, y);
+                y -= lineSpacing;
+            }
+        }
+
+        //got to do it a fucky way since its stuck from the pause menu and ica editing that rn
+        Sprite back = new Sprite(textureManager.getReturnToMenuButtonTexture());
+        back.setSize(180, 100);
+        back.setPosition(1050, 20);
+        back.draw(batch);
+        batch.end();
+    }
+
+    private void drawSettingsMenu() {
+
+    }
+
+    private void loadLeaderboard() {
+        leaderboardLines.clear();
+
+        String path = System.getProperty("user.dir");
+        File leaderboardFile = new File(path, "leaderboard.txt");
+
+        try {
+            leaderboardFile.createNewFile();
+        } catch (IOException e) {
+            return;
+        }
+
+        if (!leaderboardFile.exists()) {
+            return;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(leaderboardFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                leaderboardLines.add(line);
+                if (leaderboardLines.size() >= 20) break;
+            }
+        } catch (IOException e) {
+            leaderboardLines.clear();
+            leaderboardLines.add("Error reading leaderboard.");
+        }
+}
+
+
+    private void inputMainMenu() {
+        mouse.update(viewport);
+        if (Gdx.input.isTouched()) {
 
             //Gdx.app.log("MyTag", mouseX + " " + mouseY);
             //Gdx.app.log("buttonxy", playButtonSprite.getBoundingRectangle().x+" "+playButtonSprite.getBoundingRectangle().y);
@@ -153,7 +298,53 @@ public class Main implements ApplicationListener {
                 startGame();
                 buttonCD = true;
             }
+            if (!buttonCD &&
+                textureManager.getSettingsButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                menuState = "Settings";
+                buttonCD = true;
+            }
+            if (!buttonCD &&
+                textureManager.getLeaderboardButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                menuState = "Leaderboard";
+                leaderboardLines.clear();
+                loadLeaderboard();
+                buttonCD = true;
+            }
+            if (!buttonCD &&
+                textureManager.getExitButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                Gdx.app.exit();
+            }
         }
+        if (
+                textureManager.getPlayButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                hoveredOver = "Play";
+            }
+            if (
+                textureManager.getSettingsButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                    hoveredOver = "Settings";
+            }
+            if (
+                textureManager.getLeaderboardButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                    hoveredOver = "Leaderboard";
+            }
+            if (
+                textureManager.getExitButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                    hoveredOver = "Exit";
+            }
     }
 
     private void drawMainMenu() {
@@ -162,9 +353,46 @@ public class Main implements ApplicationListener {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
+        batch.draw(textureManager.getMenuBackdropSprite(),0,0, 1280, 960);
 
-        textureManager.getPlayButtonSprite().draw(batch);
-        batch.draw(textureManager.getMenuText(),200,700, 880, 110);
+        batch.draw(textureManager.getMenuText(),100,700, 700, 100);
+
+
+        // im so sorry
+        if (hoveredOver.equals("Play")) {
+            batch.draw(textureManager.getPlayButtonSprite(),100,500, 700, 100);
+        batch.draw(textureManager.getunSettingsButtonSprite(),100,400, 700, 100);
+        batch.draw(textureManager.getunLeaderboardButtonSprite(),100,300, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),100,200, 700, 100);
+        }
+        else if (hoveredOver.equals("Leaderboard")) {
+            batch.draw(textureManager.getunPlayButtonSprite(),100,500, 700, 100);
+        batch.draw(textureManager.getunSettingsButtonSprite(),100,400, 700, 100);
+        batch.draw(textureManager.getLeaderboardButtonSprite(),100,300, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),100,200, 700, 100);
+        }
+        else if (hoveredOver.equals("Settings")) {
+            batch.draw(textureManager.getunPlayButtonSprite(),100,500, 700, 100);
+        batch.draw(textureManager.getSettingsButtonSprite(),100,400, 700, 100);
+        batch.draw(textureManager.getunLeaderboardButtonSprite(),100,300, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),100,200, 700, 100);
+        }
+        else if (hoveredOver.equals("Exit")) {
+            batch.draw(textureManager.getunPlayButtonSprite(),100,500, 700, 100);
+        batch.draw(textureManager.getunSettingsButtonSprite(),100,400, 700, 100);
+        batch.draw(textureManager.getunLeaderboardButtonSprite(),100,300, 700, 100);
+        batch.draw(textureManager.getExitButtonSprite(),100,200, 700, 100);
+        }
+        else {
+            batch.draw(textureManager.getunPlayButtonSprite(),100,500, 700, 100);
+        batch.draw(textureManager.getunSettingsButtonSprite(),100,400, 700, 100);
+        batch.draw(textureManager.getunLeaderboardButtonSprite(),100,300, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),100,200, 700, 100);
+        }
+        
+
+        
+        
 
         if (latestScore > -1) {
 
