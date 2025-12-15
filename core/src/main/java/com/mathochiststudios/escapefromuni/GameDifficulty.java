@@ -21,8 +21,8 @@ public enum GameDifficulty {
         return baseMovementSpeed;
     }
 
-    public double getDeanSpeed() {
-        return deanSpeed;
+    public float getDeanSpeed() {
+        return (float) deanSpeed;
     }
 
     public double getSpeedBuffMultiplier() {

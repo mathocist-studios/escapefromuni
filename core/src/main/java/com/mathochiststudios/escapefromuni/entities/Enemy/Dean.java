@@ -45,6 +45,8 @@ public class Dean extends Enemy {
         if (this.getEnemyCollision() != null) {
             this.getSprite().setSize(this.getEnemyCollision().width, this.getEnemyCollision().height);
         }
+
+        setSpeed(game.getGameDifficulty().getDeanSpeed());
     }
 
     @Override

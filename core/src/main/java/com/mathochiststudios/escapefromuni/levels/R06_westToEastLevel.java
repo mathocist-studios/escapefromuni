@@ -35,7 +35,7 @@ public class R06_westToEastLevel extends Level{
             this.getGame().getTextureManager().getPlanetSound(),
             33,
             14,
-            5f,
+            (float) (5 * game.getGameDifficulty().getSpeedBuffMultiplier()),
             300.0f
         ));
     }

@@ -48,7 +48,7 @@ public class VendingMachine extends InteractableEntity {
         p.getInventory().addItem(InventoryObject.ROLLERBLADES);
         p.addCoins(-4);
         sendNotification("You bought rollerblades! You can now move faster.");
-        p.addSpeed(5.0f);
+        p.addSpeed((float) (5 * level.getGame().getGameDifficulty().getSpeedBuffMultiplier()));
         Notification notification = new Notification(
             "Buy rollerblades",
             5,

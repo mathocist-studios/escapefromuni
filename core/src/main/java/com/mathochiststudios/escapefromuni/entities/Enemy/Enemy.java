@@ -22,7 +22,7 @@ public abstract class Enemy {
     private final EnemyAI enemyAI;
 
     private IEnemyAI aiBehavior;
-    private final float SPEED = 5.0f;
+    private float SPEED = 5.0f;
 
     protected Game game;
 
@@ -134,6 +134,10 @@ public abstract class Enemy {
 
     public void setTexture(Texture texture) {
         this.texture = texture;
+    }
+
+    protected void setSpeed(float speed) {
+        this.SPEED = speed;
     }
 
 }

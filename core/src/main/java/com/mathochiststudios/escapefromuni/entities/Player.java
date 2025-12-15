@@ -45,7 +45,7 @@ public class Player {
     // Existing values.
     private float speed;
     // Game start with this speed.
-    public final float defaultSpeed = 10f;
+    public float defaultSpeed;
     // This will be the list containing all the active power-ups.
     private List<SpeedPowerup> activePowerUps = new ArrayList<>();
     private int coins;
@@ -53,7 +53,10 @@ public class Player {
     private final Inventory inventory;
     private final EventsCounter eventsCounter;
 
-    public Player() {
+    public Player(float defaultSpeed) {
+
+        this.defaultSpeed = defaultSpeed;
+
         this.speed = defaultSpeed;
         this.coins = 0;
         this.populateFrames();

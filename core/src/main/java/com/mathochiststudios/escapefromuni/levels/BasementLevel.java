@@ -49,7 +49,7 @@ public class BasementLevel extends Level {
                 this.getGame().getTextureManager().getPlanetSound(),
                 30,
                 3,
-                5f,
+                (float) (5 * game.getGameDifficulty().getSpeedBuffMultiplier()),
                 300.0f
             )
         );

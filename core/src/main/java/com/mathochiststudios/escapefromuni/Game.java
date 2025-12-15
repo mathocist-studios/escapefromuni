@@ -38,7 +38,7 @@ public class Game {
 
     private float minimapTileSize = 1.4f;
 
-    private Player player = new Player();
+    private Player player;
 
     private ArrayList<Level> levels;
 
@@ -77,9 +77,9 @@ public class Game {
 
     public boolean shopActive;
 
-    private HUD hud;
-    private TextureManager textureManager;
-    private GameDifficulty gameDifficulty;
+    private final HUD hud;
+    private final TextureManager textureManager;
+    private final GameDifficulty gameDifficulty;
 
     private final Main mainApp;
 
@@ -88,6 +88,8 @@ public class Game {
 
         this.mainApp = mainApp;
         this.gameDifficulty = gameDifficulty;
+
+        player = new Player((float) gameDifficulty.baseMovementSpeed);
 
         hud = new HUD(this, player);
         textureManager = new TextureManager(hud.getUiViewport());
