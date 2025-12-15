@@ -38,7 +38,7 @@ public class BasementKey {
      */
     public void update(Player player) {
         // Interaction between the player and the LibraryCard checked every frame.
-        if (this.isCollidingWithPlayer(player)) {
+        if (this.isCollidingWithPlayer(player) && !this.isDisposed) {
             this.pickUp(player);
         }
     }
@@ -52,6 +52,7 @@ public class BasementKey {
     private void pickUp(Player player) {
         player.getInventory().addItem(InventoryObject.BASEMENT_KEY);
         this.isDisposed = true;
+        player.getEventsCounter().foundBasementKey();
     }
 
     /**

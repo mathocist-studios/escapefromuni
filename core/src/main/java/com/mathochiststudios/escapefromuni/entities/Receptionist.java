@@ -34,7 +34,7 @@ public class Receptionist extends XAxisSlidingEntity{
         if (this.isCollidingWithPlayer(player.getMoneyRectangle())) {
             if (player.getInventory().hasItem(InventoryObject.WALLET)) {
                 // Add to hidden events encountered, as this is a hidden event.
-                player.setHiddenEventsEncountered(player.getHiddenEventsEncountered() + 1);
+                player.getEventsCounter().handedInWallet();
                 player.getGameTimer().addTime(40);
                 player.getInventory().removeItem(InventoryObject.WALLET);
                 // Time + 30s

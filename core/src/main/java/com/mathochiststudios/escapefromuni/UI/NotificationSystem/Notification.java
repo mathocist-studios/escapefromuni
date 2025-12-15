@@ -1,6 +1,5 @@
 package com.mathochiststudios.escapefromuni.UI.NotificationSystem;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -45,13 +44,13 @@ public class Notification {
         return type;
     }
 
-    private void render_as_hint(SpriteBatch batch, OrthographicCamera camera) {
+    private void render_as_hint(SpriteBatch batch, OrthographicCamera camera, double offsetY) {
         // Specific rendering logic for hint notifications
         // same as speech but with hint icon in the bubble TODO
-        render_as_speech(batch, camera);
+        render_as_speech(batch, camera, offsetY);
     }
 
-    private void render_as_speech(SpriteBatch batch, OrthographicCamera camera) {
+    private void render_as_speech(SpriteBatch batch, OrthographicCamera camera, double offsetY) {
 
         float opacity = 0.7f;
 
@@ -64,7 +63,7 @@ public class Notification {
         float bubble_height = layout.height + padding * 2;
         float bubble_x = (camera.viewportWidth - bubble_width) / 2.0f;
         // float bubble_y = camera.viewportHeight - bubble_height - 40.0f;
-        float bubble_y = 40.0f; // bottom of the screen
+        float bubble_y = (float) (40.0 + offsetY); // bottom of the screen
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0, 0, 0, opacity);
@@ -125,11 +124,11 @@ public class Notification {
         return bubble_y;
     }
 
-    public void render(SpriteBatch batch, OrthographicCamera camera) {
+    public void render(SpriteBatch batch, OrthographicCamera camera, double offsetY) {
         // Rendering logic based on notification type
         switch (type) {
-            case HINT -> render_as_hint(batch, camera);
-            case SPEECH -> render_as_speech(batch, camera);
+            case HINT -> render_as_hint(batch, camera, offsetY);
+            case SPEECH -> render_as_speech(batch, camera, offsetY);
             case ACHIEVEMENT -> render_as_achievement(batch, camera);
         }
     }

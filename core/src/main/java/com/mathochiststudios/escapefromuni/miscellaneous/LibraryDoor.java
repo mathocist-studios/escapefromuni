@@ -1,5 +1,6 @@
 package com.mathochiststudios.escapefromuni.miscellaneous;
 
+import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
 import com.mathochiststudios.escapefromuni.entities.Player;
@@ -11,7 +12,6 @@ public class LibraryDoor {
 
     // Instantiate rectangle to cover desired section of map to block.
     Rectangle rectangle;
-
 
     public LibraryDoor() {
         // instantiate rectangle to block path.
@@ -34,7 +34,6 @@ public class LibraryDoor {
         if (this.collides(player)) {
             if (!player.getInventory().hasItem(InventoryObject.KEYCARD)) {
                 this.disallowCollision(player);
-                player.setNegativeEventsEncountered(player.getNegativeEventsEncountered() + 1);
                 Notification notification = new Notification(
                     "You need your library card to exit!",
                     2f,
@@ -45,7 +44,6 @@ public class LibraryDoor {
             }
             if (!player.getInventory().hasItem(InventoryObject.RUCKSACK)) {
                 this.disallowCollision(player);
-                player.setNegativeEventsEncountered(player.getNegativeEventsEncountered() + 1);
                 Notification notification = new Notification(
                     "You need your rucksack to carry your things!",
                     2f,
@@ -53,6 +51,18 @@ public class LibraryDoor {
                     level.getGame().getTextureManager().getGameSmallFont()
                 );
                 level.getGame().getHud().getNotificationManager().addNotification(notification);
+            }
+            if (player.getInventory().hasItem(InventoryObject.KEYCARD) &&
+                player.getInventory().hasItem(InventoryObject.RUCKSACK) &&
+                !player.getEventsCounter().getHasExitLibraryAchieved()) {
+                Notification notification = new Notification(
+                    "Exited the library",
+                    4f,
+                    NotificationType.ACHIEVEMENT,
+                    level.getGame().getTextureManager().getGameSmallFont()
+                );
+                level.getGame().getHud().getNotificationManager().addNotification(notification);
+                player.getEventsCounter().hasExitLibrary();
             }
         }
     }

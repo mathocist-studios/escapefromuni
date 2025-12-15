@@ -62,7 +62,7 @@ public class Wallet {
      */
     public void update(Player player, Level level) {
         // Interaction between the player and the Wallet checked every frame.
-        if (this.isCollidingWithPlayer(player)) {
+        if (this.isCollidingWithPlayer(player) && !this.isDisposed) {
             this.pickUp(player);
             Notification notification = new Notification(
                 "You found someones wallet!, hand it into the receptionist",

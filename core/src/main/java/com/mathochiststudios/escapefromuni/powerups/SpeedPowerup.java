@@ -11,7 +11,6 @@ public class SpeedPowerup {
     private float duration; //seconds
     private float timeActive;
     protected Texture texture;
-    protected String textureName;
 
     protected Sound SoundEffect;
     protected float itemX;

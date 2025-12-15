@@ -99,9 +99,9 @@ public class HUD {
         game.getTextureManager().getGameSmallFont().draw(spriteBatch, game.getTextureManager().getMainLayout(), tempx, 820);
 
         // Draw all the event counters
-        game.getTextureManager().getGameSmallFont().draw(spriteBatch, "Positive Events: " + player.getPositiveEventsEncountered(), 20, 950);
-        game.getTextureManager().getGameSmallFont().draw(spriteBatch, "Negative Events: " + player.getNegativeEventsEncountered(), 20, 900);
-        game.getTextureManager().getGameSmallFont().draw(spriteBatch, "Hidden Events: " + player.getHiddenEventsEncountered(), 20, 850);
+        game.getTextureManager().getGameSmallFont().draw(spriteBatch, "Positive Events: " + player.getEventsCounter().getPositiveEventsEncountered(), 20, 900);
+        game.getTextureManager().getGameSmallFont().draw(spriteBatch, "Negative Events: " + player.getEventsCounter().getNegativeEventsEncountered(), 20, 850);
+        game.getTextureManager().getGameSmallFont().draw(spriteBatch, "Hidden Events: " + player.getEventsCounter().getHiddenEventsEncountered(), 20, 800);
     }
 
     private void drawMinimap(SpriteBatch spriteBatch) {

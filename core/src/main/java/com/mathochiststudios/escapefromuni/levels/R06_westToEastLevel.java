@@ -1,8 +1,6 @@
 package com.mathochiststudios.escapefromuni.levels;
 
 import com.mathochiststudios.escapefromuni.Game;
-import com.mathochiststudios.escapefromuni.entities.Enemy;
-import com.mathochiststudios.escapefromuni.entities.EnemyAI;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -38,14 +36,6 @@ public class R06_westToEastLevel extends Level{
             14,
             1.25f,
             300.0f
-        ));
-        levelEnemies.add(new Enemy(
-            this.getGame(),
-            this.getGame().getTextureManager().getDuckTexture(),
-            this.getGame().getTextureManager().getDuckSound(),
-            23,
-            6,
-            EnemyAI.DUCK
         ));
     }
     public void update(float deltaTime, Player player) {}

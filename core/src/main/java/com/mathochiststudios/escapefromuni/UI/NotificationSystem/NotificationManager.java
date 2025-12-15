@@ -24,8 +24,10 @@ public class NotificationManager {
 
     public void render(SpriteBatch spriteBatch, OrthographicCamera camera) {
         removeExpiredNotifications();
+        int i = 0;
         for (Notification notification : notifications) {
-            notification.render(spriteBatch, camera);
+            notification.render(spriteBatch, camera, i * 120.0);
+            i++;
         }
     }
 

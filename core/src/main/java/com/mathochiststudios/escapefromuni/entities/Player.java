@@ -1,6 +1,7 @@
 package com.mathochiststudios.escapefromuni.entities;
 
 import com.mathochiststudios.escapefromuni.Timer;
+import com.mathochiststudios.escapefromuni.UI.EventsCounter;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.Inventory;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,9 +20,6 @@ public class Player {
     Texture moneyTexture = new Texture("vecteezy_pack-of-dollars-money-clipart-design-illustration_9391394.png");
     private Sprite moneySprite = new Sprite(this.moneyTexture);
     private Rectangle moneyRectangle;
-    private int positiveEventsEncountered = 0;
-    private int negativeEventsEncountered = 0;
-    private int hiddenEventsEncountered = 0;
     float moneyWidth;
     float moneyHeight;
     // Assign the atlas, and it is final as it does not change.
@@ -53,6 +51,7 @@ public class Player {
     private int coins;
 
     private final Inventory inventory;
+    private final EventsCounter eventsCounter;
 
     public Player() {
         this.speed = defaultSpeed;
@@ -73,6 +72,7 @@ public class Player {
         this.moneyRectangle.y = this.moneySprite.getY();
 
         this.inventory = new Inventory();
+        this.eventsCounter = new EventsCounter();
     }
 
     // Getter for timer.
@@ -153,36 +153,6 @@ public class Player {
     // Setter for String moveDirection.
     public void setMoveDirection(String moveDirection) {
         this.moveDirection = moveDirection;
-    }
-
-    // Getter for positive events.
-    public int getPositiveEventsEncountered() {
-        return this.positiveEventsEncountered;
-    }
-
-    // Getter for negative events.
-    public int getNegativeEventsEncountered() {
-        return this.negativeEventsEncountered;
-    }
-
-    // Getter for hidden events.
-    public int getHiddenEventsEncountered() {
-        return this.hiddenEventsEncountered;
-    }
-
-    // Setter for positive events.
-    public void setPositiveEventsEncountered(int positiveEventsEncountered) {
-        this.positiveEventsEncountered = positiveEventsEncountered;
-    }
-
-    // Setter for negative events.
-    public void setNegativeEventsEncountered(int negativeEventsEncountered) {
-        this.negativeEventsEncountered = negativeEventsEncountered;
-    }
-
-    // Setter for hidden events.
-    public void setHiddenEventsEncountered(int hiddenEventsEncountered) {
-        this.hiddenEventsEncountered = hiddenEventsEncountered;
     }
 
     // Getter for walkSheet.
@@ -274,5 +244,9 @@ public class Player {
 
         activePowerUps.removeIf(p -> p.update(this, deltaTime));
 
+    }
+
+    public EventsCounter getEventsCounter() {
+        return eventsCounter;
     }
 }

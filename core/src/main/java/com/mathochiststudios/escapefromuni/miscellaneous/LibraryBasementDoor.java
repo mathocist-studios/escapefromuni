@@ -12,6 +12,8 @@ public class LibraryBasementDoor {
     // Instantiate rectangle to cover desired section of map to block.
     Rectangle rectangle;
 
+    double notificationCooldown = 0.0;
+
     public LibraryBasementDoor() {
         // instantiate rectangle to block path.
         this.rectangle = new Rectangle(23, 4, 1, 3);
@@ -31,18 +33,29 @@ public class LibraryBasementDoor {
     // Invoked every frame, allows player to pass if hasLibraryCard, else collision is active.
     public void update(Player player, Level level) {
 
-        if (this.collides(player)) {
-            if (!player.getInventory().hasItem(InventoryObject.BASEMENT_KEY)) {
-                this.disallowCollision(player);
-                player.setNegativeEventsEncountered(player.getNegativeEventsEncountered() + 1);
-                Notification notification = new Notification(
-                    "You will need the basement key to enter the library basement.",
-                    2f,
-                    NotificationType.SPEECH,
-                    level.getGame().getTextureManager().getGameSmallFont()
-                );
-                level.getGame().getHud().getNotificationManager().addNotification(notification);
-            }
+        if (!this.collides(player)) {
+            return;
         }
+
+        if (player.getInventory().hasItem(InventoryObject.BASEMENT_KEY)) {
+            return;
+        }
+
+        this.disallowCollision(player);
+
+        if (System.currentTimeMillis() - notificationCooldown < 2000) {
+            return;
+        }
+
+        notificationCooldown = System.currentTimeMillis();
+
+        Notification notification = new Notification(
+            "You will need the basement key to enter the library basement.",
+            2f,
+            NotificationType.SPEECH,
+            level.getGame().getTextureManager().getGameSmallFont()
+        );
+        level.getGame().getHud().getNotificationManager().addNotification(notification);
+
     }
 }

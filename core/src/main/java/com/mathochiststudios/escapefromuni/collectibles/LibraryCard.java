@@ -25,7 +25,7 @@ public class LibraryCard {
 //            {22, 8},
 //            {30, 15},
 //            {5, 20},
-            {18, 24}
+            {26, 24}
     };
     private Rectangle rectangle;
     private int[] spawn;
@@ -65,7 +65,7 @@ public class LibraryCard {
      */
     public void update(Player player, Level level) {
         // Interaction between the player and the LibraryCard checked every frame.
-        if (this.isCollidingWithPlayer(player)) {
+        if (this.isCollidingWithPlayer(player) && !this.isDisposed) {
             this.pickUp(player);
             Notification notification = new Notification(
                 "You found your Library Card! You can now exit the library.",
@@ -86,6 +86,7 @@ public class LibraryCard {
     private void pickUp(Player player) {
         player.getInventory().addItem(InventoryObject.KEYCARD);
         this.isDisposed = true;
+        player.getEventsCounter().foundLibraryCard();
     }
 
     /**

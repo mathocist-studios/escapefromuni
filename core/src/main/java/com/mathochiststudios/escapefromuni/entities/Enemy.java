@@ -5,31 +5,28 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.Game;
-import com.badlogic.gdx.audio.Sound;
+import com.mathochiststudios.escapefromuni.entities.EnemyAI.EnemyAI;
+import com.mathochiststudios.escapefromuni.entities.EnemyAI.EnemyMoveDirection;
+import com.mathochiststudios.escapefromuni.entities.EnemyAI.IEnemyAI;
+import com.mathochiststudios.escapefromuni.levels.Level;
 
-import java.util.List;
-import java.util.Objects;
+public abstract class Enemy {
 
-public class Enemy {
+    private Texture texture;
+    private float enemyX;
+    private float enemyY;
+    private Rectangle enemyCollision;
+    private Boolean isDead = false;
+    private Sprite enemySprite;
+    private EnemyAI enemyAI;
 
+    private IEnemyAI aiBehavior;
+    private float SPEED = 5.0f;
 
-    protected Texture texture;
-    public Sound soundEffect;
-    protected float enemyX;
-    protected float enemyY;
-    protected Rectangle enemyCollision;
-    protected Boolean isDead = false;
-    protected Sprite enemySprite;
-    protected EnemyAI enemyAI;
-    protected Boolean showText = false;
-    protected float speechMaxLength = 1f;
-    protected float speechDuration;
-    protected Texture speechTexture;
-
-    private Game game;
+    protected Game game;
 
     // Takes in basic enemy info with a default size of 1, 1
-    public Enemy(Game game, Texture texture, Sound sound, float x, float y, EnemyAI aiType) {
+    public Enemy(Game game, Texture texture, float x, float y, EnemyAI aiType) {
 
         this.game = game;
 
@@ -37,12 +34,20 @@ public class Enemy {
         this.enemySprite = new Sprite(texture);
         this.enemyY = y;
         this.texture = texture;
-        this.soundEffect = sound;
-        this.enemyCollision = new Rectangle(enemyX, enemyY, 6, 1);
+        this.enemyCollision = new Rectangle(enemyX, enemyY, 1, 1);
         this.enemyAI = aiType;
 
-        if (Objects.equals(this.enemyAI, EnemyAI.DUCK)) {
-            this.enemySpeech(game.getTextureManager().getDuckSpeechBubbleTexture());
+        // Instantiate the AI behavior if the enum provides a class
+        if (aiType != null && aiType.getAIClass() != null) {
+            try {
+                this.aiBehavior = aiType.getAIClass().getDeclaredConstructor().newInstance();
+            } catch (ReflectiveOperationException e) {
+                // Failed to instantiate AI; log and fall back to no AI
+                e.printStackTrace();
+                this.aiBehavior = null;
+            }
+        } else {
+            this.aiBehavior = null;
         }
     }
 
@@ -50,45 +55,23 @@ public class Enemy {
         if (isDead) {
             return;
         }
-        batch.draw(texture, enemyX, enemyY, 1, 1);
+        batch.draw(enemySprite, enemyX - enemySprite.getWidth() / 2, enemyY - enemySprite.getHeight() / 2, 3, 3);
     }
 
-    // Generates the speech bubble sprite for talking enemies
-    // changed to make better for future use :AIDEN
-    public void renderSpeech(SpriteBatch batch) {
-        if (batch == null || isDead || !showText) {
+    public void update(float deltaTime, Level currentLevel, Player player) {
+        if (isDead) {
             return;
         }
-
-        Texture tex = this.speechTexture;
-        // Fallback to texture manager only if speechTexture wasn't set
-        if (tex == null && game != null && game.getTextureManager() != null) {
-            if (Objects.equals(this.enemyAI, EnemyAI.DUCK)) {
-                tex = game.getTextureManager().getDuckSpeechBubbleTexture();
-            }
-            // add other AI-specific fallbacks here if needed
+        // If there's an AI behavior instance, let it drive the enemy
+        if (aiBehavior != null) {
+            EnemyMoveDirection direction = aiBehavior.update(game, this, deltaTime, currentLevel, player, SPEED);
+            this.isMoving(direction);
         }
 
-        if (tex == null) {
-            return; // nothing to draw
-        }
+        this.enemyCollision = new Rectangle(enemyX, enemyY, 1, 1);
 
-        // Per-AI placement/size defaults (tweak values to fit your world units)
-        float offsetX = 0.5f;
-        float offsetY = 1.1f;
-        float width = 3f;
-        float height = 2f;
-
-        if (Objects.equals(this.enemyAI, EnemyAI.DUCK)) {
-            offsetX = 1f;
-            offsetY = 1f;
-            width = 5f;
-            height = 5f;
-        }
-
-        batch.draw(tex, this.enemyX + offsetX, this.enemyY + offsetY, width, height);
+        this.localUpdate(deltaTime, currentLevel, player);
     }
-
 
     public void collect() {
         isDead = true;
@@ -96,6 +79,10 @@ public class Enemy {
 
     public Boolean isDead() {
         return isDead;
+    }
+
+    public void setDead(Boolean dead) {
+        isDead = dead;
     }
 
     public void deleteEnemy() {
@@ -114,105 +101,38 @@ public class Enemy {
         return enemyAI;
     }
 
-    public Boolean getShowText() {
-        return this.showText;
+    public abstract void triggerCollisionBehavior(Player player);
+
+    public abstract void isMoving(EnemyMoveDirection direction);
+
+    public abstract void localUpdate(float deltaTime, Level currentLevel, Player player);
+
+    public float getEnemyX() {
+        return enemyX;
     }
 
-    // Despawns the duck when requirements are met
-    public void enemyBehaviour1() {
-        if (Game.Score >= 10) {
-            soundEffect.play();
-            isDead = true;
-            texture.dispose(); // needs to be edited to the birdseed code for buying bird seeds in the shop
-            return;
-        }
-        game.getTextureManager().getDuckSound2().play();
+    public float getEnemyY() {
+        return enemyY;
     }
 
-    // Sets the speech bubble and timer for an enemy's speech
-    public void enemySpeech(Texture speechTexture) {
-            this.speechTexture = speechTexture;
-            this.speechDuration = 0;
-            //this.showText = true;
+    public void setEnemyX(float x) {
+        this.enemyX = x;
     }
 
-    public void speechTimeCheck(float delta) {
-        speechDuration += delta;
-        if (speechDuration >= speechMaxLength) {
-            showText = false;
-        }
+    public void setEnemyY(float y) {
+        this.enemyY = y;
     }
 
-    public void enableShowText() {
-        this.showText = true;
-        this.speechDuration = 0;
+    public Rectangle getEnemyCollision() {
+        return enemyCollision;
     }
 
-    //Reverts player position and performs enemy behaviour, on enemy collision
-//    public static void enemyCollisionLogic(float oldX, float oldY, Player player) {
-//        for (Enemy enemy : Game.currentLevel.getLevelEnemies()) {
-//            if (!(enemy.isDead()) && player.getMoneyRectangle().overlaps(enemy.getCollider())) {
-//                enemy.enableShowText();
-//                if (Objects.equals(enemy.getAIType(), EnemyAI.DUCK)) {
-//                    enemy.enemyBehaviour1();
-//                    player.getMoneySprite().setPosition(oldX, oldY);
-//                    player.getMoneyRectangle().setPosition(oldX, oldY);
-//                }
-//            }
-//        }
-//    }
+    public Texture getTexture() {
+        return texture;
+    }
 
-    //Improved null-safety, caches references, reverts the player's money position safely,
-    // triggers enemy behavior after reverting, and stops after the first valid collision to
-    // avoid multiple reactions. :AIDEN
-    public static void enemyCollisionLogic(float oldX, float oldY, Player player) {
-        if (player == null || Game.currentLevel == null) {
-            return;
-        }
-
-        Rectangle moneyRect = player.getMoneyRectangle();
-        if (moneyRect == null) {
-            return;
-        }
-
-        List<Enemy> enemies = Game.currentLevel.getLevelEnemies();
-        if (enemies == null || enemies.isEmpty()) {
-            return;
-        }
-
-        for (Enemy enemy : enemies) {
-            if (enemy == null || enemy.isDead()) {
-                continue;
-            }
-            Rectangle enemyCollider = enemy.getCollider();
-            if (enemyCollider == null) {
-                continue;
-            }
-
-            if (moneyRect.overlaps(enemyCollider)) {
-                enemy.enableShowText();
-
-                // Revert player money sprite/rectangle position safely
-                if (player.getMoneySprite() != null) {
-                    try {
-                        player.getMoneySprite().setPosition(oldX, oldY);
-                    } catch (Exception ignored) { }
-                }
-                try {
-                    player.getMoneyRectangle().setPosition(oldX, oldY);
-                } catch (Exception ignored) { }
-
-                // Handle AI-specific behaviour after reverting position
-                if (Objects.equals(enemy.getAIType(), EnemyAI.DUCK)) {
-                    try {
-                        enemy.enemyBehaviour1();
-                    } catch (Exception ignored) { }
-                }
-
-                // Only handle the first overlapping enemy to avoid multiple reactions
-                break;
-            }
-        }
+    public void setTexture(Texture texture) {
+        this.texture = texture;
     }
 
 }

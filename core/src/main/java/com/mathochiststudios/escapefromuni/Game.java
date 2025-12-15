@@ -54,7 +54,7 @@ public class Game {
     public static float money = 0;
 
     TiledMapTileLayer mapCollisionLayer;
-    ArrayList<Rectangle> mapCollisions;
+    public ArrayList<Rectangle> mapCollisions;
 
     TiledMapTileLayer mapExitBackLayer;
     ArrayList<Rectangle> mapExitBackCollisions;
@@ -418,8 +418,6 @@ public class Game {
         // Check for collisions with non-walls and respond appropriately
         triggerCollisionCheck(player.getMoneyRectangle());
 
-        Enemy.enemyCollisionLogic(player.getOldMoneyX(), player.getOldMoneyY(), this.player);
-
         for (Collectible coin : currentLevel.getLevelCoins()) {
             if (!(coin.isCollected()) && player.getMoneyRectangle().overlaps(coin.getCollider())) {
                 coin.collect();
@@ -434,12 +432,18 @@ public class Game {
                 powerup.collect();
                 powerup.apply(player);
                 powerup.getSoundEffect().play();
+                player.getEventsCounter().speedPositiveEventsEncountered();
             }
         }
 
+        // TODO: check this logic
         for (Enemy enemy : currentLevel.getLevelEnemies()) {
-            if (enemy.getShowText()) {
-                enemy.speechTimeCheck(delta);
+            if (!(enemy.isDead()) && player.getMoneyRectangle().overlaps(enemy.getCollider())) {
+                // Revert player position
+                player.getMoneySprite().setPosition(player.getOldMoneyX(), player.getOldMoneyY());
+                // Trigger enemy behavior
+                enemy.triggerCollisionBehavior(player);
+                break; // Exit loop after first collision to prevent multiple reactions
             }
         }
     }
@@ -628,7 +632,6 @@ public class Game {
             else if (planet.isCollected() && planet.isSpeedPowerUpAdded()) {
             }
             else if (planet.isCollected()) {
-                this.player.setPositiveEventsEncountered(this.player.getPositiveEventsEncountered() + 1);
                 planet.setSpeedPowerUpAdded(true);
             }
         }
@@ -637,12 +640,9 @@ public class Game {
             if (!(enemy.isDead())) {
                 enemy.render(spriteBatch);
             }
-            if (enemy.getShowText()) {
-                enemy.renderSpeech(spriteBatch);
-            }
         }
 
-        player.getInventory().render(spriteBatch);
+        player.getInventory().render(spriteBatch, camera);
 
         spriteBatch.end();
 
