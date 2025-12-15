@@ -1,0 +1,191 @@
+package com.mathochiststudios.escapefromuni.Menus;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.TextureManager;
+import com.mathochiststudios.escapefromuni.UI.Mouse;
+
+public class MainMenu{
+
+    public SpriteBatch batch;
+    public FitViewport viewport;
+
+    int latestScore = -1;
+    boolean wonLastGame;
+
+    boolean buttonCD;
+
+    //used for mouse coordinates
+    Mouse mouse = new Mouse();
+
+    TextureManager textureManager;
+
+    String hoveredOver = "Play";
+
+
+    public MainMenu(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
+        this.batch = batch;
+        this.viewport = viewport;
+        this.latestScore = latestScore;
+        this.wonLastGame = wonLastGame;
+        this.buttonCD = buttonCD;
+        this.mouse = mouse;
+        this.textureManager = textureManager;
+    }
+
+    public MainMenu() {
+    }
+
+    public void update(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
+        this.batch = batch;
+        this.viewport = viewport;
+        this.latestScore = latestScore;
+        this.wonLastGame = wonLastGame;
+        this.buttonCD = buttonCD;
+        this.mouse = mouse;
+        this.textureManager = textureManager;
+    }
+
+    public String input() {
+        mouse.update(viewport);
+        if (Gdx.input.isTouched()) {
+
+            //Gdx.app.log("MyTag", mouseX + " " + mouseY);
+            //Gdx.app.log("buttonxy", playButtonSprite.getBoundingRectangle().x+" "+playButtonSprite.getBoundingRectangle().y);
+
+            if (!buttonCD &&
+                textureManager.getPlayButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                return "Start Game";
+            }
+            
+            if (!buttonCD &&
+                textureManager.getSettingsButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                return "Settings";
+            }
+            if (!buttonCD &&
+                textureManager.getLeaderboardButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                return "Leaderboard";
+            }
+            if (!buttonCD &&
+                textureManager.getExitButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                Gdx.app.exit();
+            }
+        }
+        if (
+                textureManager.getPlayButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                hoveredOver = "Play";
+            }
+            if (
+                textureManager.getSettingsButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                    hoveredOver = "Settings";
+            }
+            if (
+                textureManager.getLeaderboardButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                    hoveredOver = "Leaderboard";
+            }
+            if (
+                textureManager.getExitButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                    hoveredOver = "Exit";
+            }
+        return "Main";
+    }
+
+    public void draw() {
+
+        ScreenUtils.clear(Color.SALMON);
+        viewport.apply();
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
+        batch.draw(textureManager.getMenuBackdropSprite(),0,0, 1280, 960);
+
+        batch.draw(textureManager.getMenuText(),100,700, 700, 100);
+
+        
+        System.out.println(hoveredOver);
+
+        // im so sorry
+        if (hoveredOver.equals("Play")) {
+            batch.draw(textureManager.getPlayButtonSprite(),100,500, 700, 100);
+        batch.draw(textureManager.getunSettingsButtonSprite(),100,400, 700, 100);
+        batch.draw(textureManager.getunLeaderboardButtonSprite(),100,300, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),100,200, 700, 100);
+        }
+        else if (hoveredOver.equals("Leaderboard")) {
+            batch.draw(textureManager.getunPlayButtonSprite(),100,500, 700, 100);
+        batch.draw(textureManager.getunSettingsButtonSprite(),100,400, 700, 100);
+        batch.draw(textureManager.getLeaderboardButtonSprite(),100,300, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),100,200, 700, 100);
+        }
+        else if (hoveredOver.equals("Settings")) {
+            batch.draw(textureManager.getunPlayButtonSprite(),100,500, 700, 100);
+        batch.draw(textureManager.getSettingsButtonSprite(),100,400, 700, 100);
+        batch.draw(textureManager.getunLeaderboardButtonSprite(),100,300, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),100,200, 700, 100);
+        }
+        else if (hoveredOver.equals("Exit")) {
+            batch.draw(textureManager.getunPlayButtonSprite(),100,500, 700, 100);
+        batch.draw(textureManager.getunSettingsButtonSprite(),100,400, 700, 100);
+        batch.draw(textureManager.getunLeaderboardButtonSprite(),100,300, 700, 100);
+        batch.draw(textureManager.getExitButtonSprite(),100,200, 700, 100);
+        }
+        else {
+            batch.draw(textureManager.getunPlayButtonSprite(),100,500, 700, 100);
+        batch.draw(textureManager.getunSettingsButtonSprite(),100,400, 700, 100);
+        batch.draw(textureManager.getunLeaderboardButtonSprite(),100,300, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),100,200, 700, 100);
+        }
+        
+
+        
+        
+
+        if (latestScore > -1) {
+
+            if (wonLastGame) {
+                textureManager.getMainLayout().setText(textureManager.getMainFont(), "Score: " + latestScore);
+
+                float tempx = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
+                float tempy = 480;
+
+                textureManager.getMainFont().draw(batch, textureManager.getMainLayout(), tempx, tempy);
+
+                textureManager.getMainLayout().setText(textureManager.getMainFont(), "You won!");
+
+                tempx = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
+                tempy = 640;
+
+                textureManager.getMainFont().draw(batch, textureManager.getMainLayout(), tempx, tempy);
+            } else {
+                textureManager.getMainLayout().setText(textureManager.getMainFont(), "You lost :(");
+
+                float tempx = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
+                float tempy = 560;
+
+                textureManager.getMainFont().draw(batch, textureManager.getMainLayout(), tempx, tempy);
+            }
+        }
+
+        batch.end();
+    }
+
+}
