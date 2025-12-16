@@ -49,6 +49,13 @@ public class TextureManager {
     private Sprite unMenuBackdropSprite;
     private Texture unMenuBackdropTexture;
 
+    private Sprite startButtonSprite;
+    private Texture startButtonTexture;
+    private Sprite unstartButtonSprite;
+    private Texture unstartButtonTexture;
+    private Sprite TutorialSprite;
+    private Texture TutorialTexture;
+
     private Sprite returnToMenuButtonSprite;
     private Texture returnToMenuButtonTexture;
 
@@ -91,6 +98,11 @@ public class TextureManager {
         menuText = new Texture("escapefromunititle.png");
         pausedText = new Texture("pausedtext.png");
 
+        TutorialTexture = new Texture("Tutorial.png");
+        TutorialSprite = new Sprite(TutorialTexture);
+        TutorialSprite.setSize(1280, 960);
+        TutorialSprite.setPosition(0,0);
+
         playButtonTexture = new Texture("playButton.png");
         playButtonSprite = new Sprite(playButtonTexture);
         playButtonSprite.setSize(700, 100);
@@ -100,6 +112,16 @@ public class TextureManager {
         exitButtonSprite = new Sprite(exitButtonTexture);
         exitButtonSprite.setSize(700, 100);
         exitButtonSprite.setPosition(100,200);
+
+        startButtonTexture = new Texture("startButton.png");
+        startButtonSprite = new Sprite(startButtonTexture);
+        startButtonSprite.setSize(700, 100);
+        startButtonSprite.setPosition(100,100);
+
+        unstartButtonTexture = new Texture("unstartButton.png");
+        unstartButtonSprite = new Sprite(unstartButtonTexture);
+        unstartButtonSprite.setSize(700, 100);
+        unstartButtonSprite.setPosition(100,100);
 
         settingsButtonTexture = new Texture("settingsButton.png");
         settingsButtonSprite = new Sprite(settingsButtonTexture);
@@ -432,6 +454,30 @@ public class TextureManager {
 
     public Texture getLeaderboardButtonTexture() {
         return leaderboardButtonTexture;
+    }
+
+    public Sprite getStartButtonSprite() {
+        return startButtonSprite;
+    }
+
+    public Texture getStartButtonTexture() {
+        return startButtonTexture;
+    }
+
+    public Sprite getunStartButtonSprite() {
+        return unstartButtonSprite;
+    }
+
+    public Texture getunStartButtonTexture() {
+        return unstartButtonTexture;
+    }
+
+    public Sprite getTutorialSprite() {
+        return TutorialSprite;
+    }
+
+    public Texture getTutorialTexture() {
+        return TutorialTexture;
     }
 
     public Sprite getMenuBackdropSprite() {

@@ -15,33 +15,19 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
-public class LeaderboardMenu {
-
-    public SpriteBatch batch;
-    public FitViewport viewport;
-
-    int latestScore = -1;
-    boolean wonLastGame;
-
-    boolean buttonCD;
-
-    //used for mouse coordinates
-    Mouse mouse = new Mouse();
-
-    TextureManager textureManager;
-
-    String hoveredOver = "Play";
+public class LeaderboardMenu  extends AbstractMenu{
 
     private List<String> leaderboardLines = new ArrayList<>();
 
-    public LeaderboardMenu(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
-        this.batch = batch;
-        this.viewport = viewport;
-        this.latestScore = latestScore;
-        this.wonLastGame = wonLastGame;
-        this.buttonCD = buttonCD;
-        this.mouse = mouse;
-        this.textureManager = textureManager;
+    public LeaderboardMenu(SpriteBatch batch,
+            FitViewport viewport,
+            int latestScore,
+            boolean wonLastGame,
+            boolean buttonCD,
+            Mouse mouse,
+            TextureManager textureManager
+    ) {
+        super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
     }
 
     public void update(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
@@ -54,6 +40,7 @@ public class LeaderboardMenu {
         this.textureManager = textureManager;
     }
 
+    @Override
     public String input() {
         mouse.update(viewport);
         if (Gdx.input.isTouched()) {
@@ -76,6 +63,7 @@ public class LeaderboardMenu {
         return "Leaderboard";
     }
 
+    @Override
     public void draw() {
         loadLeaderboard();
 

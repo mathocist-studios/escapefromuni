@@ -9,35 +9,18 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
-public class MainMenu{
+public class MainMenu extends AbstractMenu{
 
-    public SpriteBatch batch;
-    public FitViewport viewport;
-
-    int latestScore = -1;
-    boolean wonLastGame;
-
-    boolean buttonCD;
-
-    //used for mouse coordinates
-    Mouse mouse = new Mouse();
-
-    TextureManager textureManager;
-
-    String hoveredOver = "Play";
-
-
-    public MainMenu(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
-        this.batch = batch;
-        this.viewport = viewport;
-        this.latestScore = latestScore;
-        this.wonLastGame = wonLastGame;
-        this.buttonCD = buttonCD;
-        this.mouse = mouse;
-        this.textureManager = textureManager;
-    }
-
-    public MainMenu() {
+    public MainMenu(
+            SpriteBatch batch,
+            FitViewport viewport,
+            int latestScore,
+            boolean wonLastGame,
+            boolean buttonCD,
+            Mouse mouse,
+            TextureManager textureManager
+    ) {
+        super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
     }
 
     public void update(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
@@ -50,6 +33,8 @@ public class MainMenu{
         this.textureManager = textureManager;
     }
 
+
+    @Override
     public String input() {
         mouse.update(viewport);
         if (Gdx.input.isTouched()) {
@@ -61,7 +46,7 @@ public class MainMenu{
                 textureManager.getPlayButtonSprite().getBoundingRectangle().contains(
                     new Vector2(mouse.getX(),mouse.getY())
                 )) {
-                return "Start Game";
+                return "Tutorial";
             }
             
             if (!buttonCD &&
@@ -110,6 +95,7 @@ public class MainMenu{
         return "Main";
     }
 
+    
     public void draw() {
 
         ScreenUtils.clear(Color.SALMON);
@@ -119,9 +105,6 @@ public class MainMenu{
         batch.draw(textureManager.getMenuBackdropSprite(),0,0, 1280, 960);
 
         batch.draw(textureManager.getMenuText(),100,700, 700, 100);
-
-        
-        System.out.println(hoveredOver);
 
         // im so sorry
         if (hoveredOver.equals("Play")) {

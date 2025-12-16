@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.Menus.LeaderboardMenu;
 import com.mathochiststudios.escapefromuni.Menus.MainMenu;
+import com.mathochiststudios.escapefromuni.Menus.TutorialMenu;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -43,6 +44,7 @@ public class Main implements ApplicationListener {
 
     MainMenu mainMenu;
     LeaderboardMenu leaderboardMenu;
+    TutorialMenu tutorialMenu ;
 
     String input;
 
@@ -58,6 +60,7 @@ public class Main implements ApplicationListener {
 
         mainMenu = new MainMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
         leaderboardMenu = new LeaderboardMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
+        tutorialMenu = new TutorialMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
 
         // Load fonts
         textureManager = new TextureManager(viewport);
@@ -115,13 +118,18 @@ public class Main implements ApplicationListener {
                 mainMenu.update(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
                 mainMenu.draw();
                 menuState=mainMenu.input();
+            }
+            else if (menuState.equals("Tutorial")){
+                tutorialMenu.update(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
+                tutorialMenu.draw();
+                menuState=tutorialMenu.input();
                 if (menuState.equals("Start Game"))
                 {
                     startGame();
                     menuState="Main";
                 }
             }
-            if (menuState.equals("Leaderboard")){
+            else if (menuState.equals("Leaderboard")){
                 leaderboardMenu.update(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
                 leaderboardMenu.draw();
                 menuState=leaderboardMenu.input();
@@ -130,11 +138,15 @@ public class Main implements ApplicationListener {
                     menuState="Main";
                 }
             }
-            if (menuState.equals("Settings")){
+            else if (menuState.equals("Settings")){
                 menuState = "Main";
                 drawSettingsMenu();
                 inputSettingsMenu();
             }
+            else{
+                menuState = "Main";
+            }
+            
 
         }
     }
