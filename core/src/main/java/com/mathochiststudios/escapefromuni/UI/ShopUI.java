@@ -18,8 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.ShopStuff.Shop;
-import com.mathochiststudios.escapefromuni.ShopStuff.ShopItem;
-import com.mathochiststudios.escapefromuni.entities.Player;
+import com.mathochiststudios.escapefromuni.Entities.Player;
 
 public class ShopUI {
 
@@ -34,6 +33,8 @@ public class ShopUI {
     private Image edImage;
     private Image bfImage;
     private Image shopIconImage;
+
+    private double lastClickTime = 0.0;
 
     public void drawShopMenu(Viewport viewport, SpriteBatch batch, Sprite shopIconSprite, Sprite buyEDSprite, Sprite buyBFSprite, BitmapFont shopfont, GlyphLayout layout) {
         viewport.apply();
@@ -104,6 +105,10 @@ public class ShopUI {
         // build iconTable: top-right only, does not affect contentTable
         iconTable.top().right();
         iconTable.add(shopIconImage).padTop(marginY).padRight(marginX);
+        iconTable.row();
+        Label exitLabel = new Label("Press E to exit shop", ls);
+        exitLabel.setAlignment(Align.right);
+        iconTable.add(exitLabel).padTop(rowSpacing * 0.2f).padRight(marginX);
 
         // build contentTable: centered with spacing
         contentTable.center().padTop(paddingTop);
@@ -135,21 +140,27 @@ public class ShopUI {
         stage.draw();
     }
 
-    public void inputShopMenu(Game game, Viewport viewport, boolean buttonCD, Player player) {
+    public void inputShopMenu(Game game, Viewport viewport, Player player) {
         if (stage == null) return;
         if (Gdx.input.isTouched()) {
             mouse.update(viewport);
-            if (!buttonCD) {
-                Actor hit = stage.hit(mouse.getX(), mouse.getY(), true);
-                while (hit != null && hit != edImage && hit != bfImage) {
-                    hit = hit.getParent();
-                }
-                if (hit == edImage) {
-                    Shop.buyItem(game, player, Shop.energyDrink);
-                } else if (hit == bfImage) {
-                    Shop.buyItem(game, player, Shop.birdFeed);
-                }
+
+            if (System.currentTimeMillis() - lastClickTime < 250) {
+                return; // ignore clicks within 250ms of last click
             }
+
+            lastClickTime = System.currentTimeMillis();
+
+            Actor hit = stage.hit(mouse.getX(), mouse.getY(), true);
+            while (hit != null && hit != edImage && hit != bfImage) {
+                hit = hit.getParent();
+            }
+            if (hit == edImage) {
+                Shop.buyItem(game, player, Shop.energyDrink);
+            } else if (hit == bfImage) {
+                Shop.buyItem(game, player, Shop.birdFeed);
+            }
+
         }
     }
 

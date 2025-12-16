@@ -3,9 +3,9 @@ package com.mathochiststudios.escapefromuni.ShopStuff;
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
-import com.mathochiststudios.escapefromuni.entities.Player;
-import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
-import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
+import com.mathochiststudios.escapefromuni.Entities.Player;
+import com.mathochiststudios.escapefromuni.Entities.PlayerInventory.InventoryObject;
+import com.mathochiststudios.escapefromuni.Powerups.SpeedPowerup;
 
 public class Shop {
 

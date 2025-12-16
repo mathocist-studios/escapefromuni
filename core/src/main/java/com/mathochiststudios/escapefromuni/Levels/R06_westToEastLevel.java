@@ -1,0 +1,45 @@
+package com.mathochiststudios.escapefromuni.Levels;
+
+import com.mathochiststudios.escapefromuni.Game;
+import com.mathochiststudios.escapefromuni.Entities.Player;
+import com.mathochiststudios.escapefromuni.Powerups.SpeedPowerup;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import java.util.ArrayList;
+
+public class R06_westToEastLevel extends Level{
+
+    public R06_westToEastLevel(Game game) {
+        super(game);
+
+        levelCoins = new ArrayList<>();
+        levelSpeedPowerups = new ArrayList<>();
+        levelEnemies = new ArrayList<>();
+        levelInteractableEntities = new ArrayList<>();
+
+        mapName = "West_to_east_map_v2.tmx";
+
+        startX = 17;
+        startY = 28;
+
+        endX = 19;
+        endY = 0;
+
+        nextLevel = null;
+        prevLevel = null;
+
+        // levelCoins = generateLevelCoins(18, 25, 23, 16, 25, 9);
+        levelCoins = super.generateLevelCoins(new int[][]{{18, 25}, {23, 16}, {25, 9}});
+        levelSpeedPowerups.add(new SpeedPowerup(
+            this.getGame().getTextureManager().getPlanetTexture(),
+            this.getGame().getTextureManager().getPlanetSound(),
+            33,
+            14,
+            (float) (5 * game.getGameDifficulty().getSpeedBuffMultiplier()),
+            300.0f
+        ));
+    }
+    public void update(float deltaTime, Player player) {}
+    public void draw(SpriteBatch batch) {}
+    public boolean collides(Player player) {return false;}
+}

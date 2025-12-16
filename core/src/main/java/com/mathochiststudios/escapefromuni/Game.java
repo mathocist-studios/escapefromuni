@@ -3,10 +3,10 @@ package com.mathochiststudios.escapefromuni;
 import com.mathochiststudios.escapefromuni.UI.HUD;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
-import com.mathochiststudios.escapefromuni.entities.InteractableEntity.InteractableEntity;
-import com.mathochiststudios.escapefromuni.entities.Player;
-import com.mathochiststudios.escapefromuni.levels.*;
-import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
+import com.mathochiststudios.escapefromuni.Entities.InteractableEntity.InteractableEntity;
+import com.mathochiststudios.escapefromuni.Entities.Player;
+import com.mathochiststudios.escapefromuni.Levels.*;
+import com.mathochiststudios.escapefromuni.Powerups.SpeedPowerup;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -21,8 +21,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mathochiststudios.escapefromuni.collectibles.Collectible;
-import com.mathochiststudios.escapefromuni.entities.Enemy.Enemy;
+import com.mathochiststudios.escapefromuni.Collectibles.Collectible;
+import com.mathochiststudios.escapefromuni.Entities.Enemy.Enemy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -111,8 +111,7 @@ public class Game {
             new R01_LibraryFloor3(this),
             new R04_LibraryFloor0(this),
             new R05_MarketSquare(this),
-            new R06_westToEastLevel(this),
-            new R07_BusLevel(this)
+            new R06_westToEastLevel(this)
         ));
 
         // This sets the next and previous level attributes of the room objects for ease of use
@@ -406,13 +405,13 @@ public class Game {
 
         tRect.set(player.getMoneySprite().getX()+velX, player.getMoneySprite().getY(), player.getMoneyWidth(),
             player.getMoneyHeight());
-        if (!wallCollisionCheck(tRect)) {
+        if (!wallCollisionCheck(tRect) && !shopActive) {
             player.getMoneySprite().translateX(velX);
         }
 
         tRect.set(player.getMoneySprite().getX(), player.getMoneySprite().getY()+velY, player.getMoneyWidth(),
             player.getMoneyHeight());
-        if (!wallCollisionCheck(tRect)) {
+        if (!wallCollisionCheck(tRect) && !shopActive) {
             player.getMoneySprite().translateY(velY);
         }
 
@@ -538,17 +537,17 @@ public class Game {
 
         //added for Shop Ui to be detected when the player collides
         //with the player
-        if (mapShopCollisions == null || mapShopCollisions.isEmpty()) {
-            shopActive = false;
-        } else {
-            shopActive = false;
-            for (Rectangle tileRect : mapShopCollisions) {
-                if (pRect.overlaps(tileRect)) {
-                    shopActive = true;
-                    break;
-                }
-            }
-        }
+//        if (mapShopCollisions == null || mapShopCollisions.isEmpty()) {
+//            shopActive = false;
+//        } else {
+//            shopActive = false;
+//            for (Rectangle tileRect : mapShopCollisions) {
+//                if (pRect.overlaps(tileRect)) {
+//                    shopActive = true;
+//                    break;
+//                }
+//            }
+//        }
 
     }
 
@@ -599,18 +598,18 @@ public class Game {
         // Collision logic for active level.
 
         //Rectangle playerRect = new Rectangle(moneySprite.getX(), moneySprite.getY(), 1, 1);
-        boolean collided = currentLevel.collides(player);
-        if (collided) {
-            // If we're on the BusLevel and the player has reached the bus, game terminates.
-            if (currentLevel instanceof R07_BusLevel) {
-                if (currentLevel.getPrevLevel() != null) {
-                    Gdx.app.exit();
-                }
-            } else {
-                // Generic collision handling for other levels
-                this.player.getGameTimer().removeTime(2F);
-            }
-        }
+//        boolean collided = currentLevel.collides(player);
+//        if (collided) {
+//            // If we're on the BusLevel and the player has reached the bus, game terminates.
+//            if (currentLevel instanceof R07_BusLevel) {
+//                if (currentLevel.getPrevLevel() != null) {
+//                    Gdx.app.exit();
+//                }
+//            } else {
+//                // Generic collision handling for other levels
+//                this.player.getGameTimer().removeTime(2F);
+//            }
+//        }
         // apply the bucket position and size to the bucket rectangle
 
     }
@@ -683,6 +682,12 @@ public class Game {
 
         player.getInventory().render(spriteBatch, camera);
 
+        for (InteractableEntity entity : getInteractableInRange(
+            player.getMoneySprite().getX() + player.getMoneyWidth() / 2,
+            player.getMoneySprite().getY() + player.getMoneyHeight() / 2)) {
+            entity.withinInteractionRadius(player, currentLevel, spriteBatch);
+        }
+
         spriteBatch.end();
 
         if (shopActive) {
@@ -698,7 +703,6 @@ public class Game {
             textureManager.getShopUIObject().inputShopMenu(
                 this,
                 masterViewport,
-                mainApp.getButtonCD(),
                 player
             );
         }
