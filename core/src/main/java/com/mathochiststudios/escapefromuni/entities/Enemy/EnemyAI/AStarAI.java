@@ -1,6 +1,5 @@
 package com.mathochiststudios.escapefromuni.entities.Enemy.EnemyAI;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.entities.Enemy.Enemy;
 import com.mathochiststudios.escapefromuni.entities.Player;
@@ -8,23 +7,17 @@ import com.mathochiststudios.escapefromuni.levels.Level;
 
 public class AStarAI implements IEnemyAI {
 
-    private boolean[] getCollisions(Game game, float vel, Rectangle enemyCollision) {
-        boolean[] collisions = new boolean[4]; // up, down, left, right
-
-        for (Rectangle tRect : game.mapCollisions) {
-            // Up
-            collisions[0] = tRect.overlaps(new Rectangle(enemyCollision.x, enemyCollision.y + vel, enemyCollision.width, enemyCollision.height)) || collisions[0];
-            // Down
-            collisions[1] = tRect.overlaps(new Rectangle(enemyCollision.x, enemyCollision.y - vel, enemyCollision.width, enemyCollision.height)) || collisions[1];
-            // Left
-            collisions[2] = tRect.overlaps(new Rectangle(enemyCollision.x - vel, enemyCollision.y, enemyCollision.width, enemyCollision.height)) || collisions[2];
-            // Right
-            collisions[3] = tRect.overlaps(new Rectangle(enemyCollision.x + vel, enemyCollision.y, enemyCollision.width, enemyCollision.height)) || collisions[3];
-        }
-
-        return collisions;
-    }
-
+    /**
+     * Update the enemy's position to move towards the player using a simple greedy approach.
+     *
+     * @param game         The game instance.
+     * @param enemy        The enemy to update.
+     * @param deltaTime    The time elapsed since the last update.
+     * @param currentLevel The current level.
+     * @param player       The player instance.
+     * @param speed        The speed at which the enemy moves.
+     * @return The direction the enemy moved.
+     */
     @Override
     public EnemyMoveDirection update(Game game, Enemy enemy, float deltaTime, Level currentLevel, Player player, float speed) {
         float enemyX = enemy.getEnemyX();
@@ -33,7 +26,7 @@ public class AStarAI implements IEnemyAI {
         float playerX = player.getMoneySprite().getX();
         float playerY = player.getMoneySprite().getY();
 
-        boolean[] collisions = getCollisions(game, speed * deltaTime, enemy.getEnemyCollision());
+        boolean[] collisions = EnemyAI.getCollisions(game, speed * deltaTime, enemy.getEnemyCollision());
         float diffX = playerX - enemyX;
         float diffY = playerY - enemyY;
 

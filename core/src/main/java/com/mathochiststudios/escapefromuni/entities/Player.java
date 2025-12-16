@@ -50,6 +50,9 @@ public class Player {
     private List<SpeedPowerup> activePowerUps = new ArrayList<>();
     private int coins;
 
+    // janky variable to know if slowed by water
+    private int slowedByWater = 0;
+
     private final Inventory inventory;
     private final EventsCounter eventsCounter;
 
@@ -244,7 +247,7 @@ public class Player {
     }
 
     public float getSpeed(){
-        return this.speed;
+        return this.speed - slowedByWater;
     }
 
     public void update(float deltaTime) {
@@ -255,5 +258,13 @@ public class Player {
 
     public EventsCounter getEventsCounter() {
         return eventsCounter;
+    }
+
+    public boolean isSlowedByWater() {
+        return slowedByWater != 0;
+    }
+
+    public void setSlowedByWater(boolean slowedByWater) {
+        this.slowedByWater = slowedByWater ? 7 : 0;
     }
 }

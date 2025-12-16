@@ -1,6 +1,8 @@
 package com.mathochiststudios.escapefromuni.levels;
 
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.collectibles.Rucksack;
 import com.mathochiststudios.escapefromuni.collectibles.Wallet;
 import com.mathochiststudios.escapefromuni.entities.Player;
@@ -16,8 +18,6 @@ public class R01_LibraryFloor3 extends Level {
 
     Rucksack rucksack = new Rucksack();
     Wallet wallet = new Wallet();
-
-    ShaderProgram shader;
 
     /**
      * Constructs a new LibraryFloor3 with its name (path in assets), in addition to start and end coordinates.
@@ -61,4 +61,10 @@ public class R01_LibraryFloor3 extends Level {
     public boolean collides(Player player) {
         return false;
     }
+
+    @Override
+    public void onEnter(TiledMapTileLayer mapCollisionLayer, ArrayList<Rectangle> mapCollisions, Player p) {
+
+    }
+
 }

@@ -12,6 +12,8 @@ public class EventsCounter {
     private boolean handedInWallet = false;
     private boolean caughtByDean = false;
     private boolean buyRollerSkates = false;
+    private boolean isSlowedByWater = false;
+    private boolean foundFriend = false;
 
     private boolean hasExitLibraryAchieved = false;
 
@@ -85,6 +87,26 @@ public class EventsCounter {
         }
         this.positiveEventsEncountered += 1;
         this.buyRollerSkates = true;
+    }
+
+    public void slowedByWater() {
+        if (this.isSlowedByWater) {
+            return;
+        }
+        this.negativeEventsEncountered += 1;
+        this.isSlowedByWater = true;
+    }
+
+    public void foundFriend() {
+        if (this.foundFriend) {
+            return;
+        }
+        this.negativeEventsEncountered += 1;
+        this.foundFriend = true;
+    }
+
+    public boolean hasFoundFriend() {
+        return this.foundFriend;
     }
 
 }

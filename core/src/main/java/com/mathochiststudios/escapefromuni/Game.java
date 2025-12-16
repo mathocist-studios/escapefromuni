@@ -3,7 +3,6 @@ package com.mathochiststudios.escapefromuni;
 import com.mathochiststudios.escapefromuni.levels.R01_LibraryFloor3;
 import com.mathochiststudios.escapefromuni.levels.R04_LibraryFloor0;
 import com.mathochiststudios.escapefromuni.levels.R05_MarketSquare;
-import com.mathochiststudios.escapefromuni.levels.R06_westToEastLevel;
 import com.mathochiststudios.escapefromuni.levels.BasementLevel;
 import com.mathochiststudios.escapefromuni.levels.LakeLevel;
 import com.mathochiststudios.escapefromuni.levels.ShopLevel;
@@ -76,13 +75,14 @@ public class Game {
     TiledMapTileLayer mapExitSide2Layer;
     ArrayList<Rectangle> mapExitSide2Collisions;
 
-    //added for shop ui logic
-    TiledMapTileLayer mapShopLayer;
-    ArrayList<Rectangle> mapShopCollisions;
+    TiledMapTileLayer mapSlowLayer;
+    ArrayList<Rectangle> mapSlowCollisions;
 
     float stateTime;
 
     public boolean shopActive;
+    public boolean friendFollowing = false;
+    public Level friendLocation;
 
     private final HUD hud;
     private final TextureManager textureManager;
@@ -117,8 +117,7 @@ public class Game {
         levels = new ArrayList<>(Arrays.asList(
             new R01_LibraryFloor3(this),
             new R04_LibraryFloor0(this),
-            new R05_MarketSquare(this),
-            new R06_westToEastLevel(this)
+            new R05_MarketSquare(this)
         ));
 
         // This sets the next and previous level attributes of the room objects for ease of use
@@ -144,7 +143,7 @@ public class Game {
         ShopLevel.setMinimapSprite(new Sprite(hud.getEmptyMinimapIcon()));
         ShopLevel.getMinimapSprite().setX(38f-minimapTileSize);
         ShopLevel.getMinimapSprite().setSize(minimapTileSize-0.1f,minimapTileSize-0.1f);
-        ShopLevel.setNextLevel(levels.get(3));
+        ShopLevel.setNextLevel(levels.get(2));
 
         // Setup lake level
         Level LakeLevel = new LakeLevel(this);
@@ -155,7 +154,8 @@ public class Game {
         LakeLevel.setMinimapSprite(new Sprite(hud.getEmptyMinimapIcon()));
         LakeLevel.getMinimapSprite().setX(38f-2*minimapTileSize);
         LakeLevel.getMinimapSprite().setSize(minimapTileSize-0.1f,minimapTileSize-0.1f);
-        LakeLevel.setNextLevel(levels.get(3));
+        LakeLevel.setNextLevel(levels.get(2));
+        friendLocation = LakeLevel;
 
         // setup basement level
         Level BasementLevel = new BasementLevel(this);
@@ -302,19 +302,18 @@ public class Game {
             mapExitSide2Collisions = new ArrayList<>();
         }
 
-        //same logic for shopblock layer
-        if (mapLayersToList(map.getLayers()).contains("ShopBlock")) {
-            mapShopLayer = (TiledMapTileLayer) map.getLayers().get("ShopBlock");
-            mapShopCollisions = createCollisionRects(mapShopLayer);
+        if (mapLayersToList(map.getLayers()).contains("Slow")) {
+            mapSlowLayer = (TiledMapTileLayer) map.getLayers().get("Slow");
+            mapSlowCollisions = createCollisionRects(mapSlowLayer);
         } else {
-            mapShopLayer = null;
-            mapShopCollisions = new ArrayList<>();
+            mapSlowLayer = null;
+            mapSlowCollisions = new ArrayList<>();
         }
 
         // mapCollisions will be used to collide, update when switching map.
         mapCollisions = createCollisionRects(mapCollisionLayer);
         // Notify the level that it has been entered so it can access map collision data
-        newLevel.onEnter(mapCollisionLayer, mapCollisions);
+        newLevel.onEnter(mapCollisionLayer, mapCollisions, player);
     }
 
     // Constructs an ArrayList of all collision rectangles for the layer provided
@@ -542,19 +541,15 @@ public class Game {
             }
         }
 
-        //added for Shop Ui to be detected when the player collides
-        //with the player
-//        if (mapShopCollisions == null || mapShopCollisions.isEmpty()) {
-//            shopActive = false;
-//        } else {
-//            shopActive = false;
-//            for (Rectangle tileRect : mapShopCollisions) {
-//                if (pRect.overlaps(tileRect)) {
-//                    shopActive = true;
-//                    break;
-//                }
-//            }
-//        }
+        boolean isSlowed = false;
+        for (Rectangle tileRect : mapSlowCollisions) {
+            if (pRect.overlaps(tileRect)) {
+                isSlowed = true;
+                player.getEventsCounter().slowedByWater();
+                break;
+            }
+        }
+        player.setSlowedByWater(isSlowed);
 
     }
 

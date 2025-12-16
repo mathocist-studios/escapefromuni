@@ -174,9 +174,7 @@ public abstract class Level {
      * implementations can query map data (for example, to place collectibles).
      * Default implementation does nothing.
      */
-    public void onEnter(TiledMapTileLayer mapCollisionLayer, ArrayList<Rectangle> mapCollisions) {
-        // default: no-op
-    }
+    public abstract void onEnter(TiledMapTileLayer mapCollisionLayer, ArrayList<Rectangle> mapCollisions, Player p);
 
     public Game getGame() {
         return this.game;

@@ -1,5 +1,7 @@
 package com.mathochiststudios.escapefromuni.levels;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.collectibles.BasementKey;
 import com.mathochiststudios.escapefromuni.entities.InteractableEntity.VendingMachine;
@@ -84,4 +86,10 @@ public class R04_LibraryFloor0 extends Level{
 //        return receptionistRectangle.overlaps(player.getMoneyRectangle());
         return false;
     }
+
+    @Override
+    public void onEnter(TiledMapTileLayer mapCollisionLayer, ArrayList<Rectangle> mapCollisions, Player p) {
+
+    }
+
 }

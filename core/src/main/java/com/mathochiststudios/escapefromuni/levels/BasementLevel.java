@@ -2,6 +2,8 @@ package com.mathochiststudios.escapefromuni.levels;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
@@ -97,6 +99,11 @@ public class BasementLevel extends Level {
     @Override
     public boolean collides(Player player) {
         return false;
+    }
+
+    @Override
+    public void onEnter(TiledMapTileLayer mapCollisionLayer, ArrayList<Rectangle> mapCollisions, Player p) {
+
     }
 
 }
