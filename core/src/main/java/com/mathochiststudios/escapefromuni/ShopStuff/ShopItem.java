@@ -1,6 +1,6 @@
 package com.mathochiststudios.escapefromuni.ShopStuff;
 
-import com.mathochiststudios.escapefromuni.Entities.PlayerInventory.InventoryObject;
+import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
 
 public class ShopItem {
 

@@ -46,8 +46,6 @@ public class Main implements ApplicationListener {
 
     String input;
 
-
-
     @Override
     public void create() {
         gameStarted = false;

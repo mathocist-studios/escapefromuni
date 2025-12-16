@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.ShopStuff.Shop;
-import com.mathochiststudios.escapefromuni.Entities.Player;
+import com.mathochiststudios.escapefromuni.entities.Player;
 
 public class ShopUI {
 

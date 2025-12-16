@@ -1,12 +1,19 @@
 package com.mathochiststudios.escapefromuni;
 
+import com.mathochiststudios.escapefromuni.levels.R01_LibraryFloor3;
+import com.mathochiststudios.escapefromuni.levels.R04_LibraryFloor0;
+import com.mathochiststudios.escapefromuni.levels.R05_MarketSquare;
+import com.mathochiststudios.escapefromuni.levels.R06_westToEastLevel;
+import com.mathochiststudios.escapefromuni.levels.BasementLevel;
+import com.mathochiststudios.escapefromuni.levels.LakeLevel;
+import com.mathochiststudios.escapefromuni.levels.ShopLevel;
+import com.mathochiststudios.escapefromuni.levels.Level;
 import com.mathochiststudios.escapefromuni.UI.HUD;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
-import com.mathochiststudios.escapefromuni.Entities.InteractableEntity.InteractableEntity;
-import com.mathochiststudios.escapefromuni.Entities.Player;
-import com.mathochiststudios.escapefromuni.Levels.*;
-import com.mathochiststudios.escapefromuni.Powerups.SpeedPowerup;
+import com.mathochiststudios.escapefromuni.entities.InteractableEntity.InteractableEntity;
+import com.mathochiststudios.escapefromuni.entities.Player;
+import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -21,8 +28,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mathochiststudios.escapefromuni.Collectibles.Collectible;
-import com.mathochiststudios.escapefromuni.Entities.Enemy.Enemy;
+import com.mathochiststudios.escapefromuni.collectibles.Collectible;
+import com.mathochiststudios.escapefromuni.entities.Enemy.Enemy;
 
 import java.util.ArrayList;
 import java.util.Arrays;

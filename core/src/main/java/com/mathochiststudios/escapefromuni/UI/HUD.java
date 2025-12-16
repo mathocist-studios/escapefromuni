@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationManager;
-import com.mathochiststudios.escapefromuni.Entities.Player;
+import com.mathochiststudios.escapefromuni.entities.Player;
 
 public class HUD {
 
