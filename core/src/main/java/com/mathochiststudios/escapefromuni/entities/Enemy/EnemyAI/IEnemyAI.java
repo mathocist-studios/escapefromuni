@@ -5,6 +5,10 @@ import com.mathochiststudios.escapefromuni.entities.Enemy.Enemy;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
+/**
+ * Interface for enemy AI behavior.
+ * Primarily used to ensure different AI types implement the update method and type referenced in EnemyAI enum.
+ */
 public interface IEnemyAI {
 
     /**

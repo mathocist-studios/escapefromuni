@@ -1,41 +1,42 @@
 package com.mathochiststudios.escapefromuni.entities.Enemy;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mathochiststudios.escapefromuni.Game;
-import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
-import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
 import com.mathochiststudios.escapefromuni.entities.Enemy.EnemyAI.EnemyAI;
 import com.mathochiststudios.escapefromuni.entities.Enemy.EnemyAI.EnemyMoveDirection;
+import com.mathochiststudios.escapefromuni.entities.InteractableEntity.BirdSeed;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
-public class Friend extends Enemy {
+public class Duck extends Enemy {
 
     private Animation<TextureRegion> stationaryAnimation;
-    private Animation<TextureRegion> upAnimation;
-    private Animation<TextureRegion> downAnimation;
-    private Animation<TextureRegion> rightAnimation;
+    private Animation<TextureRegion> walkAnimation;
 
     // Player starts standing still.
     private EnemyMoveDirection moveDirection = EnemyMoveDirection.STATIONARY;
     private TextureRegion[] stationaryFrames;
-    private TextureRegion[] upFrames;
-    private TextureRegion[] downFrames;
-    private TextureRegion[] rightFrames;
+    private TextureRegion[] walkFrames;
 
     private float stateTime = 0f;
+    private BirdSeed birdSeed;
 
-    public Friend(Game game, Texture walkSheet, float x, float y, EnemyAI aiType) {
+    private boolean isLeft = false;
+
+    public Duck(Game game, Texture walkSheet, float x, float y, EnemyAI aiType, BirdSeed birdSeed) {
         super(game, walkSheet, x, y, aiType);
+
+        this.birdSeed = birdSeed;
 
         this.populateFrames();
         this.stationaryAnimation = new Animation<>(0.1f, this.stationaryFrames);
-        this.upAnimation = new Animation<>(0.025f, this.upFrames);
-        this.downAnimation = new Animation<>(0.025f, this.downFrames);
-        this.rightAnimation = new Animation<>(0.025f, this.rightFrames);
+        this.walkAnimation = new Animation<>(0.025f, this.walkFrames);
+
+        this.spriteScale = 0.5;
 
         // Set the sprite's region to the first stationary frame so the sprite draws only the frame
         this.getSprite().setRegion(this.stationaryAnimation.getKeyFrame(0f, true));
@@ -43,10 +44,11 @@ public class Friend extends Enemy {
         this.getSprite().setFlip(false, false);
         // Ensure sprite is sized to match the enemy's collision box (world units)
         if (this.getEnemyCollision() != null) {
-            this.getSprite().setSize(this.getEnemyCollision().width, this.getEnemyCollision().height);
+            this.getSprite().setSize(this.getEnemyCollision().getWidth(), this.getEnemyCollision().getHeight());
+            this.getSprite().setOriginCenter();
         }
 
-        setSpeed(game.getGameDifficulty().getFriendSpeed());
+        setSpeed(1.5f);
     }
 
     @Override
@@ -55,9 +57,9 @@ public class Friend extends Enemy {
     @Override
     public void isMoving(EnemyMoveDirection direction) {
 
-        if (direction != this.moveDirection) {
-            this.stateTime = 0f; // Reset state time on direction change
-        }
+//        if (direction != this.moveDirection) {
+//            this.stateTime = 0f; // Reset state time on direction change
+//        }
 
         this.moveDirection = direction;
 
@@ -71,21 +73,23 @@ public class Friend extends Enemy {
                 flipX = false;
                 break;
             case DOWN:
-                currentFrame = this.downAnimation.getKeyFrame(stateTime, true);
-                flipX = false;
+                currentFrame = this.walkAnimation.getKeyFrame(stateTime, true);
+                flipX = isLeft;
                 break;
             case UP:
-                currentFrame = this.upAnimation.getKeyFrame(stateTime, true);
-                flipX = false;
+                currentFrame = this.walkAnimation.getKeyFrame(stateTime, true);
+                flipX = isLeft;
                 break;
             case RIGHT:
-                currentFrame = this.rightAnimation.getKeyFrame(stateTime, true);
+                currentFrame = this.walkAnimation.getKeyFrame(stateTime, true);
                 flipX = false;
+                isLeft = false;
                 break;
             case LEFT:
                 // For LEFT, use the RIGHT animation frame but flip the sprite horizontally.
-                currentFrame = this.rightAnimation.getKeyFrame(stateTime, true);
+                currentFrame = this.walkAnimation.getKeyFrame(stateTime, true);
                 flipX = true;
+                isLeft = true;
                 break;
             default:
                 currentFrame = this.stationaryAnimation.getKeyFrame(stateTime, true);
@@ -99,7 +103,8 @@ public class Friend extends Enemy {
         this.getSprite().setFlip(flipX, false);
         // Keep sprite size consistent with collision box (region doesn't change sprite size)
         if (this.getEnemyCollision() != null) {
-            this.getSprite().setSize(this.getEnemyCollision().width, this.getEnemyCollision().height);
+            this.getSprite().setSize(this.getEnemyCollision().getWidth(), this.getEnemyCollision().getHeight());
+            this.getSprite().setOriginCenter();
         }
 
     }
@@ -107,33 +112,12 @@ public class Friend extends Enemy {
     @Override
     public void localUpdate(float deltaTime, Level currentLevel, Player player) {
         stateTime += Gdx.graphics.getDeltaTime()*0.25f; // Accumulate elapsed animation time
-
-        double dist_to_friend = Math.hypot(
-            (player.getOldMoneyX() - this.getEnemyX()),
-            (player.getOldMoneyY() - this.getEnemyY())
-        );
-
-        currentLevel.getGame().friendFollowing = dist_to_friend <= 5.0;
-
-        if (!player.getEventsCounter().hasFoundFriend() && currentLevel.getGame().friendFollowing) {
-            Notification notification = new Notification(
-                "Oh! Hey Player! Are you going to the bus?\nI'm feeling really ill can you help me get there?",
-                3,
-                NotificationType.SPEECH,
-                currentLevel.getGame().getTextureManager().getGameSmallFont()
-            );
-            currentLevel.getGame().getHud().getNotificationManager().addNotification(notification);
-        }
-
-        if (currentLevel.getGame().friendFollowing) {
-            player.getEventsCounter().foundFriend();
-        }
     }
 
     // Populates stationaryFrames, upFrames, downFrames and rightFrames.
     private void populateFrames() {
-        int ssCols = 4;
-        int ssRows = 12;
+        int ssCols = 6;
+        int ssRows = 4;
 
         // Use the sprite's texture (which was provided as walkSheet in the constructor)
         Texture spriteSheetTexture = this.getSprite().getTexture();
@@ -144,24 +128,20 @@ public class Friend extends Enemy {
         for (int i = 0; i < 2; i ++) {
             this.stationaryFrames[index++] = tmp[0][i];
         }
-        // upFrames setup.
-        this.upFrames = new TextureRegion[4];
+        // walkFrames setup.
+        this.walkFrames = new TextureRegion[6];
         index = 0;
-        for (int i = 0; i < 4; i ++) {
-            this.upFrames[index++] = tmp[5][i];
+        for (int i = 0; i < 6; i ++) {
+            this.walkFrames[index++] = tmp[1][i];
         }
-        // downFrames setup.
-        this.downFrames = new TextureRegion[4];
-        index = 0;
-        for (int i = 0; i < 4; i ++) {
-            this.downFrames[index++] = tmp[3][i];
-        }
-        // rightFrames setup.
-        this.rightFrames = new TextureRegion[4];
-        index = 0;
-        for (int i = 0; i < 4; i ++) {
-            this.rightFrames[index++] = tmp[4][i];
-        }
+    }
+
+    public void setBirdSeed(BirdSeed birdSeed) { // used to update the birdseed reference when placed down
+        this.birdSeed = birdSeed;
+    }
+
+    public BirdSeed getBirdSeed() {
+        return this.birdSeed;
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class ShopLevel extends Level {
 
-    ShopEntity shopEntity;
+    private final ShopEntity shopEntity;
 
     public ShopLevel(Game game) {
         super(game);

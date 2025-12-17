@@ -169,33 +169,23 @@ public class FriendAI implements IEnemyAI {
 
     private boolean isDirectionAllowed(EnemyMoveDirection dir, boolean[] collisions) {
         if (dir == EnemyMoveDirection.STATIONARY) return false;
-        switch (dir) {
-            case RIGHT:
-                return !collisions[3];
-            case LEFT:
-                return !collisions[2];
-            case UP:
-                return !collisions[0];
-            case DOWN:
-                return !collisions[1];
-            default:
-                return false;
-        }
+        return switch (dir) {
+            case RIGHT -> !collisions[3];
+            case LEFT -> !collisions[2];
+            case UP -> !collisions[0];
+            case DOWN -> !collisions[1];
+            default -> false;
+        };
     }
 
     private float[] projectedPos(float x, float y, EnemyMoveDirection dir, float step) {
-        switch (dir) {
-            case RIGHT:
-                return new float[]{x + step, y};
-            case LEFT:
-                return new float[]{x - step, y};
-            case UP:
-                return new float[]{x, y + step};
-            case DOWN:
-                return new float[]{x, y - step};
-            default:
-                return new float[]{x, y};
-        }
+        return switch (dir) {
+            case RIGHT -> new float[]{x + step, y};
+            case LEFT -> new float[]{x - step, y};
+            case UP -> new float[]{x, y + step};
+            case DOWN -> new float[]{x, y - step};
+            default -> new float[]{x, y};
+        };
     }
 
     private float manhattanDist(float x1, float y1, float x2, float y2) {

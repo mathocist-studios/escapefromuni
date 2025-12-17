@@ -1,5 +1,6 @@
 package com.mathochiststudios.escapefromuni;
 
+import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
 import com.mathochiststudios.escapefromuni.levels.R01_LibraryFloor3;
 import com.mathochiststudios.escapefromuni.levels.R04_LibraryFloor0;
 import com.mathochiststudios.escapefromuni.levels.R05_MarketSquare;
@@ -96,7 +97,7 @@ public class Game {
         this.mainApp = mainApp;
         this.gameDifficulty = gameDifficulty;
 
-        player = new Player((float) gameDifficulty.baseMovementSpeed);
+        player = new Player((float) gameDifficulty.getBaseMovementSpeed());
 
         hud = new HUD(this, player);
         textureManager = new TextureManager(hud.getUiViewport());
@@ -629,6 +630,10 @@ public class Game {
         // Draws the level entities.
         currentLevel.draw(spriteBatch);
 
+        for (InteractableEntity entity : currentLevel.getLevelInteractableEntities()) {
+            entity.render(spriteBatch);
+        }
+
         TextureRegion currentFrame;
 
         if (Objects.equals(player.getMoveDirection(), "Stationary")) {
@@ -676,10 +681,6 @@ public class Game {
             if (!(enemy.isDead())) {
                 enemy.render(spriteBatch);
             }
-        }
-
-        for (InteractableEntity entity : currentLevel.getLevelInteractableEntities()) {
-            entity.render(spriteBatch);
         }
 
         player.getInventory().render(spriteBatch, camera);

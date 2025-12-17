@@ -5,7 +5,7 @@ public enum InventoryObject {
     KEYCARD(false, "pixelartkeycard.png"),
     WALLET(false, "wallet.png"),
     RUCKSACK(false, "rucksack.png"),
-    BIRDSEED(true, "birdseed"),
+    BIRDSEED(false, "birdseed.png"),
     ENERGY_DRINK(false, "energy_drink.png"),
     ROLLERBLADES(false, "roller_skates.png"),
     BASEMENT_KEY(false, "basement_key.png");

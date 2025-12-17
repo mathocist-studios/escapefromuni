@@ -8,16 +8,25 @@ import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
+/**
+ * Abstract class representing an interactable entity in the game.
+ * <br>
+ * Originally created to represent vending machines, but expanded to include other interactable entities.
+ * <br><br>
+ * Since the previous developers created such specific classes for specific use-cases, Towards the end of development
+ * I ended up using this class as a general static entity class for anything that the
+ * player can interact with. (e.g. Shops, Bird Seed, etc.)
+ */
 public abstract class InteractableEntity {
 
-    private Texture texture;
-    private float entityX;
-    private float entityY;
-    private float entityWidth;
-    private float entityHeight;
-    private float interactionRadius;
-    private Rectangle entityCollision;
-    private Sprite entitySprite;
+    private final Texture texture;
+    private final float entityX;
+    private final float entityY;
+    private final float entityWidth;
+    private final float entityHeight;
+    private final float interactionRadius;
+    private final Rectangle entityCollision;
+    private final Sprite entitySprite;
 
     protected Game game;
 

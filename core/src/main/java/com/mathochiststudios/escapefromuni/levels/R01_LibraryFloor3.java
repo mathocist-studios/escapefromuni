@@ -1,6 +1,5 @@
 package com.mathochiststudios.escapefromuni.levels;
 
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.collectibles.Rucksack;
@@ -16,8 +15,8 @@ import java.util.ArrayList;
  */
 public class R01_LibraryFloor3 extends Level {
 
-    Rucksack rucksack = new Rucksack();
-    Wallet wallet = new Wallet();
+    private final Rucksack rucksack = new Rucksack();
+    private final Wallet wallet = new Wallet();
 
     /**
      * Constructs a new LibraryFloor3 with its name (path in assets), in addition to start and end coordinates.

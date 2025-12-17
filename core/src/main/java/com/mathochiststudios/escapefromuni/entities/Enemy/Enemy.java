@@ -16,13 +16,14 @@ public abstract class Enemy {
     private Texture texture;
     private float enemyX;
     private float enemyY;
-    private Rectangle enemyCollision;
+    protected Rectangle enemyCollision;
     private Boolean isDead = false;
     private final Sprite enemySprite;
     private final EnemyAI enemyAI;
 
     private IEnemyAI aiBehavior;
     private float SPEED = 5.0f;
+    protected double spriteScale = 1.0;
 
     protected Game game;
 
@@ -56,7 +57,7 @@ public abstract class Enemy {
         if (isDead) {
             return;
         }
-        batch.draw(enemySprite, enemyX - enemySprite.getWidth() / 2, enemyY - enemySprite.getHeight() / 2, 3, 3);
+        batch.draw(enemySprite, enemyX - enemySprite.getWidth() / 2, enemyY - enemySprite.getHeight() / 2, (float) (3 * spriteScale), (float) (3 * spriteScale));
     }
 
     public void update(float deltaTime, Level currentLevel, Player player) {

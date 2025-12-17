@@ -21,9 +21,9 @@ import java.util.ArrayList;
  */
 public class R05_MarketSquare extends Level{
 
-    BusStopCheckpoint busStopCheckpoint = new BusStopCheckpoint();
+    private final BusStopCheckpoint busStopCheckpoint = new BusStopCheckpoint();
 
-    Friend friend;
+    private final Friend friend;
 
     public R05_MarketSquare(Game game) {
         super(game);

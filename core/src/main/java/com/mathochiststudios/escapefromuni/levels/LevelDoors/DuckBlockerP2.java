@@ -3,19 +3,23 @@ package com.mathochiststudios.escapefromuni.levels.LevelDoors;
 import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
+import com.mathochiststudios.escapefromuni.entities.InteractableEntity.BirdSeed;
 import com.mathochiststudios.escapefromuni.entities.Player;
+import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
-public class BusStopCheckpoint {
+public class DuckBlockerP2 {
 
     // Instantiate rectangle to cover desired section of map to block.
-    Rectangle rectangle;
+    private final Rectangle rectangle;
+    private BirdSeed birdSeed;
 
-    double timeSinceLastNotification = 0.0;
+    public DuckBlockerP2(BirdSeed birdSeed) {
 
-    public BusStopCheckpoint() {
+        this.birdSeed = birdSeed;
+
         // instantiate rectangle to block path.
-        this.rectangle = new Rectangle(39, 3, 1, 3);
+        this.rectangle = new Rectangle(27, 25, 1, 10);
     }
 
     // Checks for collision between player and door.
@@ -34,17 +38,17 @@ public class BusStopCheckpoint {
         if (!this.collides(player)) {
             return;
         }
-        if (!level.getGame().friendFollowing) {
+        if (birdSeed == null) {
             this.disallowCollision(player);
 
-            if (System.currentTimeMillis() - timeSinceLastNotification < 2000) {
+            if (System.currentTimeMillis() - DuckBlockerP1.timeSinceLastNotification < 2000) {
                 return;
             }
 
-            timeSinceLastNotification = System.currentTimeMillis();
+            DuckBlockerP1.timeSinceLastNotification = System.currentTimeMillis();
 
             Notification notification = new Notification(
-                "You should probably find your friend before you get to the bus stop...",
+                "Ugh ducks! I need to put down some birdseed to get past them.",
                 2f,
                 NotificationType.SPEECH,
                 level.getGame().getTextureManager().getGameSmallFont()
@@ -52,6 +56,10 @@ public class BusStopCheckpoint {
             level.getGame().getHud().getNotificationManager().addNotification(notification);
         }
 
+    }
+
+    public void setBirdSeed(BirdSeed birdSeed) {
+        this.birdSeed = birdSeed;
     }
 
 }

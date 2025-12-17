@@ -14,6 +14,7 @@ public class EventsCounter {
     private boolean buyRollerSkates = false;
     private boolean isSlowedByWater = false;
     private boolean foundFriend = false;
+    private boolean boughtEnergyDrink = false;
 
     private boolean hasExitLibraryAchieved = false;
 
@@ -107,6 +108,14 @@ public class EventsCounter {
 
     public boolean hasFoundFriend() {
         return this.foundFriend;
+    }
+
+    public void boughtEnergyDrink() {
+        if (this.boughtEnergyDrink) {
+            return;
+        }
+        this.positiveEventsEncountered += 1;
+        this.boughtEnergyDrink = true;
     }
 
 }

@@ -123,7 +123,7 @@ public class Inventory {
         }
     }
 
-    // Call when the inventory is no longer needed to free GPU resources
+    // Call when the inventory is no longer needed
     public void dispose() {
         for (Texture t : textureCache.values()) {
             if (t != null) t.dispose();

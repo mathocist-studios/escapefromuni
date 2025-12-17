@@ -10,9 +10,9 @@ import com.mathochiststudios.escapefromuni.levels.Level;
 public class LibraryBasementDoor {
 
     // Instantiate rectangle to cover desired section of map to block.
-    Rectangle rectangle;
+    private final Rectangle rectangle;
 
-    double notificationCooldown = 0.0;
+    private double notificationCooldown = 0.0;
 
     public LibraryBasementDoor() {
         // instantiate rectangle to block path.

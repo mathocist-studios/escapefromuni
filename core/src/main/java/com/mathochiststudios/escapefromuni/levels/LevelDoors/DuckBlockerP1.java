@@ -1,22 +1,24 @@
 package com.mathochiststudios.escapefromuni.levels.LevelDoors;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
+import com.mathochiststudios.escapefromuni.entities.InteractableEntity.BirdSeed;
 import com.mathochiststudios.escapefromuni.entities.Player;
-import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
-public class LibraryDoor {
+public class DuckBlockerP1 {
 
     // Instantiate rectangle to cover desired section of map to block.
     private final Rectangle rectangle;
+    private BirdSeed birdSeed;
 
-    private double timeSinceLastNotification = 0.0;
+    public static double timeSinceLastNotification = 0.0;
 
-    public LibraryDoor() {
+    public DuckBlockerP1(BirdSeed birdSeed) {
         // instantiate rectangle to block path.
-        this.rectangle = new Rectangle(3, 3, 3, 1);
+        this.rectangle = new Rectangle(20, 25, 7, 1);
     }
 
     // Checks for collision between player and door.
@@ -35,7 +37,8 @@ public class LibraryDoor {
         if (!this.collides(player)) {
             return;
         }
-        if (!player.getInventory().hasItem(InventoryObject.KEYCARD)) {
+
+    if (birdSeed == null) {
             this.disallowCollision(player);
 
             if (System.currentTimeMillis() - timeSinceLastNotification < 2000) {
@@ -45,42 +48,19 @@ public class LibraryDoor {
             timeSinceLastNotification = System.currentTimeMillis();
 
             Notification notification = new Notification(
-                "You need your library card to exit!",
+                "Ugh ducks! I need to put down some birdseed to get past them.",
                 2f,
                 NotificationType.SPEECH,
                 level.getGame().getTextureManager().getGameSmallFont()
             );
             level.getGame().getHud().getNotificationManager().addNotification(notification);
         }
-        if (!player.getInventory().hasItem(InventoryObject.RUCKSACK)) {
-            this.disallowCollision(player);
 
-            if (System.currentTimeMillis() - timeSinceLastNotification < 2000) {
-                return;
-            }
-
-            timeSinceLastNotification = System.currentTimeMillis();
-
-
-            Notification notification = new Notification(
-                "You need your rucksack to carry your things!",
-                2f,
-                NotificationType.SPEECH,
-                level.getGame().getTextureManager().getGameSmallFont()
-            );
-            level.getGame().getHud().getNotificationManager().addNotification(notification);
-        }
-        if (player.getInventory().hasItem(InventoryObject.KEYCARD) &&
-            player.getInventory().hasItem(InventoryObject.RUCKSACK) &&
-            !player.getEventsCounter().getHasExitLibraryAchieved()) {
-            Notification notification = new Notification(
-                "Exited the library",
-                4f,
-                NotificationType.ACHIEVEMENT,
-                level.getGame().getTextureManager().getGameSmallFont()
-            );
-            level.getGame().getHud().getNotificationManager().addNotification(notification);
-            player.getEventsCounter().hasExitLibrary();
-        }
     }
+
+    public void setBirdSeed(BirdSeed birdSeed) {
+        this.birdSeed = birdSeed;
+    }
+
+
 }

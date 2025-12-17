@@ -8,9 +8,7 @@ import com.mathochiststudios.escapefromuni.Game;
  */
 public enum EnemyAI {
 
-    STATIC,
-    PATROL,
-    DUCK,
+    DUCK(DuckAI.class),
     A_STAR(AStarAI.class),
     FRIEND(FriendAI.class);
 
@@ -18,10 +16,6 @@ public enum EnemyAI {
 
     EnemyAI(Class<? extends IEnemyAI> aiClass) {
         this.aiClass = aiClass;
-    }
-
-    EnemyAI() { // for STATIC, PATROL, DUCK since not implemented yet
-        this.aiClass = null;
     }
 
     public Class<? extends IEnemyAI> getAIClass() {

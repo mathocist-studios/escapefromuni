@@ -20,16 +20,16 @@ import java.util.ArrayList;
 public class R04_LibraryFloor0 extends Level{
 
     // Receptionist entity created.
-    Texture receptionistTexture = new Texture("entities/receptionist.png");
-    Receptionist receptionist = new Receptionist(receptionistTexture, 35, 24, 2f, 1, 1, 34, 36);
+    private final Texture receptionistTexture = new Texture("entities/receptionist.png");
+    private final Receptionist receptionist = new Receptionist(receptionistTexture, 35, 24, 2f, 1, 1, 34, 36);
 
     // Door constructed, to block the path of the player.
-    LibraryDoor libraryDoor = new LibraryDoor();
-    LibraryBasementDoor libraryBasementDoor = new LibraryBasementDoor();
+    private final LibraryDoor libraryDoor = new LibraryDoor();
+    private final LibraryBasementDoor libraryBasementDoor = new LibraryBasementDoor();
 
-    BasementKey basementKey = new BasementKey();
+    private final BasementKey basementKey = new BasementKey();
 
-    VendingMachine vendingMachine;
+    private final VendingMachine vendingMachine;
 
     /**
      * Constructs a new LibraryFloor0 with its name (path), in addition to start and end coordinates.
