@@ -2,6 +2,7 @@ package com.mathochiststudios.escapefromuni.collectibles;
 
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
+import com.mathochiststudios.escapefromuni.UI.QuestSystem.Quests.HandInWalletSideQuest;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -55,6 +56,9 @@ public class Wallet {
                 level.getGame().getTextureManager().getGameSmallFont()
             );
             level.getGame().getHud().getNotificationManager().addNotification(notification);
+            level.getGame().getHud().getQuestSystem().addSideQuest(
+                new HandInWalletSideQuest()
+            );
         }
     }
 

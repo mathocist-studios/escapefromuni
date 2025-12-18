@@ -197,9 +197,9 @@ public record Polygon(float[][] vertices) {
         Triangle[] triangles = triangulate();
         for (Triangle triangle : triangles) {
             if (pointInTriangle(point,
-                new float[]{triangle.vertices[0], triangle.vertices[1]},
-                new float[]{triangle.vertices[2], triangle.vertices[3]},
-                new float[]{triangle.vertices[4], triangle.vertices[5]})) {
+                new float[]{triangle.vertices()[0], triangle.vertices()[1]},
+                new float[]{triangle.vertices()[2], triangle.vertices()[3]},
+                new float[]{triangle.vertices()[4], triangle.vertices()[5]})) {
                 return true;
             }
         }

@@ -1,16 +1,6 @@
 package com.mathochiststudios.escapefromuni.entities.Utils;
 
-public class Triangle {
-
-    public float[] vertices;
-
-    public Triangle(float[] vertices) {
-        this.vertices = vertices;
-    }
-
-    public float[] getVertices() {
-        return vertices;
-    }
+public record Triangle(float[] vertices) {
 
     public float[] pickPointInTriangle() {
         float r1 = (float) Math.random();
@@ -35,16 +25,16 @@ public class Triangle {
         float x3 = vertices[4];
         float y3 = vertices[5];
 
-        return Math.abs((x1*(y2 - y3) + x2*(y3 - y1) + x3*(y1 - y2)) / 2.0);
+        return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0);
     }
 
     @Override
     public String toString() {
         return "Triangle{" +
-                "vertices=(" + vertices[0] + ", " + vertices[1] + "), (" +
-                vertices[2] + ", " + vertices[3] + "), (" +
-                vertices[4] + ", " + vertices[5] + "), " +
-                "area=" + getArea() + '}';
+            "vertices=(" + vertices[0] + ", " + vertices[1] + "), (" +
+            vertices[2] + ", " + vertices[3] + "), (" +
+            vertices[4] + ", " + vertices[5] + "), " +
+            "area=" + getArea() + '}';
     }
 
 }

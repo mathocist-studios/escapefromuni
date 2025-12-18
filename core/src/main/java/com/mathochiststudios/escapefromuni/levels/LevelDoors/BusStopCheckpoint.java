@@ -3,6 +3,7 @@ package com.mathochiststudios.escapefromuni.levels.LevelDoors;
 import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
+import com.mathochiststudios.escapefromuni.UI.QuestSystem.Quests.FindFriendQuest;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
@@ -50,6 +51,9 @@ public class BusStopCheckpoint {
                 level.getGame().getTextureManager().getGameSmallFont()
             );
             level.getGame().getHud().getNotificationManager().addNotification(notification);
+            level.getGame().getHud().getQuestSystem().addMainQuest(
+                new FindFriendQuest()
+            );
         }
 
     }

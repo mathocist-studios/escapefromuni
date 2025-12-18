@@ -3,10 +3,7 @@ package com.mathochiststudios.escapefromuni.Menus;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
@@ -30,22 +27,22 @@ public class EndGameMenu extends AbstractMenu {
     // Credits variables
     private float creditsOffset = 0f;
     private static final float CREDITS_SCROLL_SPEED = 30f;
-    private static final String[] creditsLines = {
-        "Developed by Mathochist Studios",
-        "Developers:",
-        " - Aiden Turner",
-        " - Marcus Williamson",
-        "Requirements Analysis and Design:",
-        " - Charlie Thoo-tinsley",
-        "Risk assessment and Testing:",
-        " - Harri Thorman",
-        "User Testing:",
-        " - Will King",
-        "Method Selection and Project Management:",
-        " - Josh Zacek",
-        " - Euan Cottam",
-        "Special Thanks to Team 9 for their initial work on the project!",
-        "Thank you for playing Escape From Uni!"
+    private static final String[][] creditsLines = {
+        {"big", "Developed by Mathochist Studios"},
+        {"big", "Developers:"},
+        {"small", " - Aiden Turner"},
+        {"small", " - Marcus Williamson"},
+        {"big", "Requirements Analysis and Design:"},
+        {"small", " - Charlie Thoo-tinsley"},
+        {"big", "Risk assessment and Testing:"},
+        {"small", " - Harri Thorman"},
+        {"big", "User Testing:"},
+        {"small", " - Will King"},
+        {"big", "Method Selection and Project Management:"},
+        {"small", " - Josh Zacek"},
+        {"small", " - Euan Cottam"},
+        {"big", "Special Thanks to Team 9 for their initial work on the project!"},
+        {"big", "Thank you for playing Escape From Uni!"}
     };
 
     public EndGameMenu(SpriteBatch batch,
@@ -84,6 +81,15 @@ public class EndGameMenu extends AbstractMenu {
         return "EndMenu";
     }
 
+    /**
+     * Computes a positive modulo, ensuring the result is always non-negative.
+     * <br>
+     * Primarily used for wrapping offsets in parallax scrolling.
+     *
+     * @param value   The value to be wrapped.
+     * @param modulus The modulus to wrap against.
+     * @return A non-negative result of value mod modulus.
+     */
     private static float positiveMod(float value, float modulus) {
         float m = value % modulus;
         return m < 0 ? m + modulus : m;
@@ -122,6 +128,7 @@ public class EndGameMenu extends AbstractMenu {
 
         if (width <= 0f) return;
 
+        // compute per-layer offsets from the running offset and wrap per-layer
         float o1 = positiveMod(parallaxOffset * 0.8f, width);
 
         batch.draw(backgroundLayer1, -o1, 0, width, height);
@@ -130,16 +137,22 @@ public class EndGameMenu extends AbstractMenu {
 
     private void drawCredits() {
         // Implement credits drawing logic here
-        float startY = 0;
+        float startY = 0; // Start just below the bottom of the screen
         creditsOffset += Gdx.graphics.getDeltaTime() * CREDITS_SCROLL_SPEED;
+
+        // Loop through credits lines and draw them
         for (int i = 0; i < creditsLines.length; i++) {
             float y = startY - (i * 60) + creditsOffset;
             if (y < -20) continue; // Skip lines that are off-screen at the bottom
             if (y > viewport.getWorldHeight() + 20) continue; // Skip lines that are off-screen at the top
-            textureManager.getMainLayout().setText(textureManager.getGameSmallFont(), creditsLines[i]);
+
+            BitmapFont fontToUse = creditsLines[i][0].equals("big") ? textureManager.getShopFont() : textureManager.getGameSmallFont();
+
+            textureManager.getMainLayout().setText(fontToUse, creditsLines[i][1]);
             float textWidth = textureManager.getMainLayout().width;
             float x = (viewport.getWorldWidth() - textWidth) / 2f;
-            textureManager.getGameSmallFont().draw(batch, creditsLines[i], x, y);
+            fontToUse.draw(batch, creditsLines[i][1], x, y);
+
         }
     }
 
@@ -147,6 +160,7 @@ public class EndGameMenu extends AbstractMenu {
     public void draw() {
         stateTime += Gdx.graphics.getDeltaTime()*0.25f; // Accumulate elapsed animation time
 
+        // Setup for new frame
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -155,6 +169,7 @@ public class EndGameMenu extends AbstractMenu {
         batch.begin();
         drawParallaxBackground();
 
+        // Draw animated bus in the center
         TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
         batch.draw(
             currentFrame,
@@ -170,7 +185,7 @@ public class EndGameMenu extends AbstractMenu {
         batch.end();
     }
 
-    // Populates stationaryFrames, upFrames, downFrames and rightFrames.
+    // Populates walkFrames.
     private void populateFrames() {
         int ssCols = 4;
         int ssRows = 1;

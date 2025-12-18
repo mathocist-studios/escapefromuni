@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Notification {
 
-    private String message;
-    private double duration;
-    private NotificationType type;
+    private final String message;
+    private final double duration;
+    private final NotificationType type;
 
-    private double startTimeMillis;
-    private ShapeRenderer shapeRenderer;
-    private BitmapFont font;
+    private double startTimeMillis = 0;
+    private final ShapeRenderer shapeRenderer;
+    private final BitmapFont font;
 
     public Notification(String message, double duration, NotificationType type, BitmapFont font) {
         this.message = message;
@@ -25,10 +25,16 @@ public class Notification {
     }
 
     public void start(double currentTime) {
+        if (!(startTimeMillis == 0)) {
+            return; // already started
+        }
         this.startTimeMillis = currentTime;
     }
 
     public boolean isExpired() {
+        if (startTimeMillis == 0) {
+            return false; // not started yet
+        }
         return System.currentTimeMillis() - startTimeMillis >= duration * 1000L;
     }
 

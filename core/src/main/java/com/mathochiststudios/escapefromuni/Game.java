@@ -1,5 +1,6 @@
 package com.mathochiststudios.escapefromuni;
 
+import com.mathochiststudios.escapefromuni.UI.QuestSystem.Quests.EscapeUniQuest;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
 import com.mathochiststudios.escapefromuni.levels.*;
 import com.mathochiststudios.escapefromuni.UI.HUD;
@@ -94,6 +95,10 @@ public class Game {
         player = new Player((float) gameDifficulty.getBaseMovementSpeed());
 
         hud = new HUD(this, player);
+        hud.getQuestSystem().addMainQuest(
+            new EscapeUniQuest()
+        );
+
         textureManager = new TextureManager(hud.getUiViewport());
 
         WinOrLose = "Return"; // Should be "Return"
@@ -593,7 +598,46 @@ public class Game {
         float delta = Gdx.graphics.getDeltaTime();
         // Updates the level entities.
         currentLevel.update(delta, this.player);
-        // Collision logic for active level.
+
+        if (player.getTotalCoinsCollected() == 12 && !player.getEventsCounter().hasCollectedAllCoins()) {
+            Notification allCoinsNotification = new Notification(
+                "Collected all coins",
+                5,
+                NotificationType.ACHIEVEMENT,
+                textureManager.getGameSmallFont()
+            );
+            hud.getNotificationManager().addNotification(allCoinsNotification);
+            player.getEventsCounter().collectedAllCoins();
+        }
+
+        if (player.getTotalSpeedPowerupsCollected() == 2 &&
+            player.getInventory().hasItem(InventoryObject.ENERGY_DRINK) &&
+            player.getInventory().hasItem(InventoryObject.ROLLERBLADES) &&
+            !player.getEventsCounter().hasCollectedAllPowerUps()) {
+            Notification allPowerupsNotification = new Notification(
+                "Collected all power-ups",
+                5,
+                NotificationType.ACHIEVEMENT,
+                textureManager.getGameSmallFont()
+            );
+            hud.getNotificationManager().addNotification(allPowerupsNotification);
+            player.getEventsCounter().collectedAllPowerUps();
+        }
+
+        if (player.getEventsCounter().hasCollectedAllPowerUps() &&
+            player.getEventsCounter().hasCollectedAllCoins() &&
+            player.getEventsCounter().hasMadeItToBusStop() &&
+            player.getEventsCounter().getHasExitLibraryAchieved() &&
+            !player.getEventsCounter().hasCompletedGame()) {
+            Notification completedGameNotification = new Notification(
+                "You 100% completed the game!",
+                5,
+                NotificationType.ACHIEVEMENT,
+                textureManager.getGameSmallFont()
+            );
+            hud.getNotificationManager().addNotification(completedGameNotification);
+            player.getEventsCounter().completedGame();
+        }
 
         //Rectangle playerRect = new Rectangle(moneySprite.getX(), moneySprite.getY(), 1, 1);
 //        boolean collided = currentLevel.collides(player);
@@ -784,6 +828,10 @@ public class Game {
 
     public Main getMainApp() {
         return mainApp;
+    }
+
+    public SpriteBatch getSpriteBatch() {
+        return spriteBatch;
     }
 
 }

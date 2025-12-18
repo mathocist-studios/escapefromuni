@@ -14,7 +14,6 @@ public class NotificationManager {
     }
 
     public void addNotification(Notification notification) {
-        notification.start(System.currentTimeMillis());
         notifications.add(notification);
     }
 
@@ -25,7 +24,17 @@ public class NotificationManager {
     public void render(SpriteBatch spriteBatch, OrthographicCamera camera) {
         removeExpiredNotifications();
         int i = 0;
+        boolean existsActiveAchievement = false;
         for (Notification notification : notifications) {
+            if (notification.getType() == NotificationType.ACHIEVEMENT && existsActiveAchievement) {
+                continue; // only one achievement notification at a time
+            }
+            notification.start(System.currentTimeMillis());
+            if (notification.getType() == NotificationType.ACHIEVEMENT) {
+                existsActiveAchievement = true;
+                notification.render(spriteBatch, camera, i);
+                continue; // achievements stack differently
+            }
             notification.render(spriteBatch, camera, i * 120.0);
             i++;
         }

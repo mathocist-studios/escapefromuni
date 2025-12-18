@@ -2,6 +2,7 @@ package com.mathochiststudios.escapefromuni.levels.LevelDoors;
 
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
+import com.mathochiststudios.escapefromuni.UI.QuestSystem.Quests.EscapeLibraryQuest;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
@@ -51,6 +52,10 @@ public class LibraryDoor {
                 level.getGame().getTextureManager().getGameSmallFont()
             );
             level.getGame().getHud().getNotificationManager().addNotification(notification);
+            level.getGame().getHud().getQuestSystem().addMainQuest(
+                new EscapeLibraryQuest()
+            );
+            return;
         }
         if (!player.getInventory().hasItem(InventoryObject.RUCKSACK)) {
             this.disallowCollision(player);
@@ -69,6 +74,10 @@ public class LibraryDoor {
                 level.getGame().getTextureManager().getGameSmallFont()
             );
             level.getGame().getHud().getNotificationManager().addNotification(notification);
+            level.getGame().getHud().getQuestSystem().addMainQuest(
+                new EscapeLibraryQuest()
+            );
+            return;
         }
         if (player.getInventory().hasItem(InventoryObject.KEYCARD) &&
             player.getInventory().hasItem(InventoryObject.RUCKSACK) &&

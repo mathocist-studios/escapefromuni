@@ -3,6 +3,7 @@ package com.mathochiststudios.escapefromuni.levels.LevelDoors;
 import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
+import com.mathochiststudios.escapefromuni.UI.QuestSystem.Quests.EnterBasementQuest;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
 import com.mathochiststudios.escapefromuni.levels.Level;
@@ -56,6 +57,9 @@ public class LibraryBasementDoor {
             level.getGame().getTextureManager().getGameSmallFont()
         );
         level.getGame().getHud().getNotificationManager().addNotification(notification);
+        level.getGame().getHud().getQuestSystem().addMainQuest(
+            new EnterBasementQuest()
+        );
 
     }
 }

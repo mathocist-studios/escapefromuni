@@ -21,6 +21,9 @@ public class EventsCounter {
     // Achievement trackers
     private boolean hasExitLibraryAchieved = false;
     private boolean hasMadeItToBusStopAchieved = false;
+    private boolean collectedAllCoinsAchieved = false;
+    private boolean collectedAllPowerUpsAchieved = false;
+    private boolean completedGameAchieved = false;
 
     public int getPositiveEventsEncountered() {
         return positiveEventsEncountered;
@@ -64,6 +67,10 @@ public class EventsCounter {
         }
         this.hiddenEventsEncountered += 1;
         this.handedInWallet = true;
+    }
+
+    public boolean hasHandedInWallet() {
+        return this.handedInWallet;
     }
 
     public void hasExitLibrary() {
@@ -136,6 +143,30 @@ public class EventsCounter {
 
     public boolean hasMadeItToBusStop() {
         return this.hasMadeItToBusStopAchieved;
+    }
+
+    public void collectedAllCoins() {
+        this.collectedAllCoinsAchieved = true;
+    }
+
+    public boolean hasCollectedAllCoins() {
+        return this.collectedAllCoinsAchieved;
+    }
+
+    public void collectedAllPowerUps() {
+        this.collectedAllPowerUpsAchieved = true;
+    }
+
+    public boolean hasCollectedAllPowerUps() {
+        return this.collectedAllPowerUpsAchieved;
+    }
+
+    public void completedGame() {
+        this.completedGameAchieved = true;
+    }
+
+    public boolean hasCompletedGame() {
+        return this.completedGameAchieved;
     }
 
 }

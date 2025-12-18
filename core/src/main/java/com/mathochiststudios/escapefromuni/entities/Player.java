@@ -49,6 +49,8 @@ public class Player {
     // This will be the list containing all the active power-ups.
     private List<SpeedPowerup> activePowerUps = new ArrayList<>();
     private int coins;
+    private int totalCoinsCollected;
+    private int totalSpeedPowerupsCollected;
 
     // janky variable to know if slowed by water
     private int slowedByWater = 0;
@@ -204,8 +206,8 @@ public class Player {
     }
 
     // Used for test only
-    //public Player(int startingCoins) {
-    //this.coins = startingCoins;
+    // public Player(int startingCoins) {
+    // this.coins = startingCoins;
     //this.speed = defaultSpeed;
     //}
 
@@ -214,6 +216,7 @@ public class Player {
     }
     public void addCoins(int amount) {
         coins += amount;
+        totalCoinsCollected += amount;
     }
 
     public boolean spendCoins(int amount) {
@@ -227,12 +230,6 @@ public class Player {
     public Inventory getInventory() {
         return inventory;
     }
-
-    public void addSpeedPowerUp(SpeedPowerup powerUp) {
-        powerUp.apply(this);
-        activePowerUps.add(powerUp);
-    }
-
 
     public void increaseSpeed(float multiplier){
         this.speed *= multiplier;
@@ -266,5 +263,17 @@ public class Player {
 
     public void setSlowedByWater(boolean slowedByWater) {
         this.slowedByWater = slowedByWater ? 7 : 0;
+    }
+
+    public int getTotalCoinsCollected() {
+        return totalCoinsCollected;
+    }
+
+    public int getTotalSpeedPowerupsCollected() {
+        return totalSpeedPowerupsCollected;
+    }
+
+    public void incrementTotalSpeedPowerupsCollected() {
+        this.totalSpeedPowerupsCollected += 1;
     }
 }

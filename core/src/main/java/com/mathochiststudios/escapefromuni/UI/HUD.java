@@ -7,21 +7,23 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationManager;
+import com.mathochiststudios.escapefromuni.UI.QuestSystem.QuestSystem;
 import com.mathochiststudios.escapefromuni.entities.Player;
 
 public class HUD {
 
-    private FitViewport uiViewport;
-    private OrthographicCamera uiCamera;
+    private final FitViewport uiViewport;
+    private final OrthographicCamera uiCamera;
 
-    private Texture emptyMinimapIcon;
-    private Texture playerMinimapIcon;
-    private float minimapBottomHeight;
+    private final Texture emptyMinimapIcon;
+    private final Texture playerMinimapIcon;
+    private final float minimapBottomHeight;
 
-    private Player player;
-    private Game game;
+    private final Player player;
+    private final Game game;
 
-    private NotificationManager notificationManager;
+    private final NotificationManager notificationManager;
+    private final QuestSystem questSystem;
 
     public HUD(Game game, Player player) {
 
@@ -37,6 +39,7 @@ public class HUD {
         minimapBottomHeight = 22;
 
         notificationManager = new NotificationManager();
+        questSystem = new QuestSystem(game);
 
     }
 
@@ -77,6 +80,9 @@ public class HUD {
         spriteBatch.end();
 
         notificationManager.render(spriteBatch, uiCamera);
+
+        questSystem.update();
+        questSystem.render(spriteBatch, uiCamera);
     }
 
 
@@ -118,6 +124,10 @@ public class HUD {
             }
             game.getLevels().get(i).getMinimapSprite().draw(spriteBatch);
         }
+    }
+
+    public QuestSystem getQuestSystem() {
+        return questSystem;
     }
 
 }

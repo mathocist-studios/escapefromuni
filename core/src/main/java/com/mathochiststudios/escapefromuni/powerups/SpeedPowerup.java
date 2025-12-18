@@ -43,6 +43,7 @@ public class SpeedPowerup {
     //@Override
     public void apply(Player player) {
         player.addSpeed(speedMult);
+        player.incrementTotalSpeedPowerupsCollected();
     }
 
     //@Override
