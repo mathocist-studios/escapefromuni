@@ -110,7 +110,6 @@ public class Game {
 
         // remove library floor 1 and 2 to shorten game
         levels = new ArrayList<>(Arrays.asList(
-            new BusLevel(this),
             new R01_LibraryFloor3(this),
             new R04_LibraryFloor0(this),
             new R05_MarketSquare(this),
