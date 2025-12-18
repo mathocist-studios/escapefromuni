@@ -20,17 +20,18 @@ import com.mathochiststudios.escapefromuni.levels.Level;
 public abstract class InteractableEntity {
 
     private final Texture texture;
-    private final float entityX;
-    private final float entityY;
+    private float entityX;
+    private float entityY;
     private final float entityWidth;
     private final float entityHeight;
     private final float interactionRadius;
     private final Rectangle entityCollision;
     private final Sprite entitySprite;
+    private final boolean isAbovePlayer;
 
     protected Game game;
 
-    public InteractableEntity(Game game, Texture texture, float x, float y, float width, float height, float interactionRadius) {
+    public InteractableEntity(Game game, Texture texture, float x, float y, float width, float height, float interactionRadius, boolean isAbovePlayer) {
 
         this.game = game;
 
@@ -40,6 +41,7 @@ public abstract class InteractableEntity {
         this.entityWidth = width;
         this.entityHeight = height;
         this.interactionRadius = interactionRadius;
+        this.isAbovePlayer = isAbovePlayer;
         this.entityCollision = new Rectangle(entityX, entityY, entityWidth, entityHeight);
 
         this.entitySprite = new Sprite(texture);
@@ -86,6 +88,20 @@ public abstract class InteractableEntity {
 
     public Sprite getEntitySprite() {
         return entitySprite;
+    }
+
+    public boolean isAbovePlayer() {
+        return isAbovePlayer;
+    }
+
+    public void setEntityX(float x) {
+        this.entityX = x;
+        this.entityCollision.setX(x);
+    }
+
+    public void setEntityY(float y) {
+        this.entityY = y;
+        this.entityCollision.setY(y);
     }
 
 }

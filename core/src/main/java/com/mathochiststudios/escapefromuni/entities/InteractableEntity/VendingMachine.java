@@ -15,7 +15,7 @@ public class VendingMachine extends InteractableEntity {
     private final Texture hintTexture;
 
     public VendingMachine(Game game, float x, float y, float interactionRadius) {
-        super(game, new Texture("vending_machine.png"), x, y, 2, 4, interactionRadius);
+        super(game, new Texture("vending_machine.png"), x, y, 2, 4, interactionRadius, false);
 
         this.hintTexture = new Texture("E_key.png");
     }

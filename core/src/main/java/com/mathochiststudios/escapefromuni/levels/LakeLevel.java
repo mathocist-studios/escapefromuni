@@ -16,6 +16,7 @@ import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObj
 import com.mathochiststudios.escapefromuni.entities.Utils.Polygon;
 import com.mathochiststudios.escapefromuni.levels.LevelDoors.DuckBlockerP1;
 import com.mathochiststudios.escapefromuni.levels.LevelDoors.DuckBlockerP2;
+import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 
 import java.util.ArrayList;
 
@@ -105,6 +106,19 @@ public class LakeLevel extends Level {
 
         this.hintTexture = new Texture("E_key.png");
 
+        levelSpeedPowerups.add(
+            new SpeedPowerup(
+                this.getGame().getTextureManager().getPlanetTexture(),
+                this.getGame().getTextureManager().getPlanetSound(),
+                8,
+                28,
+                (float) (5 * game.getGameDifficulty().getSpeedBuffMultiplier()),
+                300.0f
+            )
+        );
+
+        levelCoins = super.generateLevelCoins(new int[][]{{11, 26}}); // this is just better
+
     }
 
     @Override
@@ -138,6 +152,7 @@ public class LakeLevel extends Level {
             this.duckBlockerP2.setBirdSeed(birdSeed);
 
             player.getInventory().removeItem(InventoryObject.BIRDSEED);
+            player.getEventsCounter().movedDucks();
         }
     }
 

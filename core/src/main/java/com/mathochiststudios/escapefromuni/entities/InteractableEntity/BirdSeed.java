@@ -17,7 +17,7 @@ import com.mathochiststudios.escapefromuni.levels.Level;
 public class BirdSeed extends InteractableEntity {
 
     public BirdSeed(Game game, float x, float y, float interactionRadius) {
-        super(game, new Texture("birdseed.png"), x, y, 1, 1, interactionRadius);
+        super(game, new Texture("birdseed.png"), x, y, 1, 1, interactionRadius, false);
     }
 
     @Override

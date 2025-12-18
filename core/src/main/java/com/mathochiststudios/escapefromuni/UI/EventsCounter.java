@@ -6,6 +6,7 @@ public class EventsCounter {
     private int negativeEventsEncountered = 0;
     private int hiddenEventsEncountered = 0;
 
+    // Event trackers
     private boolean speedPositiveEventsEncountered = false;
     private boolean foundLibraryCard = false;
     private boolean foundBasementKey = false;
@@ -15,8 +16,11 @@ public class EventsCounter {
     private boolean isSlowedByWater = false;
     private boolean foundFriend = false;
     private boolean boughtEnergyDrink = false;
+    private boolean movedDucks = false;
 
+    // Achievement trackers
     private boolean hasExitLibraryAchieved = false;
+    private boolean hasMadeItToBusStopAchieved = false;
 
     public int getPositiveEventsEncountered() {
         return positiveEventsEncountered;
@@ -116,6 +120,22 @@ public class EventsCounter {
         }
         this.positiveEventsEncountered += 1;
         this.boughtEnergyDrink = true;
+    }
+
+    public void movedDucks() {
+        if (this.movedDucks) {
+            return;
+        }
+        this.negativeEventsEncountered += 1;
+        this.movedDucks = true;
+    }
+
+    public void madeItToBusStop() {
+        this.hasMadeItToBusStopAchieved = true;
+    }
+
+    public boolean hasMadeItToBusStop() {
+        return this.hasMadeItToBusStopAchieved;
     }
 
 }

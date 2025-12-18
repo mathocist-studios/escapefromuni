@@ -34,7 +34,7 @@ public class BusStopCheckpoint {
         if (!this.collides(player)) {
             return;
         }
-        if (!level.getGame().friendFollowing) {
+        if (!level.getGame().friendFollowing || !player.getEventsCounter().hasMadeItToBusStop()) {
             this.disallowCollision(player);
 
             if (System.currentTimeMillis() - timeSinceLastNotification < 2000) {

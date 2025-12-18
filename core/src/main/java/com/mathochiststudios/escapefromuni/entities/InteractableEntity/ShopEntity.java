@@ -11,7 +11,7 @@ public class ShopEntity extends InteractableEntity {
     private final Texture hintTexture;
 
     public ShopEntity(Game game, float x, float y, float interactionRadius) {
-        super(game, new Texture("blank.png"), x, y, 1, 1, interactionRadius);
+        super(game, new Texture("blank.png"), x, y, 1, 1, interactionRadius, false);
 
         this.hintTexture = new Texture("E_key.png");
     }

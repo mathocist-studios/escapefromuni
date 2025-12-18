@@ -1,13 +1,7 @@
 package com.mathochiststudios.escapefromuni;
 
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
-import com.mathochiststudios.escapefromuni.levels.R01_LibraryFloor3;
-import com.mathochiststudios.escapefromuni.levels.R04_LibraryFloor0;
-import com.mathochiststudios.escapefromuni.levels.R05_MarketSquare;
-import com.mathochiststudios.escapefromuni.levels.BasementLevel;
-import com.mathochiststudios.escapefromuni.levels.LakeLevel;
-import com.mathochiststudios.escapefromuni.levels.ShopLevel;
-import com.mathochiststudios.escapefromuni.levels.Level;
+import com.mathochiststudios.escapefromuni.levels.*;
 import com.mathochiststudios.escapefromuni.UI.HUD;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
@@ -116,9 +110,11 @@ public class Game {
 
         // remove library floor 1 and 2 to shorten game
         levels = new ArrayList<>(Arrays.asList(
+            new BusLevel(this),
             new R01_LibraryFloor3(this),
             new R04_LibraryFloor0(this),
-            new R05_MarketSquare(this)
+            new R05_MarketSquare(this),
+            new BusLevel(this)
         ));
 
         // This sets the next and previous level attributes of the room objects for ease of use
@@ -631,6 +627,9 @@ public class Game {
         currentLevel.draw(spriteBatch);
 
         for (InteractableEntity entity : currentLevel.getLevelInteractableEntities()) {
+            if (entity.isAbovePlayer()) {
+                continue;
+            }
             entity.render(spriteBatch);
         }
 
@@ -652,6 +651,13 @@ public class Game {
             spriteBatch.draw(currentFrame, player.getMoneySprite().getX() - player.getMoneyWidth() / 2 - 0.3f, player.getMoneySprite().getY() - player.getMoneyHeight() / 2 - 0.25f, 2.5f, 2.5f);
         }
         //moneySprite.draw(spriteBatch); // Draw the character
+
+        for (InteractableEntity entity : currentLevel.getLevelInteractableEntities()) {
+            if (!entity.isAbovePlayer()) {
+                continue;
+            }
+            entity.render(spriteBatch);
+        }
 
         for (Collectible coin : currentLevel.getLevelCoins()) {
             if (!(coin.isCollected())) {
@@ -775,6 +781,10 @@ public class Game {
 
     public GameDifficulty getGameDifficulty() {
         return gameDifficulty;
+    }
+
+    public Main getMainApp() {
+        return mainApp;
     }
 
 }

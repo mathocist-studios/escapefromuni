@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.Menus.EndGameMenu;
 import com.mathochiststudios.escapefromuni.Menus.LeaderboardMenu;
 import com.mathochiststudios.escapefromuni.Menus.MainMenu;
 import com.mathochiststudios.escapefromuni.Menus.TutorialMenu;
@@ -45,6 +46,7 @@ public class Main implements ApplicationListener {
     MainMenu mainMenu;
     LeaderboardMenu leaderboardMenu;
     TutorialMenu tutorialMenu ;
+    EndGameMenu endGameMenu;
 
     String input;
 
@@ -61,6 +63,7 @@ public class Main implements ApplicationListener {
         mainMenu = new MainMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
         leaderboardMenu = new LeaderboardMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
         tutorialMenu = new TutorialMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
+        endGameMenu = new EndGameMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
 
         // Load fonts
         textureManager = new TextureManager(viewport);
@@ -106,49 +109,55 @@ public class Main implements ApplicationListener {
                 if (!paused) {
                     game.input();
                     game.logic();
-                } else {
-                    drawPauseMenu();
-                    inputPauseMenu();
+                    return;
                 }
-            } else {
-                endGame(Game.Score, game.WinOrLose);
+
+                drawPauseMenu();
+                inputPauseMenu();
+                return;
             }
-        } else {
-            if (menuState.equals("Main")){
-                mainMenu.update(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
+
+            endGame(Game.Score, game.WinOrLose);
+            return;
+        }
+
+
+        switch (menuState) {
+            case "Main" -> {
+                mainMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
                 mainMenu.draw();
-                menuState=mainMenu.input();
+                menuState = mainMenu.input();
             }
-            else if (menuState.equals("Tutorial")){
-                tutorialMenu.update(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
+            case "Tutorial" -> {
+                tutorialMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
                 tutorialMenu.draw();
-                menuState=tutorialMenu.input();
-                if (menuState.equals("Start Game"))
-                {
+                menuState = tutorialMenu.input();
+                if (menuState.equals("Start Game")) {
                     startGame();
-                    menuState="Main";
+                    menuState = "Main";
                 }
             }
-            else if (menuState.equals("Leaderboard")){
-                leaderboardMenu.update(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
+            case "Leaderboard" -> {
+                leaderboardMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
                 leaderboardMenu.draw();
-                menuState=leaderboardMenu.input();
-                if (leaderboardMenu.equals("Main"))
-                {
-                    menuState="Main";
+                menuState = leaderboardMenu.input();
+                if (leaderboardMenu.equals("Main")) {
+                    menuState = "Main";
                 }
             }
-            else if (menuState.equals("Settings")){
+            case "Settings" -> {
                 menuState = "Main";
                 drawSettingsMenu();
                 inputSettingsMenu();
             }
-            else{
-                menuState = "Main";
+            case "EndMenu" -> {
+                endGameMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+                endGameMenu.draw();
+                menuState = endGameMenu.input();
             }
-            
-
+            default -> menuState = "Main";
         }
+
     }
 
     public void endGame(int score, String winOrLose) {
@@ -228,8 +237,8 @@ public class Main implements ApplicationListener {
         }
     }
 
-    public boolean getButtonCD() {
-        return buttonCD;
+    public void setMenuState(String state) {
+        this.menuState = state;
     }
 
 }
