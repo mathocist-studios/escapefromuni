@@ -10,7 +10,7 @@ import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
-public class Bus extends InteractableEntity {
+public class LBPet extends InteractableEntity {
 
     private final Animation<TextureRegion> stationaryAnimation;
     private final Animation<TextureRegion> walkAnimation;
@@ -22,48 +22,28 @@ public class Bus extends InteractableEntity {
     private float stateTime = 0f;
     private final Sprite sprite;
 
-    private final Texture hintTexture;
-    private final float[] objectivePoint;
-    private final float busSpeed = 2.0f;
-    private boolean isMoving = true;
+    private float[] objectivePoint;
+    private boolean isVisible = false;
 
-    public Bus(Game game, float x, float y, float interactionRadius, float[] objectivePoint) {
-        super(game, new Texture("yellow_bus_driving.png"), x, y, 10, 5, interactionRadius, true);
+    public LBPet(Game game, float x, float y, float interactionRadius, float[] objectivePoint) {
+        super(game, new Texture("duck_spritesheet.png"), x, y, 1, 1, interactionRadius, true);
 
         this.objectivePoint = objectivePoint;
-        this.sprite = new Sprite(new Texture("yellow_bus_driving.png"));
-
-        this.hintTexture = new Texture("E_key.png");
+        this.sprite = new Sprite(new Texture("duck_spritesheet.png"));
 
         this.populateFrames();
         this.stationaryAnimation = new Animation<>(0.1f, this.stationaryFrames);
-        this.walkAnimation = new Animation<>(0.05f, this.walkFrames);
+        this.walkAnimation = new Animation<>(0.1f, this.walkFrames);
     }
 
     @Override
     public void onInteract(Player p, Level level) {
-        if (isMoving) {
-            return;
-        }
 
-        getGame().gameEnded = true;
-        getGame().WinOrLose = "Win";
-        getGame().getMainApp().setMenuState("EndMenu");
     }
 
     @Override
     public void withinInteractionRadius(Player p, Level level, SpriteBatch batch) {
-        if (isMoving) {
-            return;
-        }
 
-        batch.draw(
-            hintTexture,
-            getEntityX() + (getEntityWidth() - 1) / 2,
-            (float) (getEntityY() + 0.5 * Math.sin(System.currentTimeMillis() / 200.0)),
-            1,
-            1
-        );
     }
 
     @Override
@@ -71,25 +51,36 @@ public class Bus extends InteractableEntity {
         stateTime += Gdx.graphics.getDeltaTime()*0.25f; // Accumulate elapsed animation time
 
         // move the bus towards the objective point
-        float busX = getEntityX();
-        float busY = getEntityY();
+        float petX = getEntityX();
+        float petY = getEntityY();
         float targetX = objectivePoint[0];
         float targetY = objectivePoint[1];
-        float deltaX = targetX - busX;
-        float deltaY = targetY - busY;
+        float deltaX = targetX - petX;
+        float deltaY = targetY - petY;
         float distance = (float) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
         TextureRegion currentFrame;
 
-        if (distance > 0.1f) { // threshold to stop
-            float moveX = (deltaX / distance) * busSpeed * Gdx.graphics.getDeltaTime();
-            float moveY = (deltaY / distance) * busSpeed * Gdx.graphics.getDeltaTime();
-            setEntityX(busX + moveX);
-            setEntityY(busY + moveY);
+        if (distance > 1.5f) { // threshold to stop
+            float moveX = (deltaX / distance) * game.getPlayer().getSpeed() * Gdx.graphics.getDeltaTime();
+            float moveY = (deltaY / distance) * game.getPlayer().getSpeed() * Gdx.graphics.getDeltaTime();
+            setEntityX(petX + moveX);
+            setEntityY(petY + moveY);
             currentFrame = walkAnimation.getKeyFrame(stateTime, true);
         } else {
-            isMoving = false;
             currentFrame = stationaryAnimation.getKeyFrame(stateTime, true);
+
+        }
+
+        boolean moveDirectionRight = deltaX >= 0;
+        if (!moveDirectionRight && !currentFrame.isFlipX()) {
+            currentFrame.flip(true, false);
+        } else if (moveDirectionRight && currentFrame.isFlipX()) {
+            currentFrame.flip(true, false);
+        }
+
+        if (!isVisible) {
+            return;
         }
 
         batch.draw(
@@ -103,28 +94,36 @@ public class Bus extends InteractableEntity {
 
     // Populates stationaryFrames, upFrames, downFrames and rightFrames.
     private void populateFrames() {
-        int ssCols = 4;
-        int ssRows = 1;
+        int ssCols = 6;
+        int ssRows = 4;
 
         // Use the sprite's texture (which was provided as walkSheet in the constructor)
         Texture spriteSheetTexture = this.getSprite().getTexture();
         TextureRegion[][] tmp = TextureRegion.split(spriteSheetTexture, spriteSheetTexture.getWidth() / ssCols, spriteSheetTexture.getHeight() / ssRows);
         // stationaryFrames setup.
-        this.stationaryFrames = new TextureRegion[1];
+        this.stationaryFrames = new TextureRegion[4];
         int index = 0;
-        for (int i = 0; i < 1; i ++) {
-            this.stationaryFrames[index++] = tmp[0][i];
+        for (int i = 0; i < 4; i ++) {
+            this.stationaryFrames[index++] = tmp[2][i];
         }
         // walkFrames setup.
-        this.walkFrames = new TextureRegion[4];
+        this.walkFrames = new TextureRegion[6];
         index = 0;
-        for (int i = 0; i < 4; i ++) {
-            this.walkFrames[index++] = tmp[0][i];
+        for (int i = 0; i < 6; i ++) {
+            this.walkFrames[index++] = tmp[3][i];
         }
     }
 
     public Sprite getSprite() {
         return sprite;
+    }
+
+    public void setObjectivePoint(float[] objectivePoint) {
+        this.objectivePoint = objectivePoint;
+    }
+
+    public void setVisible(boolean isVisible) {
+        this.isVisible = isVisible;
     }
 
 }

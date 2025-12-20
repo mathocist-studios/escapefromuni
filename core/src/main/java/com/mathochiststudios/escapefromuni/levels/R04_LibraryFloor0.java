@@ -57,8 +57,13 @@ public class R04_LibraryFloor0 extends Level{
         this.sideX = 22;
         this.sideY = 6;
 
+        this.side2X = 37;
+        this.side2Y = 17;
+
         vendingMachine = new VendingMachine(game, 18, 24, 2f);
         this.levelInteractableEntities.add(vendingMachine);
+
+        levelCoins = super.generateLevelCoins(new int[][]{{21, 18}}); // this is just better
 
     }
 

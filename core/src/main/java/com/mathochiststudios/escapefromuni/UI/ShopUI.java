@@ -114,7 +114,7 @@ public class ShopUI {
         contentTable.center().padTop(paddingTop);
         Label edTitle = new Label("Energy Drink", ls);
         edTitle.setAlignment(Align.center);
-        Label edPrice = new Label("Price: 5 coins", ls);
+        Label edPrice = new Label("Price: 2 coins", ls);
         edPrice.setAlignment(Align.center);
 
         contentTable.add(edTitle).center().row();

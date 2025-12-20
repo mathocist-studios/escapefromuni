@@ -19,10 +19,10 @@ public class EndGameMenu extends AbstractMenu {
     private final Texture backgroundLayer4;
 
     // Animation variables
-    private Animation<TextureRegion> walkAnimation;
+    private final Animation<TextureRegion> walkAnimation;
     private TextureRegion[] walkFrames;
     private float stateTime = 0f;
-    private Sprite sprite;
+    private final Sprite sprite;
 
     // Credits variables
     private float creditsOffset = 0f;

@@ -92,7 +92,7 @@ public class Game {
         this.mainApp = mainApp;
         this.gameDifficulty = gameDifficulty;
 
-        player = new Player((float) gameDifficulty.getBaseMovementSpeed());
+        player = new Player(this, (float) gameDifficulty.getBaseMovementSpeed());
 
         hud = new HUD(this, player);
         hud.getQuestSystem().addMainQuest(
@@ -167,7 +167,18 @@ public class Game {
         BasementLevel.setMinimapSprite(new Sprite(hud.getEmptyMinimapIcon()));
         BasementLevel.getMinimapSprite().setX(38f-minimapTileSize);
         BasementLevel.getMinimapSprite().setSize(minimapTileSize-0.1f,minimapTileSize-0.1f);
-        BasementLevel.setNextLevel(levels.get(2));
+        BasementLevel.setNextLevel(levels.get(1));
+
+        // setup LBShrine level
+        Level lbShrineLevel = new LBShrineLevel(this);
+        levels.get(1).setSide2Level(lbShrineLevel);
+        lbShrineLevel.setSide2Level(levels.get(1));
+        lbShrineLevel.setPrevLevel(levels.get(1));
+        //generate minimap for side level
+        lbShrineLevel.setMinimapSprite(new Sprite(hud.getEmptyMinimapIcon()));
+        lbShrineLevel.getMinimapSprite().setX(38f-2*minimapTileSize);
+        lbShrineLevel.getMinimapSprite().setSize(minimapTileSize-0.1f,minimapTileSize-0.1f);
+        lbShrineLevel.setNextLevel(levels.get(1));
 
         // The player always starts at the first level in the array.
         currentLevel = levels.get(0);
@@ -315,6 +326,8 @@ public class Game {
         mapCollisions = createCollisionRects(mapCollisionLayer);
         // Notify the level that it has been entered so it can access map collision data
         newLevel.onEnter(mapCollisionLayer, mapCollisions, player);
+        player.getLbPet().setEntityX(player.getMoneySprite().getX() - 2);
+        player.getLbPet().setEntityY(player.getMoneySprite().getY());
     }
 
     // Constructs an ArrayList of all collision rectangles for the layer provided
@@ -628,6 +641,7 @@ public class Game {
             player.getEventsCounter().hasCollectedAllCoins() &&
             player.getEventsCounter().hasMadeItToBusStop() &&
             player.getEventsCounter().getHasExitLibraryAchieved() &&
+            player.getEventsCounter().getHasLongBoiPet() &&
             !player.getEventsCounter().hasCompletedGame()) {
             Notification completedGameNotification = new Notification(
                 "You 100% completed the game!",
@@ -666,6 +680,14 @@ public class Game {
 
         spriteBatch.begin();
 
+        // Long boi pet colour effect when spawned
+        if (Math.abs(player.getStartTimeLongBoiPet() - System.currentTimeMillis()) < 5000 && player.getStartTimeLongBoiPet() > 0) {
+            double timeSinceStart = (System.currentTimeMillis() - player.getStartTimeLongBoiPet()) / 1000.0;
+            double colourOffset = 0.5 * Math.sin((timeSinceStart * Math.PI) / 5);
+            spriteBatch.setColor(1.0f, (float) (1.0 - colourOffset), (float) (1.0 - colourOffset), 1.0f);
+            mapRenderer.getBatch().setColor(1.0f, (float) (1.0 - colourOffset), (float) (1.0 - colourOffset), 1.0f);
+        }
+
         // Draws the level entities.
         currentLevel.draw(spriteBatch);
 
@@ -694,6 +716,9 @@ public class Game {
             spriteBatch.draw(currentFrame, player.getMoneySprite().getX() - player.getMoneyWidth() / 2 - 0.3f, player.getMoneySprite().getY() - player.getMoneyHeight() / 2 - 0.25f, 2.5f, 2.5f);
         }
         //moneySprite.draw(spriteBatch); // Draw the character
+
+        player.getLbPet().setObjectivePoint(new float[] {player.getMoneySprite().getX(), player.getMoneySprite().getY()});
+        player.getLbPet().render(spriteBatch);
 
         for (InteractableEntity entity : currentLevel.getLevelInteractableEntities()) {
             if (!entity.isAbovePlayer()) {

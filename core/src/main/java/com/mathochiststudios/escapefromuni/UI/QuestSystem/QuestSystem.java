@@ -75,12 +75,11 @@ public class QuestSystem {
         if (getCurrentMainQuest() != null) {
             layout.setText(font, "Main: " + getCurrentMainQuest().getTitle());
             font.draw(batch, "Main: " + getCurrentMainQuest().getTitle(), camera.viewportWidth - layout.width - 20, y);
-            y -= layout.height + 10;
         } else {
             layout.setText(font, "Main: None");
             font.draw(batch, "Main: None", camera.viewportWidth - layout.width - 20, y);
-            y -= layout.height + 10;
         }
+        y -= layout.height + 10;
         for (Quest quest : sideQuests) {
             layout.setText(font, "Side: " + quest.getTitle());
             font.draw(batch, "Side: " + quest.getTitle(), camera.viewportWidth - layout.width - 20, y);

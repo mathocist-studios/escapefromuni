@@ -17,6 +17,7 @@ public class EventsCounter {
     private boolean foundFriend = false;
     private boolean boughtEnergyDrink = false;
     private boolean movedDucks = false;
+    private boolean hasLongBoiPet = false;
 
     // Achievement trackers
     private boolean hasExitLibraryAchieved = false;
@@ -167,6 +168,18 @@ public class EventsCounter {
 
     public boolean hasCompletedGame() {
         return this.completedGameAchieved;
+    }
+
+    public void hasLongBoiPet() {
+        if (this.hasLongBoiPet) {
+            return;
+        }
+        this.positiveEventsEncountered += 1;
+        this.hasLongBoiPet = true;
+    }
+
+    public boolean getHasLongBoiPet() {
+        return this.hasLongBoiPet;
     }
 
 }

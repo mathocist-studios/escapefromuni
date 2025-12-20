@@ -16,6 +16,8 @@ import com.mathochiststudios.escapefromuni.levels.Level;
  * Since the previous developers created such specific classes for specific use-cases, Towards the end of development
  * I ended up using this class as a general static entity class for anything that the
  * player can interact with. (e.g. Shops, Bird Seed, etc.)
+ * <br>
+ * Update: Not even static anymore this is a general entity class now I suppose. (added longboi pet and bus)
  */
 public abstract class InteractableEntity {
 

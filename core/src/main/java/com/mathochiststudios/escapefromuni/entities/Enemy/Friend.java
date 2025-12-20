@@ -12,6 +12,9 @@ import com.mathochiststudios.escapefromuni.entities.Enemy.EnemyAI.EnemyMoveDirec
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
+/**
+ * Friend enemy that slows you down since you have to escort which will slow you down (negative event).
+ */
 public class Friend extends Enemy {
 
     private Animation<TextureRegion> stationaryAnimation;
@@ -27,6 +30,7 @@ public class Friend extends Enemy {
     private TextureRegion[] rightFrames;
 
     private float stateTime = 0f;
+    private boolean hasBeenNotifiedTooFar = false;
 
     public Friend(Game game, Texture walkSheet, float x, float y, EnemyAI aiType) {
         super(game, walkSheet, x, y, aiType);
@@ -62,36 +66,34 @@ public class Friend extends Enemy {
         this.moveDirection = direction;
 
         TextureRegion currentFrame;
-        boolean flipX;
-
-        switch (direction) {
-            case STATIONARY:
+        boolean flipX = switch (direction) {
+            case STATIONARY -> {
                 currentFrame = this.stationaryAnimation.getKeyFrame(stateTime, true);
                 // ensure not flipped
-                flipX = false;
-                break;
-            case DOWN:
+                yield false;
+            }
+            case DOWN -> {
                 currentFrame = this.downAnimation.getKeyFrame(stateTime, true);
-                flipX = false;
-                break;
-            case UP:
+                yield false;
+            }
+            case UP -> {
                 currentFrame = this.upAnimation.getKeyFrame(stateTime, true);
-                flipX = false;
-                break;
-            case RIGHT:
+                yield false;
+            }
+            case RIGHT -> {
                 currentFrame = this.rightAnimation.getKeyFrame(stateTime, true);
-                flipX = false;
-                break;
-            case LEFT:
+                yield false;
+            }
+            case LEFT -> {
                 // For LEFT, use the RIGHT animation frame but flip the sprite horizontally.
                 currentFrame = this.rightAnimation.getKeyFrame(stateTime, true);
-                flipX = true;
-                break;
-            default:
+                yield true;
+            }
+            default -> {
                 currentFrame = this.stationaryAnimation.getKeyFrame(stateTime, true);
-                flipX = false;
-                break;
-        }
+                yield false;
+            }
+        };
 
         // Update the sprite's texture region to draw just the current frame
         this.getSprite().setRegion(currentFrame);
@@ -118,7 +120,7 @@ public class Friend extends Enemy {
         if (!player.getEventsCounter().hasFoundFriend() && currentLevel.getGame().friendFollowing) {
             Notification notification = new Notification(
                 "Oh! Hey Player! Are you going to the bus?\nI'm feeling really ill can you help me get there?",
-                3,
+                5,
                 NotificationType.SPEECH,
                 currentLevel.getGame().getTextureManager().getGameSmallFont()
             );
@@ -127,7 +129,22 @@ public class Friend extends Enemy {
 
         if (currentLevel.getGame().friendFollowing) {
             player.getEventsCounter().foundFriend();
+            this.hasBeenNotifiedTooFar = false;
+            return;
         }
+
+        if (this.hasBeenNotifiedTooFar || !player.getEventsCounter().hasFoundFriend()) {
+            return;
+        }
+
+        this.hasBeenNotifiedTooFar = true;
+        Notification notification = new Notification(
+            "Hey! Wait for me! I'm not feeling well...",
+            5,
+            NotificationType.SPEECH,
+            currentLevel.getGame().getTextureManager().getGameSmallFont()
+        );
+        currentLevel.getGame().getHud().getNotificationManager().addNotification(notification);
     }
 
     // Populates stationaryFrames, upFrames, downFrames and rightFrames.

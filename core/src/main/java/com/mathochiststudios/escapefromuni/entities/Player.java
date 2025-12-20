@@ -1,7 +1,9 @@
 package com.mathochiststudios.escapefromuni.entities;
 
+import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.Timer;
 import com.mathochiststudios.escapefromuni.UI.EventsCounter;
+import com.mathochiststudios.escapefromuni.entities.InteractableEntity.LBPet;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.Inventory;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 import com.badlogic.gdx.graphics.Texture;
@@ -54,11 +56,14 @@ public class Player {
 
     // janky variable to know if slowed by water
     private int slowedByWater = 0;
+    private double startTimeLongBoiPet = -1;
 
     private final Inventory inventory;
     private final EventsCounter eventsCounter;
 
-    public Player(float defaultSpeed) {
+    private final LBPet lbPet;
+
+    public Player(Game game, float defaultSpeed) {
 
         this.defaultSpeed = defaultSpeed;
 
@@ -81,6 +86,8 @@ public class Player {
 
         this.inventory = new Inventory();
         this.eventsCounter = new EventsCounter();
+
+        this.lbPet = new LBPet(game, this.moneySprite.getX() - 0.5f, this.moneySprite.getY(), 3.0f, new float[] {this.moneySprite.getX(), this.moneySprite.getY()});
     }
 
     // Getter for timer.
@@ -250,6 +257,7 @@ public class Player {
     public void update(float deltaTime) {
 
         activePowerUps.removeIf(p -> p.update(this, deltaTime));
+        lbPet.setVisible(getEventsCounter().getHasLongBoiPet());
 
     }
 
@@ -276,4 +284,17 @@ public class Player {
     public void incrementTotalSpeedPowerupsCollected() {
         this.totalSpeedPowerupsCollected += 1;
     }
+
+    public double getStartTimeLongBoiPet() {
+        return startTimeLongBoiPet;
+    }
+
+    public void setStartTimeLongBoiPet(double startTimeLongBoiPet) {
+        this.startTimeLongBoiPet = startTimeLongBoiPet;
+    }
+
+    public LBPet getLbPet() {
+        return lbPet;
+    }
+
 }
