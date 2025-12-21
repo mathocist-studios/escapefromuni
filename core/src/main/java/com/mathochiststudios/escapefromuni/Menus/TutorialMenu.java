@@ -57,10 +57,27 @@ public class TutorialMenu extends AbstractMenu{
         return "Tutorial";
     }
 
+    @Override
+    public void resetText() {
+        this.textX = -400;
+        this.acceleration = 40;
+    }
+
     
     public void draw() {
 
-        ScreenUtils.clear(Color.SALMON);
+        textX=textX+acceleration;
+        acceleration=acceleration-1;
+
+        if (acceleration<0) {
+            acceleration=0;
+        }
+
+        if (textX>500) {
+            textX=500;
+        }
+
+        ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
@@ -69,41 +86,13 @@ public class TutorialMenu extends AbstractMenu{
         batch.draw(textureManager.getTutorialSprite(),0,0, 1280, 960);
 
         if (hoveredOver.equals("Start")) {
-        batch.draw(textureManager.getStartButtonSprite(),500,100, 700, 100);
+        batch.draw(textureManager.getStartButtonSprite(),textX,100, 700, 100);
         }
         else {
-        batch.draw(textureManager.getunStartButtonSprite(),500,100, 700, 100);
+        batch.draw(textureManager.getunStartButtonSprite(),textX,100, 700, 100);
         }
         
-
         
-        
-
-        if (latestScore > -1) {
-
-            if (wonLastGame) {
-                textureManager.getMainLayout().setText(textureManager.getMainFont(), "Score: " + latestScore);
-
-                float tempx = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
-                float tempy = 480;
-
-                textureManager.getMainFont().draw(batch, textureManager.getMainLayout(), tempx, tempy);
-
-                textureManager.getMainLayout().setText(textureManager.getMainFont(), "You won!");
-
-                tempx = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
-                tempy = 640;
-
-                textureManager.getMainFont().draw(batch, textureManager.getMainLayout(), tempx, tempy);
-            } else {
-                textureManager.getMainLayout().setText(textureManager.getMainFont(), "You lost :(");
-
-                float tempx = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
-                float tempy = 560;
-
-                textureManager.getMainFont().draw(batch, textureManager.getMainLayout(), tempx, tempy);
-            }
-        }
 
         batch.end();
     }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
-public abstract class AbstractMenu {
+public abstract class AbstractMenuLegacy {
 
     protected SpriteBatch batch;
     protected FitViewport viewport;
@@ -19,10 +19,7 @@ public abstract class AbstractMenu {
 
     protected String hoveredOver = "Play";
 
-    protected int textX = -100;
-    protected int acceleration = 10;
-
-    protected AbstractMenu(
+    protected AbstractMenuLegacy(
             SpriteBatch batch,
             FitViewport viewport,
             int latestScore,
@@ -73,10 +70,4 @@ public abstract class AbstractMenu {
      * Draw the menu contents.
      */
     public abstract void draw();
-
-    public abstract void resetText();
-    {
-        this.textX = 0;
-        this.acceleration = 10;
-    }
 }

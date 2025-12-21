@@ -1,25 +1,21 @@
 package com.mathochiststudios.escapefromuni.Menus;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
+import com.mathochiststudios.escapefromuni.UI.TextBox;
 
-public class LeaderboardMenu extends AbstractMenu{
+public class SettingsMenu extends AbstractMenu{
 
-    private List<String> leaderboardLines = new ArrayList<>();
+    Stage stage;
+    TextBox nameBox;
 
-    public LeaderboardMenu(SpriteBatch batch,
+    public SettingsMenu(SpriteBatch batch,
             FitViewport viewport,
             int latestScore,
             boolean wonLastGame,
@@ -28,6 +24,11 @@ public class LeaderboardMenu extends AbstractMenu{
             TextureManager textureManager
     ) {
         super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+        stage = new Stage(viewport);
+        Gdx.input.setInputProcessor(stage);
+
+        nameBox = new TextBox(stage, 250, 600, 300, 40);
+        
     }
 
     public void update(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
@@ -60,50 +61,37 @@ public class LeaderboardMenu extends AbstractMenu{
                 }
             }
         }
-        return "Leaderboard";
+
+        String name = nameBox.getText();
+
+        return "Settings";
     }
 
     @Override
     public void draw() {
-        loadLeaderboard();
 
         viewport.apply();
+
+        
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
         batch.draw(textureManager.getMenuBackdropSprite(),0,0, 1280, 960);
 
         // title
-        textureManager.getMainLayout().setText(textureManager.getGameSmallFont(), "Leaderboard");
+        textureManager.getMainLayout().setText(textureManager.getGameLargeFont(), "Leaderboard");
         float titleX = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
         float titleY = Gdx.graphics.getHeight() - 100;
-        textureManager.getGameSmallFont().draw(batch, "Leaderboard" , titleX, titleY);
+        textureManager.getGameLargeFont().draw(batch, "Leaderboard" , titleX, titleY);
 
-        float startY = titleY - 60;
-        float lineSpacing = 48f;
-        if (leaderboardLines.size() == 0) {
-            textureManager.getMainLayout().setText(textureManager.getGameSmallFont(), "No leaderboard found.");
-            float x = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
-            textureManager.getGameSmallFont().draw(batch, textureManager.getMainLayout(), x, startY);
-        } else {
-            float y = startY;
-            for (String line : leaderboardLines) {
-                textureManager.getMainLayout().setText(textureManager.getGameSmallFont(), line);
-                float x = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
-                textureManager.getGameSmallFont().draw(batch, textureManager.getMainLayout(), x, y);
-                y -= lineSpacing;
-            }
-        }
+        textureManager.getMainLayout().setText(textureManager.getGameMediumFont(), "Leaderboard");
+        textureManager.getGameLargeFont().draw(batch, "Name:" , titleX-400, titleY-200);
+        textureManager.getGameLargeFont().draw(batch, "Difficulty:" , titleX-400, titleY-400);
 
-        textX=textX+acceleration;
-        acceleration=acceleration-1;
+        
+        
 
-        if (acceleration<0) {
-            acceleration=0;
-        }
-
-        if (textX>1050) {
-            textX=1050;
-        }
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
 
         //got to do it a fucky way since its stuck from the pause menu and ica editing that rn
         Sprite back = new Sprite(textureManager.getReturnToMenuButtonTexture());
@@ -118,32 +106,4 @@ public class LeaderboardMenu extends AbstractMenu{
         this.textX = 600;
         this.acceleration = 40;
     }
-
-    public void loadLeaderboard() {
-        leaderboardLines.clear();
-
-        String path = System.getProperty("user.dir");
-        File leaderboardFile = new File(path, "leaderboard.txt");
-
-        try {
-            leaderboardFile.createNewFile();
-        } catch (IOException e) {
-            return;
-        }
-
-        if (!leaderboardFile.exists()) {
-            return;
-        }
-
-        try (BufferedReader br = new BufferedReader(new FileReader(leaderboardFile))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                leaderboardLines.add(line);
-                if (leaderboardLines.size() >= 20) break;
-            }
-        } catch (IOException e) {
-            leaderboardLines.clear();
-            leaderboardLines.add("Error reading leaderboard.");
-    }
-}
 }

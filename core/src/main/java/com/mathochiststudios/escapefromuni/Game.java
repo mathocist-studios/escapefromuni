@@ -1,34 +1,44 @@
 package com.mathochiststudios.escapefromuni;
 
-import com.mathochiststudios.escapefromuni.UI.QuestSystem.Quests.EscapeUniQuest;
-import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
-import com.mathochiststudios.escapefromuni.levels.*;
-import com.mathochiststudios.escapefromuni.UI.HUD;
-import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
-import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
-import com.mathochiststudios.escapefromuni.entities.InteractableEntity.InteractableEntity;
-import com.mathochiststudios.escapefromuni.entities.Player;
-import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayers;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.UI.HUD;
+import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
+import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
+import com.mathochiststudios.escapefromuni.UI.QuestSystem.Quests.EscapeUniQuest;
 import com.mathochiststudios.escapefromuni.collectibles.Collectible;
 import com.mathochiststudios.escapefromuni.entities.Enemy.Enemy;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import com.mathochiststudios.escapefromuni.entities.InteractableEntity.InteractableEntity;
+import com.mathochiststudios.escapefromuni.entities.Player;
+import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
+import com.mathochiststudios.escapefromuni.levels.BasementLevel;
+import com.mathochiststudios.escapefromuni.levels.BusLevel;
+import com.mathochiststudios.escapefromuni.levels.LBShrineLevel;
+import com.mathochiststudios.escapefromuni.levels.LakeLevel;
+import com.mathochiststudios.escapefromuni.levels.Level;
+import com.mathochiststudios.escapefromuni.levels.R01_LibraryFloor3;
+import com.mathochiststudios.escapefromuni.levels.R04_LibraryFloor0;
+import com.mathochiststudios.escapefromuni.levels.R05_MarketSquare;
+import com.mathochiststudios.escapefromuni.levels.ShopLevel;
+import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 
 public class Game {
 
@@ -80,9 +90,9 @@ public class Game {
     public boolean friendFollowing = false;
     public Level friendLocation;
 
-    private final HUD hud;
-    private final TextureManager textureManager;
-    private final GameDifficulty gameDifficulty;
+    private HUD hud;
+    private TextureManager textureManager;
+    private GameDifficulty gameDifficulty;
 
     private final Main mainApp;
 
@@ -105,9 +115,6 @@ public class Game {
         gameEnded = false;
         Score = 0; // Maybe issues with old lowercase "score" which needs to be replaced
         player.setGameTimer(new Timer(5*60));
-
-        textureManager.getBgm().setVolume(0.3f);
-        textureManager.getBgm().play();
 
         // IMPORTANT: This is the list of levels, the player can traverse back and forth in this order.
         //            Add appropriate exits forward and/or backward in the tilemap on their individual layers.
@@ -206,6 +213,7 @@ public class Game {
         hud.getNotificationManager().addNotification(welcomeNotification);
 
     }
+
 
     public Player getPlayer(){
         return this.player;

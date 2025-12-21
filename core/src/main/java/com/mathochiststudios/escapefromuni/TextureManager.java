@@ -26,6 +26,7 @@ public class TextureManager {
 
     private BitmapFont gameLargeFont;
     private BitmapFont gameSmallFont;
+    private BitmapFont gameMediumFont;
 
     private Sprite playButtonSprite;
     private Texture playButtonTexture;
@@ -48,6 +49,8 @@ public class TextureManager {
     private Texture unleaderboardButtonTexture;
     private Sprite unMenuBackdropSprite;
     private Texture unMenuBackdropTexture;
+    private Sprite OverlaySprite;
+    private Texture OverlayTexture;
 
     private Sprite startButtonSprite;
     private Texture startButtonTexture;
@@ -56,11 +59,18 @@ public class TextureManager {
     private Sprite TutorialSprite;
     private Texture TutorialTexture;
 
+    private Sprite RestartSprite;
+    private Texture RestartTexture;
     private Sprite returnToMenuButtonSprite;
     private Texture returnToMenuButtonTexture;
-
     private Sprite resumeButtonSprite;
     private Texture resumeButtonTexture;
+    private Sprite hoverRestartSprite;
+    private Texture hoverRestartTexture;
+    private Sprite hoverreturnToMenuButtonSprite;
+    private Texture hoverreturnToMenuButtonTexture;
+    private Sprite hoverresumeButtonSprite;
+    private Texture hoverresumeButtonTexture;
 
     private Texture menuText;
     private Texture pausedText;
@@ -86,7 +96,7 @@ public class TextureManager {
     private Texture duckTexture;
     private Texture duckSpeechBubbleTexture;
 
-    Music bgm;
+    public Music bgm;
 
     public TextureManager(FitViewport viewport) {
 
@@ -155,18 +165,49 @@ public class TextureManager {
 
         returnToMenuButtonTexture = new Texture("returntext.png");
         returnToMenuButtonSprite = new Sprite(returnToMenuButtonTexture);
-        returnToMenuButtonSprite.setSize((float) 1280 /3, 200);
-        returnToMenuButtonSprite.setPosition((float) 1280 /3,80);
+        returnToMenuButtonSprite.setSize(300, 100);
+        returnToMenuButtonSprite.setPosition(240,100);
 
         resumeButtonTexture = new Texture("resumetext.png");
         resumeButtonSprite = new Sprite(resumeButtonTexture);
-        resumeButtonSprite.setSize((float) 1280 /3, 200);
-        resumeButtonSprite.setPosition((float) 1280 /3,330);
+        resumeButtonSprite.setSize(300, 100);
+        resumeButtonSprite.setPosition(240,500);
+
+        hoverresumeButtonTexture = new Texture("hoverresumetext.png");
+        hoverresumeButtonSprite = new Sprite(hoverresumeButtonTexture);
+        hoverresumeButtonSprite.setSize(300, 100);
+        hoverresumeButtonSprite.setPosition(240,500);
 
         MenuBackdropTexture = new Texture("MenuBackdrop.png");
         MenuBackdropSprite = new Sprite(MenuBackdropTexture);
         MenuBackdropSprite.setSize((float) 1280 /3, 200);
         MenuBackdropSprite.setPosition((float) 1280 /3,330);
+
+        OverlayTexture = new Texture("Overlay.png");
+        OverlaySprite = new Sprite(OverlayTexture);
+        OverlaySprite.setSize((float) 1280 /3, 200);
+        OverlaySprite.setPosition((float) 1280 /3,330);
+
+        RestartTexture = new Texture("Restart.png");
+        RestartSprite = new Sprite(RestartTexture);
+        RestartSprite.setSize(300, 100);
+        RestartSprite.setPosition(240,300);
+
+        hoverRestartTexture = new Texture("hoverRestart.png");
+        hoverRestartSprite = new Sprite(hoverRestartTexture);
+        hoverRestartSprite.setSize(300, 100);
+        hoverRestartSprite.setPosition(240,300);
+
+        hoverreturnToMenuButtonTexture = new Texture("hoverreturntext.png");
+        hoverreturnToMenuButtonSprite = new Sprite(hoverreturnToMenuButtonTexture);
+        hoverreturnToMenuButtonSprite.setSize(300, 100);
+        hoverreturnToMenuButtonSprite.setPosition(240,100);
+
+        hoverresumeButtonTexture = new Texture("hoverresumetext.png");
+        hoverresumeButtonSprite = new Sprite(hoverresumeButtonTexture);
+        hoverresumeButtonSprite.setSize(300, 100);
+        hoverresumeButtonSprite.setPosition(240,500);
+
 
         //seperate shop UI
         shopIconTexture = new Texture("shop290x248.png");
@@ -186,6 +227,7 @@ public class TextureManager {
 
         gameLargeFont = this.genMainFont(90);
         gameSmallFont = this.genMainFont(30);
+        gameMediumFont = this.genMainFont(50);
 
         coinSound = Gdx.audio.newSound(Gdx.files.internal("coin-drop-422703.mp3"));
         coinTexture = new Texture("Custom_coin_sprite.png");
@@ -204,7 +246,7 @@ public class TextureManager {
     }
 
     public BitmapFont genMainFont(int size) {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto-Regular.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Jersey25-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
         parameter.borderWidth = 1;
@@ -218,7 +260,7 @@ public class TextureManager {
     }
 
     private void generateFonts() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Roboto-Regular.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Jersey25-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 128;
         parameter.borderWidth = 1;
@@ -380,6 +422,10 @@ public class TextureManager {
         return gameLargeFont;
     }
 
+    public BitmapFont getGameMediumFont() {
+        return gameMediumFont;
+    }
+
     public BitmapFont getGameSmallFont() {
         return gameSmallFont;
     }
@@ -522,6 +568,46 @@ public class TextureManager {
 
     public Music getBgm() {
         return bgm;
+    }
+
+    public Sprite getRestartSprite() {
+        return RestartSprite;
+    }
+
+    public Texture getRestartTexture() {
+        return RestartTexture;
+    }
+
+    public Sprite gethoverRestartSprite() {
+        return hoverRestartSprite;
+    }
+
+    public Texture gethoverRestartTexture() {
+        return hoverRestartTexture;
+    }
+
+    public Sprite gethoverReturnToMenuButtonSprite() {
+        return hoverreturnToMenuButtonSprite;
+    }
+
+    public Texture gethoverReturnToMenuButtonTexture() {
+        return hoverreturnToMenuButtonTexture;
+    }
+
+    public Sprite gethoverResumeButtonSprite() {
+        return hoverresumeButtonSprite;
+    }
+
+    public Texture hovergetResumeButtonTexture() {
+        return hoverresumeButtonTexture;
+    }
+
+    public Sprite getOverlaySprite() {
+        return OverlaySprite;
+    }
+
+    public Texture getOverlayTexture() {
+        return OverlayTexture;
     }
 
     public void dispose() {
