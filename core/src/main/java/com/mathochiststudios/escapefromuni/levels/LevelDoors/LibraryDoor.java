@@ -39,7 +39,7 @@ public class LibraryDoor {
         if (!player.getInventory().hasItem(InventoryObject.KEYCARD)) {
             this.disallowCollision(player);
 
-            if (System.currentTimeMillis() - timeSinceLastNotification < 2000) {
+            if (System.currentTimeMillis() - timeSinceLastNotification < 5000) {
                 return;
             }
 
@@ -47,7 +47,7 @@ public class LibraryDoor {
 
             Notification notification = new Notification(
                 "You need your library card to exit!",
-                2f,
+                5f,
                 NotificationType.SPEECH,
                 level.getGame().getTextureManager().getGameSmallFont()
             );
@@ -60,7 +60,7 @@ public class LibraryDoor {
         if (!player.getInventory().hasItem(InventoryObject.RUCKSACK)) {
             this.disallowCollision(player);
 
-            if (System.currentTimeMillis() - timeSinceLastNotification < 2000) {
+            if (System.currentTimeMillis() - timeSinceLastNotification < 5000) {
                 return;
             }
 
@@ -69,7 +69,7 @@ public class LibraryDoor {
 
             Notification notification = new Notification(
                 "You need your rucksack to carry your things!",
-                2f,
+                5f,
                 NotificationType.SPEECH,
                 level.getGame().getTextureManager().getGameSmallFont()
             );
@@ -84,7 +84,7 @@ public class LibraryDoor {
             !player.getEventsCounter().getHasExitLibraryAchieved()) {
             Notification notification = new Notification(
                 "Exited the library",
-                4f,
+                5f,
                 NotificationType.ACHIEVEMENT,
                 level.getGame().getTextureManager().getGameSmallFont()
             );

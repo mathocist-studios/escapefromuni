@@ -37,12 +37,12 @@ public class Shop {
         boolean canHaveMultiple = item.getItemObject().allowsMultiple();
         boolean isPurchasable = !playerHasItem || canHaveMultiple;
         if (!isPurchasable) {
-            Notification notification = new Notification("Item already owned!", 2.0f, NotificationType.SPEECH, game.getTextureManager().getGameSmallFont());
+            Notification notification = new Notification("Item already owned!", 5.0f, NotificationType.SPEECH, game.getTextureManager().getGameSmallFont());
             game.getHud().getNotificationManager().addNotification(notification);
             return;
         }
         if (!player.spendCoins(item.getCost())) {
-            Notification notification = new Notification("Not enough coins!", 2.0f, NotificationType.SPEECH, game.getTextureManager().getGameSmallFont());
+            Notification notification = new Notification("Not enough coins!", 5.0f, NotificationType.SPEECH, game.getTextureManager().getGameSmallFont());
             game.getHud().getNotificationManager().addNotification(notification);
             return;
         }
@@ -52,7 +52,7 @@ public class Shop {
             player.addSpeed((float) (5 * game.getGameDifficulty().getSpeedBuffMultiplier()));
             player.getEventsCounter().boughtEnergyDrink();
         }
-        Notification notification = new Notification(item.getDisplayName() + " purchased!", 2.0f, NotificationType.SPEECH, game.getTextureManager().getGameSmallFont());
+        Notification notification = new Notification(item.getDisplayName() + " purchased!", 5.0f, NotificationType.SPEECH, game.getTextureManager().getGameSmallFont());
         game.getHud().getNotificationManager().addNotification(notification);
     }
 }

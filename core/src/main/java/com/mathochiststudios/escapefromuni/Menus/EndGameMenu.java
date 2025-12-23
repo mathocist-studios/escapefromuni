@@ -1,6 +1,7 @@
 package com.mathochiststudios.escapefromuni.Menus;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -49,6 +50,9 @@ public class EndGameMenu extends AbstractMenuLegacy {
         {"big", "Thank you for playing Escape From Uni!"}
     };
 
+    private String nextMenu = "EndMenu";
+    private double buttonCooldown = 0;
+
     public EndGameMenu(SpriteBatch batch,
                            FitViewport viewport,
                            int latestScore,
@@ -82,7 +86,7 @@ public class EndGameMenu extends AbstractMenuLegacy {
 
     @Override
     public String input() {
-        return "EndMenu";
+        return this.nextMenu;
     }
 
     /**
@@ -140,7 +144,6 @@ public class EndGameMenu extends AbstractMenuLegacy {
     }
 
     private void drawCredits() {
-        // Implement credits drawing logic here
         float startY = 0; // Start just below the bottom of the screen
         creditsOffset += Gdx.graphics.getDeltaTime() * CREDITS_SCROLL_SPEED;
 
@@ -160,6 +163,19 @@ public class EndGameMenu extends AbstractMenuLegacy {
         }
     }
 
+    private void drawTextOverlay() {
+
+        // draw press 'E' to continue at bottom right
+        String prompt = "Press 'E' to continue";
+        BitmapFont fontToUse = textureManager.getGameSmallFont();
+        textureManager.getMainLayout().setText(fontToUse, prompt);
+        float textWidth = textureManager.getMainLayout().width;
+        float x = viewport.getWorldWidth() - textWidth - 20f;
+        float y = 40f;
+        fontToUse.draw(batch, prompt, x, y);
+
+    }
+
     @Override
     public void draw() {
         stateTime += Gdx.graphics.getDeltaTime()*0.25f; // Accumulate elapsed animation time
@@ -169,6 +185,12 @@ public class EndGameMenu extends AbstractMenuLegacy {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.E) && System.currentTimeMillis() - this.buttonCooldown > 5000) {
+            System.out.println(System.currentTimeMillis() - this.buttonCooldown);
+            this.nextMenu = "Main";
+            return;
+        }
 
         batch.begin();
         drawParallaxBackground();
@@ -184,8 +206,11 @@ public class EndGameMenu extends AbstractMenuLegacy {
         );
 
         drawCredits();
-
         drawParallaxForeground();
+
+        if (System.currentTimeMillis() - this.buttonCooldown > 5000) {
+            drawTextOverlay();
+        }
         batch.end();
     }
 
@@ -203,6 +228,14 @@ public class EndGameMenu extends AbstractMenuLegacy {
         for (int i = 0; i < 4; i ++) {
             this.walkFrames[index++] = tmp[0][i];
         }
+    }
+
+    public void onSwitchIn() {
+        this.buttonCooldown = System.currentTimeMillis();
+        this.nextMenu = "EndMenu";
+        this.creditsOffset = 0f;
+        this.parallaxOffset = 0f;
+        this.stateTime = 0f;
     }
 
 }

@@ -17,10 +17,10 @@ import com.mathochiststudios.escapefromuni.levels.Level;
  */
 public class Friend extends Enemy {
 
-    private Animation<TextureRegion> stationaryAnimation;
-    private Animation<TextureRegion> upAnimation;
-    private Animation<TextureRegion> downAnimation;
-    private Animation<TextureRegion> rightAnimation;
+    private final Animation<TextureRegion> stationaryAnimation;
+    private final Animation<TextureRegion> upAnimation;
+    private final Animation<TextureRegion> downAnimation;
+    private final Animation<TextureRegion> rightAnimation;
 
     // Player starts standing still.
     private EnemyMoveDirection moveDirection = EnemyMoveDirection.STATIONARY;
@@ -31,6 +31,8 @@ public class Friend extends Enemy {
 
     private float stateTime = 0f;
     private boolean hasBeenNotifiedTooFar = false;
+    private double timeSinceNotifiedTooFar = 0.0;
+    private int timesOutOfRange = 0;
 
     public Friend(Game game, Texture walkSheet, float x, float y, EnemyAI aiType) {
         super(game, walkSheet, x, y, aiType);
@@ -117,6 +119,7 @@ public class Friend extends Enemy {
 
         currentLevel.getGame().friendFollowing = dist_to_friend <= 5.0;
 
+        // Initial notification when player first gets close to friend
         if (!player.getEventsCounter().hasFoundFriend() && currentLevel.getGame().friendFollowing) {
             Notification notification = new Notification(
                 "Oh! Hey Player! Are you going to the bus?\nI'm feeling really ill can you help me get there?",
@@ -127,17 +130,34 @@ public class Friend extends Enemy {
             currentLevel.getGame().getHud().getNotificationManager().addNotification(notification);
         }
 
+        // Player is within range of the friend
         if (currentLevel.getGame().friendFollowing) {
             player.getEventsCounter().foundFriend();
             this.hasBeenNotifiedTooFar = false;
+            this.timesOutOfRange = 0;
             return;
         }
 
+        this.timesOutOfRange += 1;
+
+        // Notify player only once when they are too far from the friend
         if (this.hasBeenNotifiedTooFar || !player.getEventsCounter().hasFoundFriend()) {
             return;
         }
 
+        // enforce a 5 second cooldown on notifications if player standing right on the edge of range
+        // i know its unlikely but it has already happened during testing
+        if (System.currentTimeMillis() - this.timeSinceNotifiedTooFar < 5000) {
+            return;
+        }
+
+        // About 10 frames, protects against brief distance spikes e.g. moving rooms
+        if (this.timesOutOfRange < 10) {
+            return;
+        }
+
         this.hasBeenNotifiedTooFar = true;
+        this.timeSinceNotifiedTooFar = System.currentTimeMillis();
         Notification notification = new Notification(
             "Hey! Wait for me! I'm not feeling well...",
             5,

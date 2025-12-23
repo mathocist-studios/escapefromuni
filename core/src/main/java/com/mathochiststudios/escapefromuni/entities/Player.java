@@ -53,6 +53,7 @@ public class Player {
     private int coins;
     private int totalCoinsCollected;
     private int totalSpeedPowerupsCollected;
+    private double happiness = 50;
 
     // janky variable to know if slowed by water
     private int slowedByWater = 0;
@@ -295,6 +296,14 @@ public class Player {
 
     public LBPet getLbPet() {
         return lbPet;
+    }
+
+    public double getHappiness() {
+        return happiness;
+    }
+
+    public void setHappiness(double happiness) {
+        this.happiness = Math.max(0, Math.min(100, happiness));
     }
 
 }

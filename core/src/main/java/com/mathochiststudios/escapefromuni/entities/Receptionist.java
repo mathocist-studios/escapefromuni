@@ -40,7 +40,7 @@ public class Receptionist extends XAxisSlidingEntity{
                 // Time + 30s
                 Notification notification = new Notification(
                     "You handed in the lost wallet to the receptionist (+3 Coins)!",
-                    3f,
+                    5f,
                     NotificationType.SPEECH,
                     level.getGame().getTextureManager().getGameSmallFont()
                 );

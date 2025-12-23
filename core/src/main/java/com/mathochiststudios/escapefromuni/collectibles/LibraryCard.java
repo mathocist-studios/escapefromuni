@@ -69,7 +69,7 @@ public class LibraryCard {
             this.pickUp(player);
             Notification notification = new Notification(
                 "You found your Library Card! You can now exit the library.",
-                2,
+                5,
                 NotificationType.SPEECH,
                 level.getGame().getTextureManager().getGameSmallFont()
             );

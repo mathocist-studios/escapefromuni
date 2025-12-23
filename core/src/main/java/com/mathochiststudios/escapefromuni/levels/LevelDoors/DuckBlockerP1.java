@@ -41,7 +41,7 @@ public class DuckBlockerP1 {
     if (birdSeed == null) {
             this.disallowCollision(player);
 
-            if (System.currentTimeMillis() - timeSinceLastNotification < 2000) {
+            if (System.currentTimeMillis() - timeSinceLastNotification < 5000) {
                 return;
             }
 
@@ -49,7 +49,7 @@ public class DuckBlockerP1 {
 
             Notification notification = new Notification(
                 "Ugh ducks! I need to put down some birdseed to get past them.",
-                2f,
+                5f,
                 NotificationType.SPEECH,
                 level.getGame().getTextureManager().getGameSmallFont()
             );

@@ -28,12 +28,13 @@ public class LBEntity extends InteractableEntity {
         p.setStartTimeLongBoiPet(System.currentTimeMillis());
         p.spendCoins(1);
         Notification notification = new Notification(
-            "You feel the room shake! Long boi has accepted your offering! (-1 Coin)",
+            "You feel the room shake! Long boi has accepted your offering! (-1 Coin) (+1 Long Boi Pet)",
             5,
             NotificationType.SPEECH,
             game.getTextureManager().getGameSmallFont()
         );
         game.getHud().getNotificationManager().addNotification(notification);
+        p.setHappiness(100); // Set happiness to max when getting Long Boi Pet
     }
 
     @Override

@@ -56,7 +56,7 @@ public class Dean extends Enemy {
         player.getEventsCounter().caughtByDean();
         Notification notification = new Notification(
             "The Dean caught you in the basement! (-15s)",
-            3.0f,
+            5.0f,
             NotificationType.SPEECH,
             game.getTextureManager().getGameSmallFont()
         );

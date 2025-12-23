@@ -81,7 +81,7 @@ public class BasementLevel extends Level {
             dean.setDead(false); // Activate Dean when player has the keycard
             Notification notification = new Notification(
                 "Oh no, the dean has entered the basement, dont get caught!",
-                3.0f,
+                5.0f,
                 NotificationType.SPEECH,
                 this.getGame().getTextureManager().getGameSmallFont()
             );

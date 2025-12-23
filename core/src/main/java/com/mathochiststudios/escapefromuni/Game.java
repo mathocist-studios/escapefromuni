@@ -568,6 +568,7 @@ public class Game {
             if (pRect.overlaps(tileRect)) {
                 isSlowed = true;
                 player.getEventsCounter().slowedByWater();
+                player.setHappiness(player.getHappiness() - Gdx.graphics.getDeltaTime() * 2); // Decrease happiness over time in water
                 break;
             }
         }

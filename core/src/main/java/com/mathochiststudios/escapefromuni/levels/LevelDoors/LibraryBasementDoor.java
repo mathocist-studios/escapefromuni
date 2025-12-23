@@ -44,7 +44,7 @@ public class LibraryBasementDoor {
 
         this.disallowCollision(player);
 
-        if (System.currentTimeMillis() - notificationCooldown < 2000) {
+        if (System.currentTimeMillis() - notificationCooldown < 5000) {
             return;
         }
 
@@ -52,7 +52,7 @@ public class LibraryBasementDoor {
 
         Notification notification = new Notification(
             "You will need the basement key to enter the library basement.",
-            2f,
+            5f,
             NotificationType.SPEECH,
             level.getGame().getTextureManager().getGameSmallFont()
         );

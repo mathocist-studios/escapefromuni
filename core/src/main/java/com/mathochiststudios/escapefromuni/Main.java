@@ -45,6 +45,7 @@ public class Main implements ApplicationListener {
     String menuState = "Main";
 
     String hoveredOver = "";
+    boolean isEndGameMenu = false; // dont ask. I needed a on switch event for end menu
 
     MainMenu mainMenu;
     LeaderboardMenu leaderboardMenu;
@@ -203,9 +204,16 @@ public class Main implements ApplicationListener {
                 }
             }
             case "EndMenu" -> {
+                if (!isEndGameMenu) {
+                    endGameMenu.onSwitchIn();
+                    isEndGameMenu = true;
+                }
                 endGameMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
                 endGameMenu.draw();
                 menuState = endGameMenu.input();
+                if (!menuState.equals("EndMenu")) {
+                    isEndGameMenu = false;
+                }
             }
             default -> menuState = "Main";
         }

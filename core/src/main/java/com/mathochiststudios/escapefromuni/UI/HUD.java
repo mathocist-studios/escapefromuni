@@ -108,6 +108,9 @@ public class HUD {
         game.getTextureManager().getGameSmallFont().draw(spriteBatch, "Positive Events: " + player.getEventsCounter().getPositiveEventsEncountered(), 20, 900);
         game.getTextureManager().getGameSmallFont().draw(spriteBatch, "Negative Events: " + player.getEventsCounter().getNegativeEventsEncountered(), 20, 850);
         game.getTextureManager().getGameSmallFont().draw(spriteBatch, "Hidden Events: " + player.getEventsCounter().getHiddenEventsEncountered(), 20, 800);
+
+        // draw happiness level
+        game.getTextureManager().getGameSmallFont().draw(spriteBatch, "Happiness: " + String.format("%.1f", player.getHappiness()), 20, 750);
     }
 
     private void drawMinimap(SpriteBatch spriteBatch) {

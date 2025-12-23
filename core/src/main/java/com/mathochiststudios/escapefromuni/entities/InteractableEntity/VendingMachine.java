@@ -22,7 +22,7 @@ public class VendingMachine extends InteractableEntity {
 
     private void sendNotification(String message) {
 
-        if (System.currentTimeMillis() - notificationCooldown < (float) 2.0 * 1000) {
+        if (System.currentTimeMillis() - notificationCooldown < 5000) {
             return;
         }
 
@@ -30,7 +30,7 @@ public class VendingMachine extends InteractableEntity {
 
         Notification notification = new Notification(
             message,
-            (float) 2.0,
+            5.0f,
             NotificationType.SPEECH,
             game.getTextureManager().getGameSmallFont()
         );

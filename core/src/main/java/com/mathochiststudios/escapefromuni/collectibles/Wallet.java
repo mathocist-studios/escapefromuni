@@ -51,7 +51,7 @@ public class Wallet {
             this.pickUp(player);
             Notification notification = new Notification(
                 "You found someones wallet!, hand it into the receptionist",
-                2,
+                5,
                 NotificationType.SPEECH,
                 level.getGame().getTextureManager().getGameSmallFont()
             );
