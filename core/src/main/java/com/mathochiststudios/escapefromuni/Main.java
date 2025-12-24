@@ -7,12 +7,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.Menus.EndGameMenu;
 import com.mathochiststudios.escapefromuni.Menus.LeaderboardMenu;
 import com.mathochiststudios.escapefromuni.Menus.MainMenu;
 import com.mathochiststudios.escapefromuni.Menus.PauseMenu;
+import com.mathochiststudios.escapefromuni.Menus.PreGameSettingsMenu;
 import com.mathochiststudios.escapefromuni.Menus.SettingsMenu;
 import com.mathochiststudios.escapefromuni.Menus.TutorialMenu;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
@@ -53,10 +55,16 @@ public class Main implements ApplicationListener {
     EndGameMenu endGameMenu;
     PauseMenu pauseMenu;
     SettingsMenu settingsMenu;
+    PreGameSettingsMenu preGamesettingsMenu;
 
     String input;
     String pauseState;
     GameDifficulty gameDifficulty = GameDifficulty.NORMAL;
+    String difficulty = "Normal";
+
+    String name = "Player";
+
+    Stage stage;
 
     @Override
     public void create() {
@@ -68,6 +76,9 @@ public class Main implements ApplicationListener {
         batch = new SpriteBatch();
         viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+        stage = new Stage(viewport);
+        Gdx.input.setInputProcessor(stage);
+
         game = new Game(this, gameDifficulty);
 
         mainMenu = new MainMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
@@ -75,7 +86,8 @@ public class Main implements ApplicationListener {
         tutorialMenu = new TutorialMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
         endGameMenu = new EndGameMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
         pauseMenu = new PauseMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
-        settingsMenu = new SettingsMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
+        settingsMenu = new SettingsMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager,name, difficulty,stage);
+        preGamesettingsMenu = new PreGameSettingsMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager,name, difficulty,stage);
 
         // Load fonts
         textureManager = new TextureManager(viewport);
@@ -164,20 +176,20 @@ public class Main implements ApplicationListener {
                 }
             }
             case "Tutorial" -> {
-                if (hasReset) {
-                    tutorialMenu.resetText();
-                    hasReset = false;
-                }
-                tutorialMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
-                tutorialMenu.draw();
-                menuState = tutorialMenu.input();
-                if (menuState.equals("Start Game")) {
-                    startGame();
-                    menuState = "Main";
-                }
-                if (!menuState.equals("Tutorial")) {
-                    hasReset = true;
-                }
+                    if (hasReset) {
+                        tutorialMenu.resetText();
+                        hasReset = false;
+                    }
+                    tutorialMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+                    tutorialMenu.draw();
+                    menuState = tutorialMenu.input();
+                    if (!menuState.equals("Tutorial")) {
+                        hasReset = true;
+                    }
+            }
+            case "Start Game" -> {
+                startGame();
+                menuState = "Main";
             }
             case "Leaderboard" -> {
                 if (hasReset) {
@@ -192,6 +204,8 @@ public class Main implements ApplicationListener {
                 }
             }
             case "Settings" -> {
+                menuState = "PreGameSettings";
+                /* 
                 if (hasReset) {
                     settingsMenu.resetText();
                     hasReset = false;
@@ -201,6 +215,39 @@ public class Main implements ApplicationListener {
                 menuState = settingsMenu.input();
                 if (!menuState.equals("Settings")) {
                     hasReset = true;
+                }
+                difficulty = settingsMenu.getDifficulty();
+                if (settingsMenu.getDifficulty().equals("Easy")) {
+                    gameDifficulty = GameDifficulty.EASY;
+                }
+                else if (settingsMenu.getDifficulty().equals("Normal")) {
+                    gameDifficulty = GameDifficulty.NORMAL;
+                }
+                else if (settingsMenu.getDifficulty().equals("Hard")) {
+                    gameDifficulty = GameDifficulty.HARD;
+                }
+                */
+            }
+            case "PreGameSettings" -> {
+                if (hasReset) {
+                    preGamesettingsMenu.resetText();
+                    hasReset = false;
+                }
+                preGamesettingsMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+                preGamesettingsMenu.draw();
+                menuState = preGamesettingsMenu.input();
+                if (!menuState.equals("PreGameSettings")) {
+                    hasReset = true;
+                }
+                difficulty = preGamesettingsMenu.getDifficulty();
+                if (preGamesettingsMenu.getDifficulty().equals("Easy")) {
+                    gameDifficulty = GameDifficulty.EASY;
+                }
+                else if (preGamesettingsMenu.getDifficulty().equals("Normal")) {
+                    gameDifficulty = GameDifficulty.NORMAL;
+                }
+                else if (preGamesettingsMenu.getDifficulty().equals("Hard")) {
+                    gameDifficulty = GameDifficulty.HARD;
                 }
             }
             case "EndMenu" -> {
@@ -268,6 +315,10 @@ public class Main implements ApplicationListener {
 
     public void setMenuState(String state) {
         this.menuState = state;
+    }
+
+    public String getPlayerName() {
+        return name;
     }
 
 }

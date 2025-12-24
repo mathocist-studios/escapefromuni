@@ -60,7 +60,7 @@ public class MainMenu extends AbstractMenu{
                 textureManager.getSettingsButtonSprite().getBoundingRectangle().contains(
                     new Vector2(mouse.getX(),mouse.getY())
                 )) {
-                return "Settings";
+                return "PreGameSettings";
             }
             if (!buttonCD &&
                 textureManager.getLeaderboardButtonSprite().getBoundingRectangle().contains(

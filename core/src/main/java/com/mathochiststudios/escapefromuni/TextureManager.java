@@ -72,6 +72,20 @@ public class TextureManager {
     private Sprite hoverresumeButtonSprite;
     private Texture hoverresumeButtonTexture;
 
+    private Sprite hoverSubmitSprite;
+    private Texture hoverSubmitTexture;
+    private Sprite SubmitSprite;
+    private Texture SubmitTexture;
+    private Sprite RightArrowSprite;
+    private Texture RightArrowTexture;
+    private Sprite LeftArrowSprite;
+    private Texture LeftArrowTexture;
+
+    private Sprite nextButtonSprite;
+    private Texture nextButtonTexture;
+    private Sprite hovernextButtonSprite;
+    private Texture hovernextButtonTexture;
+
     private Texture menuText;
     private Texture pausedText;
 
@@ -153,6 +167,21 @@ public class TextureManager {
         unexitButtonSprite.setSize(700, 100);
         unexitButtonSprite.setPosition(100,200);
 
+        nextButtonTexture = new Texture("next.png");
+        nextButtonSprite = new Sprite(nextButtonTexture);
+        nextButtonSprite.setSize(300, 100);
+        nextButtonSprite.setPosition(900,20);
+
+        hovernextButtonTexture = new Texture("hovernext.png");
+        hovernextButtonSprite = new Sprite(nextButtonTexture);
+        hovernextButtonSprite.setSize(300, 100);
+        hovernextButtonSprite.setPosition(900,20);
+
+        unexitButtonTexture = new Texture("unexitButton.png");
+        unexitButtonSprite = new Sprite(unexitButtonTexture);
+        unexitButtonSprite.setSize(700, 100);
+        unexitButtonSprite.setPosition(100,200);
+
         unsettingsButtonTexture = new Texture("unsettingsButton.png");
         unsettingsButtonSprite = new Sprite(unsettingsButtonTexture);
         unsettingsButtonSprite.setSize(700, 100);
@@ -192,6 +221,31 @@ public class TextureManager {
         RestartSprite = new Sprite(RestartTexture);
         RestartSprite.setSize(300, 100);
         RestartSprite.setPosition(240,300);
+
+        hoverRestartTexture = new Texture("hoverRestart.png");
+        hoverRestartSprite = new Sprite(hoverRestartTexture);
+        hoverRestartSprite.setSize(300, 100);
+        hoverRestartSprite.setPosition(240+80,300);
+        
+        SubmitTexture = new Texture("Submit.png");
+        SubmitSprite = new Sprite(SubmitTexture);
+        SubmitSprite.setSize(300, 100);
+        SubmitSprite.setPosition(600+80,580);
+
+        hoverSubmitTexture = new Texture("hoverSubmit.png");
+        hoverSubmitSprite = new Sprite(hoverSubmitTexture);
+        hoverSubmitSprite.setSize(300, 100);
+        hoverSubmitSprite.setPosition(600,580);
+
+        RightArrowTexture = new Texture("RightArrow.png");
+        RightArrowSprite = new Sprite(RightArrowTexture);
+        RightArrowSprite.setSize(100, 100);
+        RightArrowSprite.setPosition(400+400+30,370);
+
+        LeftArrowTexture = new Texture("LeftArrow.png");
+        LeftArrowSprite = new Sprite(LeftArrowTexture);
+        LeftArrowSprite.setSize(100, 100);
+        LeftArrowSprite.setPosition(400+30,370);
 
         hoverRestartTexture = new Texture("hoverRestart.png");
         hoverRestartSprite = new Sprite(hoverRestartTexture);
@@ -243,6 +297,13 @@ public class TextureManager {
         duckSpeechBubbleTexture = new Texture("Custom_speech_bubble_v2.png");
 
         bgm = Gdx.audio.newMusic(Gdx.files.internal("EscapeAdventure.ogg"));
+    }
+
+    public TextureManager(Sprite LeftArrowSprite, Texture LeftArrowTexture, Sprite RightArrowSprite, Texture RightArrowTexture) {
+        this.LeftArrowSprite = LeftArrowSprite;
+        this.LeftArrowTexture = LeftArrowTexture;
+        this.RightArrowSprite = RightArrowSprite;
+        this.RightArrowTexture = RightArrowTexture;
     }
 
     public BitmapFont genMainFont(int size) {
@@ -631,6 +692,54 @@ public class TextureManager {
         duckTexture.dispose();
         duckSpeechBubbleTexture.dispose();
         bgm.dispose();
+    }
+
+    public Sprite getHoverSubmitSprite() {
+    return hoverSubmitSprite;
+    }
+
+    public Texture getHoverSubmitTexture() {
+        return hoverSubmitTexture;
+    }
+
+    public Sprite getSubmitSprite() {
+        return SubmitSprite;
+    }
+
+    public Texture getSubmitTexture() {
+        return SubmitTexture;
+    }
+
+    public Sprite getRightArrowSprite() {
+        return RightArrowSprite;
+    }
+
+    public Texture getRightArrowTexture() {
+        return RightArrowTexture;
+    }
+
+    public Sprite getLeftArrowSprite() {
+        return LeftArrowSprite;
+    }
+
+    public Texture getLeftArrowTexture() {
+        return LeftArrowTexture;
+    }
+
+    public Sprite getNextButtonSprite() {
+        return nextButtonSprite;
+    }
+
+    public Texture getNextButtonTexture() {
+        return nextButtonTexture;
+    }
+
+    public Sprite gethoverNextButtonSprite() {
+        return hovernextButtonSprite;
+    }
+
+    public Texture gethoverNextButtonTexture() {
+        return hovernextButtonTexture;
     }
 
 }
