@@ -135,7 +135,7 @@ public class Main implements ApplicationListener {
                 else if(pauseState.equals("Main")){
                     textureManager.getBgm().stop();
                     textureManager.getBgm().pause();
-                    endGame(Game.Score, game.WinOrLose);
+                    endGame(game.getScore(), game.WinOrLose);
                     textureManager.getBgm().stop();
                 }
                 else if(pauseState.equals("Restart")){
@@ -145,7 +145,7 @@ public class Main implements ApplicationListener {
                 return;
             }
 
-            endGame(Game.Score, game.WinOrLose);
+            endGame(game.getScore(), game.WinOrLose);
             return;
         }
 

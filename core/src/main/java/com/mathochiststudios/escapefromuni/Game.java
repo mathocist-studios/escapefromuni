@@ -43,16 +43,15 @@ import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 public class Game {
 
     public boolean gameEnded;
-    public static int Score;
     public String WinOrLose;
 
     private final float root2 = 1.41f; // i like this
 
-    private float minimapTileSize = 1.4f;
+    private final float minimapTileSize = 1.4f;
 
-    private Player player;
+    private final Player player;
 
-    private ArrayList<Level> levels;
+    private final ArrayList<Level> levels;
 
     TiledMap map; // define map
     OrthogonalTiledMapRenderer mapRenderer; // define map renderer
@@ -63,8 +62,6 @@ public class Game {
     public static Level currentLevel;
 
     float unitScale;
-
-    public static float money = 0;
 
     TiledMapTileLayer mapCollisionLayer;
     public ArrayList<Rectangle> mapCollisions;
@@ -90,9 +87,9 @@ public class Game {
     public boolean friendFollowing = false;
     public Level friendLocation;
 
-    private HUD hud;
-    private TextureManager textureManager;
-    private GameDifficulty gameDifficulty;
+    private final HUD hud;
+    private final TextureManager textureManager;
+    private final GameDifficulty gameDifficulty;
 
     private final Main mainApp;
 
@@ -113,7 +110,6 @@ public class Game {
 
         WinOrLose = "Return"; // Should be "Return"
         gameEnded = false;
-        Score = 0; // Maybe issues with old lowercase "score" which needs to be replaced
         player.setGameTimer(new Timer(5*60));
 
         // IMPORTANT: This is the list of levels, the player can traverse back and forth in this order.
@@ -453,8 +449,6 @@ public class Game {
         for (Collectible coin : currentLevel.getLevelCoins()) {
             if (!(coin.isCollected()) && player.getMoneyRectangle().overlaps(coin.getCollider())) {
                 coin.collect();
-                money += 10;
-                Score += 10;
                 coin.SoundEffect.play();
             }
         }
@@ -866,6 +860,23 @@ public class Game {
 
     public SpriteBatch getSpriteBatch() {
         return spriteBatch;
+    }
+
+    public int getScore() {
+        return Math.toIntExact(Math.round(
+            10 * player.getTotalCoinsCollected() +
+            20 * player.getTotalSpeedPowerupsCollected() +
+            player.getHappiness() +
+            player.getGameTimer().getSecsRemaining() +
+            (
+                gameDifficulty == GameDifficulty.EASY ? 0 :
+                gameDifficulty == GameDifficulty.NORMAL ? 50 :
+                gameDifficulty == GameDifficulty.HARD ? 100 :
+                gameDifficulty == GameDifficulty.IMPOSSIBLE ? 150 : 0
+            ) +
+            (player.getInventory().hasItem(InventoryObject.ROLLERBLADES) ? 50 : 0) +
+            (player.getInventory().hasItem(InventoryObject.ENERGY_DRINK) ? 50 : 0)
+        ));
     }
 
 }

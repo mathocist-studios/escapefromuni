@@ -144,8 +144,20 @@ public class EndGameMenu extends AbstractMenuLegacy {
     }
 
     private void drawCredits() {
-        float startY = 0; // Start just below the bottom of the screen
+        float startY = -160; // Starting Y position for the first credit line
         creditsOffset += Gdx.graphics.getDeltaTime() * CREDITS_SCROLL_SPEED;
+
+        textureManager.getMainLayout().setText(textureManager.getShopFont(), "You Escaped!");
+        float titleWidth = textureManager.getMainLayout().width;
+        float titleX = (viewport.getWorldWidth() - titleWidth) / 2f;
+        float titleY = creditsOffset;
+        textureManager.getShopFont().draw(batch, "You Escaped!", titleX, titleY);
+
+        textureManager.getMainLayout().setText(textureManager.getShopFont(), "Your Score: " + this.latestScore);
+        titleWidth = textureManager.getMainLayout().width;
+        titleX = (viewport.getWorldWidth() - titleWidth) / 2f;
+        titleY = -60 + creditsOffset;
+        textureManager.getShopFont().draw(batch, "Your Score: " + this.latestScore, titleX, titleY);
 
         // Loop through credits lines and draw them
         for (int i = 0; i < creditsLines.length; i++) {
