@@ -193,6 +193,9 @@ public class Main implements ApplicationListener {
             }
             case "Leaderboard" -> {
                 if (hasReset) {
+                    //leaderboardMenu.addLeaderboardEntry("test", 184, "Easy");
+                    //leaderboardMenu.addLeaderboardEntry("test2", 1834, "Normal");
+                    //leaderboardMenu.addLeaderboardEntry("test3", 14, "Hard");
                     leaderboardMenu.resetText();
                     hasReset = false;
                 }
@@ -254,6 +257,7 @@ public class Main implements ApplicationListener {
                 if (!isEndGameMenu) {
                     endGameMenu.onSwitchIn();
                     isEndGameMenu = true;
+                    leaderboardMenu.addLeaderboardEntry(name, latestScore, difficulty);
                 }
                 endGameMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
                 endGameMenu.draw();
@@ -304,13 +308,6 @@ public class Main implements ApplicationListener {
         // Destroy application's resources here.
         //game.dispose();
         textureManager.dispose();
-    }
-
-    private void inputSettingsMenu() {
-    }
-
-    private void drawSettingsMenu() {
-
     }
 
     public void setMenuState(String state) {

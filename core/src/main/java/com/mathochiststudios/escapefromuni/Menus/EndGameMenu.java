@@ -249,5 +249,4 @@ public class EndGameMenu extends AbstractMenuLegacy {
         this.parallaxOffset = 0f;
         this.stateTime = 0f;
     }
-
 }
