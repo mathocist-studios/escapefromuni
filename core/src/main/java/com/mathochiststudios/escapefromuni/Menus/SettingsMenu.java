@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
+import com.mathochiststudios.escapefromuni.Tests.IStage;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 import com.mathochiststudios.escapefromuni.UI.TextBox;
@@ -21,22 +23,22 @@ public class SettingsMenu extends AbstractMenu{
     //
     //
 
-    
+
     TextBox nameBox;
     String name = "Player";
     String difficulty = "Normal";
-    Stage stage;
+    IStage stage;
 
-    public SettingsMenu(SpriteBatch batch,
-            FitViewport viewport,
-            int latestScore,
-            boolean wonLastGame,
-            boolean buttonCD,
-            Mouse mouse,
-            TextureManager textureManager,
-            String name,
-            String difficulty,
-            Stage stage
+    public SettingsMenu(ISpriteBatch batch,
+                        FitViewport viewport,
+                        int latestScore,
+                        boolean wonLastGame,
+                        boolean buttonCD,
+                        Mouse mouse,
+                        TextureManager textureManager,
+                        String name,
+                        String difficulty,
+                        IStage stage
     ) {
         super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
         this.name = name;
@@ -44,10 +46,10 @@ public class SettingsMenu extends AbstractMenu{
         this.stage = stage;
 
         nameBox = new TextBox(stage, 250+80, 600, 300, 40);
-        
+
     }
 
-    public void update(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
+    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
         this.batch = batch;
         this.viewport = viewport;
         this.latestScore = latestScore;
@@ -138,7 +140,7 @@ public class SettingsMenu extends AbstractMenu{
 
         viewport.apply();
 
-        
+
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
         batch.draw(textureManager.getMenuBackdropSprite(),0,0, 1280, 960);
@@ -175,8 +177,8 @@ public class SettingsMenu extends AbstractMenu{
             batch.draw(textureManager.getSubmitTexture(),600+80,580, 300, 100);
         }
 
-        
-        
+
+
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
@@ -197,5 +199,5 @@ public class SettingsMenu extends AbstractMenu{
 
     public String getDifficulty() {
         return this.difficulty;
-    }   
+    }
 }

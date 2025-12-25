@@ -7,6 +7,10 @@ import com.mathochiststudios.escapefromuni.UI.QuestSystem.Quests.FindFriendQuest
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
+/**
+ * A checkpoint at the bus stop that notifies the player to find their friend
+ * if they try to reach the bus stop without them.
+ */
 public class BusStopCheckpoint {
 
     // Instantiate rectangle to cover desired section of map to block.

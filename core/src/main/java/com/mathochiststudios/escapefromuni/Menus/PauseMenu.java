@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
@@ -12,7 +13,7 @@ public class PauseMenu extends AbstractMenu{
     String hovedStringOver = "Resume";
 
     public PauseMenu(
-            SpriteBatch batch,
+            ISpriteBatch batch,
             FitViewport viewport,
             int latestScore,
             boolean wonLastGame,
@@ -23,7 +24,7 @@ public class PauseMenu extends AbstractMenu{
         super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
     }
 
-    public void update(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
+    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
         this.batch = batch;
         this.viewport = viewport;
         this.latestScore = latestScore;
@@ -49,7 +50,7 @@ public class PauseMenu extends AbstractMenu{
             if (!buttonCD) {
                 if (textureManager.getResumeButtonSprite().getBoundingRectangle().contains(new Vector2(mouse.getX(), mouse.getY()))) {
                     return "Resume";
-                    
+
                 } else if (textureManager.getReturnToMenuButtonSprite().getBoundingRectangle().contains(new Vector2(mouse.getX(), mouse.getY()))) {
                     buttonCD = true;
                     return "Main";
@@ -62,7 +63,7 @@ public class PauseMenu extends AbstractMenu{
         if (!buttonCD) {
                 if (textureManager.getResumeButtonSprite().getBoundingRectangle().contains(new Vector2(mouse.getX(), mouse.getY()))) {
                     hoveredOver = "Resume";
-                    
+
                 } else if (textureManager.getReturnToMenuButtonSprite().getBoundingRectangle().contains(new Vector2(mouse.getX(), mouse.getY()))) {
                     hoveredOver = "ReturnToMenu";
                 } else if (textureManager.getRestartSprite().getBoundingRectangle().contains(new Vector2(mouse.getX(), mouse.getY()))) {

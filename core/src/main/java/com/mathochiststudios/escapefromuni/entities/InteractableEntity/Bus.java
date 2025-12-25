@@ -10,6 +10,10 @@ import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
+/**
+ * Bus entity that the player can interact with to win the game.
+ * Using in the bus level and moves towards the bus stop automatically.
+ */
 public class Bus extends InteractableEntity {
 
     private final Animation<TextureRegion> stationaryAnimation;

@@ -9,6 +9,10 @@ import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
+/**
+ * A vending machine that sells rollerblades to the player for 4 coins.
+ * Once purchased, the player gains a speed boost.
+ */
 public class VendingMachine extends InteractableEntity {
 
     private float notificationCooldown = 0.0f;

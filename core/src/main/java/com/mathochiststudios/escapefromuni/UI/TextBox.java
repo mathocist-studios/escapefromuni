@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.mathochiststudios.escapefromuni.Tests.IStage;
 
 public class TextBox{
     private TextField textField;
@@ -14,7 +14,7 @@ public class TextBox{
     private Texture cursor;
     private Texture selection;
 
-    public TextBox(Stage stage, float x, float y, float width, float height) {
+    public TextBox(IStage stage, float x, float y, float width, float height) {
 
         BitmapFont font = new BitmapFont();
 

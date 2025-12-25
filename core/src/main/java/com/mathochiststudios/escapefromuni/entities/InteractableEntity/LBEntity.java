@@ -8,6 +8,9 @@ import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationTyp
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
+/**
+ * Represents the Long Boi entity that the player can interact with to obtain a Long Boi Pet at the long boi altar.
+ */
 public class LBEntity extends InteractableEntity {
 
     private final Texture hintTexture;

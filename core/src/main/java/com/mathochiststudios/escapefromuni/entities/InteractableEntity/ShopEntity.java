@@ -6,6 +6,12 @@ import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
+
+/**
+ * An interactable entity representing a shop in the game.
+ * When the player interacts with this entity, it toggles the shop interface.
+ * A hint texture is displayed when the player is within interaction radius.
+ */
 public class ShopEntity extends InteractableEntity {
 
     private final Texture hintTexture;

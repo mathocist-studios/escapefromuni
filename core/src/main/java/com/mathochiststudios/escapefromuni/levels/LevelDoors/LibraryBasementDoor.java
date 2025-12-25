@@ -8,6 +8,10 @@ import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
+
+/**
+ * Represents the door to the library basement that requires a basement key to enter.
+ */
 public class LibraryBasementDoor {
 
     // Instantiate rectangle to cover desired section of map to block.

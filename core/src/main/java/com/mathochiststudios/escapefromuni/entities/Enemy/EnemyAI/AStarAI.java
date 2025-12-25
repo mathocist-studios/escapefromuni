@@ -9,6 +9,8 @@ public class AStarAI implements IEnemyAI {
 
     /**
      * Update the enemy's position to move towards the player using a simple greedy approach.
+     * <br>
+     * The enemy will attempt to move in the direction of the player, prioritizing horizontal or vertical movement
      *
      * @param game         The game instance.
      * @param enemy        The enemy to update.

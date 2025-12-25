@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.mathochiststudios.escapefromuni.Tests.HeadlessShapeRenderer;
+import com.mathochiststudios.escapefromuni.Tests.IShapeRenderer;
+import com.mathochiststudios.escapefromuni.Tests.LiveShapeRenderer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,15 +18,28 @@ import java.util.Map;
 public class Inventory {
 
     private final ArrayList<InventoryObject> items;
-    ShapeRenderer shapeRenderer = new ShapeRenderer();
+    IShapeRenderer shapeRenderer;
 
     // Cache textures by file path/name to avoid creating new Texture every frame
     private final Map<String, Texture> textureCache = new HashMap<>();
 
     public Inventory() {
         items = new ArrayList<>();
+
+        try {
+            shapeRenderer = new LiveShapeRenderer();
+        } catch (GdxRuntimeException e) {
+            shapeRenderer = new HeadlessShapeRenderer();
+        }
+
     }
 
+    /**
+     * Add an item to the inventory
+     *
+     * @param item the item to add
+     * @return true if added, false if not (e.g., already present and doesn't allow multiples)
+     */
     public boolean addItem(InventoryObject item) {
         if (hasItem(item) && !item.allowsMultiple()) {
             return false;
@@ -107,6 +124,11 @@ public class Inventory {
         if (!batchWasDrawing) batch.end();
     }
 
+    /**
+     * Remove an item from the inventory
+     *
+     * @param item the item to remove
+     */
     public void removeItem(InventoryObject item) {
         items.remove(item);
         // optionally dispose the texture for this item if no longer used by others

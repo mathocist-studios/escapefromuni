@@ -4,44 +4,53 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.Tests.HeadlessStage;
+import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
+import com.mathochiststudios.escapefromuni.Tests.IStage;
+import com.mathochiststudios.escapefromuni.Tests.LiveStage;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 import com.mathochiststudios.escapefromuni.UI.TextBox;
 
 public class PreGameSettingsMenu extends AbstractMenu{
 
-    Stage stage;
+    IStage stage;
     TextBox nameBox;
     String name = "Player";
     String difficulty = "Normal";
 
-    public PreGameSettingsMenu(SpriteBatch batch,
-            FitViewport viewport,
-            int latestScore,
-            boolean wonLastGame,
-            boolean buttonCD,
-            Mouse mouse,
-            TextureManager textureManager,
-            String name,
-            String difficulty,
-            Stage stage
+    public PreGameSettingsMenu(ISpriteBatch batch,
+                               FitViewport viewport,
+                               int latestScore,
+                               boolean wonLastGame,
+                               boolean buttonCD,
+                               Mouse mouse,
+                               TextureManager textureManager,
+                               String name,
+                               String difficulty,
+                               IStage stage
     ) {
         super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
-        stage = new Stage(viewport);
-        Gdx.input.setInputProcessor(stage);
+
+        try {
+            stage = new LiveStage(viewport);
+            Gdx.input.setInputProcessor((InputProcessor) stage);
+        } catch (IllegalArgumentException e) {
+            stage = new HeadlessStage(null);
+        }
+
         this.name = name;
         this.difficulty = difficulty;
         this.stage = stage;
 
         nameBox = new TextBox(stage, 250+80, 600, 300, 40);
-        
+
     }
 
-    public void update(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
+    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
         this.batch = batch;
         this.viewport = viewport;
         this.latestScore = latestScore;
@@ -129,7 +138,7 @@ public class PreGameSettingsMenu extends AbstractMenu{
 
         viewport.apply();
 
-        
+
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
         batch.draw(textureManager.getMenuBackdropSprite(),0,0, 1280, 960);
@@ -166,8 +175,8 @@ public class PreGameSettingsMenu extends AbstractMenu{
             batch.draw(textureManager.getSubmitTexture(),600+80,580, 300, 100);
         }
 
-        
-        
+
+
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
@@ -189,5 +198,5 @@ public class PreGameSettingsMenu extends AbstractMenu{
 
     public String getDifficulty() {
         return this.difficulty;
-    }   
+    }
 }

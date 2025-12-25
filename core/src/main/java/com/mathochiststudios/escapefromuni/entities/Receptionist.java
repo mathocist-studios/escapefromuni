@@ -30,6 +30,11 @@ public class Receptionist extends XAxisSlidingEntity{
         this.sprite.setX(updatedX);
     }
 
+    /**
+     * Handles the logic for handing in the wallet to the receptionist.
+     * @param player The player entity.
+     * @param level The current level.
+     */
     public void handInWallet(Player player, Level level) {
         if (this.isCollidingWithPlayer(player.getMoneyRectangle())) {
             if (player.getInventory().hasItem(InventoryObject.WALLET)) {

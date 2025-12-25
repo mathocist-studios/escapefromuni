@@ -14,10 +14,10 @@ import com.mathochiststudios.escapefromuni.levels.Level;
 
 public class Dean extends Enemy {
 
-    private Animation<TextureRegion> stationaryAnimation;
-    private Animation<TextureRegion> upAnimation;
-    private Animation<TextureRegion> downAnimation;
-    private Animation<TextureRegion> rightAnimation;
+    private final Animation<TextureRegion> stationaryAnimation;
+    private final Animation<TextureRegion> upAnimation;
+    private final Animation<TextureRegion> downAnimation;
+    private final Animation<TextureRegion> rightAnimation;
 
     // Player starts standing still.
     private EnemyMoveDirection moveDirection = EnemyMoveDirection.STATIONARY;
@@ -51,6 +51,8 @@ public class Dean extends Enemy {
 
     @Override
     public void triggerCollisionBehavior(Player player) {
+        // On collision with the player, send them back to the previous level and penalize time
+        // since dean is in the basement the previous level is the final library level
         this.game.switchToLevel(game.currentLevel.getPrevLevel(), "Side");
         player.getGameTimer().addTime(-15.0f);
         player.getEventsCounter().caughtByDean();
@@ -73,37 +75,36 @@ public class Dean extends Enemy {
 
         this.moveDirection = direction;
 
+        // Determine the current frame based on direction and state time
         TextureRegion currentFrame;
-        boolean flipX;
-
-        switch (direction) {
-            case STATIONARY:
+        boolean flipX = switch (direction) {
+            case STATIONARY -> {
                 currentFrame = this.stationaryAnimation.getKeyFrame(stateTime, true);
                 // ensure not flipped
-                flipX = false;
-                break;
-            case DOWN:
+                yield false;
+            }
+            case DOWN -> {
                 currentFrame = this.downAnimation.getKeyFrame(stateTime, true);
-                flipX = false;
-                break;
-            case UP:
+                yield false;
+            }
+            case UP -> {
                 currentFrame = this.upAnimation.getKeyFrame(stateTime, true);
-                flipX = false;
-                break;
-            case RIGHT:
+                yield false;
+            }
+            case RIGHT -> {
                 currentFrame = this.rightAnimation.getKeyFrame(stateTime, true);
-                flipX = false;
-                break;
-            case LEFT:
+                yield false;
+            }
+            case LEFT -> {
                 // For LEFT, use the RIGHT animation frame but flip the sprite horizontally.
                 currentFrame = this.rightAnimation.getKeyFrame(stateTime, true);
-                flipX = true;
-                break;
-            default:
+                yield true;
+            }
+            default -> {
                 currentFrame = this.stationaryAnimation.getKeyFrame(stateTime, true);
-                flipX = false;
-                break;
-        }
+                yield false;
+            }
+        };
 
         // Update the sprite's texture region to draw just the current frame
         this.getSprite().setRegion(currentFrame);

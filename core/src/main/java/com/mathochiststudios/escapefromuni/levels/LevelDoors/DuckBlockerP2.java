@@ -8,6 +8,10 @@ import com.mathochiststudios.escapefromuni.entities.InteractableEntity.BirdSeed;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
+/**
+ * DuckBlockerP2 class represents a barrier in the game level that blocks the player's path
+ * until they acquire birdseed to distract the ducks.
+ */
 public class DuckBlockerP2 {
 
     // Instantiate rectangle to cover desired section of map to block.

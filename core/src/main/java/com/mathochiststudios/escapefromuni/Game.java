@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.Tests.*;
 import com.mathochiststudios.escapefromuni.UI.HUD;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
 import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
@@ -54,10 +56,10 @@ public class Game {
     private final ArrayList<Level> levels;
 
     TiledMap map; // define map
-    OrthogonalTiledMapRenderer mapRenderer; // define map renderer
+    ITiledMapRenderer mapRenderer; // define map renderer
     FitViewport viewport;
     OrthographicCamera camera;
-    SpriteBatch spriteBatch;
+    ISpriteBatch spriteBatch;
 
     public static Level currentLevel;
 
@@ -190,11 +192,22 @@ public class Game {
         // Starting level is floor 0 of the library (a tmx).
         map = new TmxMapLoader().load("maps/libraryfloor0.tmx");
         unitScale = 1 / 16f;
-        mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
+
+        try {
+            mapRenderer = new LiveTiledMapRenderer(map, unitScale);
+        } catch (IllegalArgumentException e) {
+            mapRenderer = new HeadlessTiledMapRenderer();
+        }
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 40, 30);
         mapRenderer.setView(camera);
-        spriteBatch = new SpriteBatch();
+
+        if (Main.TESTING) {
+            spriteBatch = new HeadlessBatch();
+        } else {
+            spriteBatch = new LiveSpriteBatch();
+        }
 
         switchToLevel(currentLevel, "Forward");
 
@@ -202,7 +215,7 @@ public class Game {
 
         Notification welcomeNotification = new Notification(
             "Ohh.. I think I fell asleep in the library again...\nI better get going before it closes!",
-            2,
+            5,
             NotificationType.SPEECH,
             textureManager.getGameSmallFont()
         );
@@ -465,8 +478,6 @@ public class Game {
         // TODO: check this logic
         for (Enemy enemy : currentLevel.getLevelEnemies()) {
             if (!(enemy.isDead()) && player.getMoneyRectangle().overlaps(enemy.getCollider())) {
-                // Revert player position
-                player.getMoneySprite().setPosition(player.getOldMoneyX(), player.getOldMoneyY());
                 // Trigger enemy behavior
                 enemy.triggerCollisionBehavior(player);
                 break; // Exit loop after first collision to prevent multiple reactions
@@ -692,13 +703,13 @@ public class Game {
         }
 
         // Draws the level entities.
-        currentLevel.draw(spriteBatch);
+        currentLevel.draw((SpriteBatch) spriteBatch);
 
         for (InteractableEntity entity : currentLevel.getLevelInteractableEntities()) {
             if (entity.isAbovePlayer()) {
                 continue;
             }
-            entity.render(spriteBatch);
+            entity.render((SpriteBatch) spriteBatch);
         }
 
         TextureRegion currentFrame;
@@ -721,18 +732,18 @@ public class Game {
         //moneySprite.draw(spriteBatch); // Draw the character
 
         player.getLbPet().setObjectivePoint(new float[] {player.getMoneySprite().getX(), player.getMoneySprite().getY()});
-        player.getLbPet().render(spriteBatch);
+        player.getLbPet().render((SpriteBatch) spriteBatch);
 
         for (InteractableEntity entity : currentLevel.getLevelInteractableEntities()) {
             if (!entity.isAbovePlayer()) {
                 continue;
             }
-            entity.render(spriteBatch);
+            entity.render((SpriteBatch) spriteBatch);
         }
 
         for (Collectible coin : currentLevel.getLevelCoins()) {
             if (!(coin.isCollected())) {
-                coin.render(spriteBatch);
+                coin.render((SpriteBatch) spriteBatch);
             }
             else if (coin.isCollected() && coin.getCollectibleAdded()) {
             }
@@ -745,7 +756,7 @@ public class Game {
         // OK this is impossible.
         for (SpeedPowerup planet : currentLevel.getLevelPowerups()) {
             if (!(planet.isCollected())) {
-                planet.render(spriteBatch);
+                planet.render((SpriteBatch) spriteBatch);
             }
             else if (planet.isCollected() && planet.isSpeedPowerUpAdded()) {
             }
@@ -756,16 +767,16 @@ public class Game {
 
         for (Enemy enemy : currentLevel.getLevelEnemies()) {
             if (!(enemy.isDead())) {
-                enemy.render(spriteBatch);
+                enemy.render((SpriteBatch) spriteBatch);
             }
         }
 
-        player.getInventory().render(spriteBatch, camera);
+        player.getInventory().render((SpriteBatch) spriteBatch, camera);
 
         for (InteractableEntity entity : getInteractableInRange(
             player.getMoneySprite().getX() + player.getMoneyWidth() / 2,
             player.getMoneySprite().getY() + player.getMoneyHeight() / 2)) {
-            entity.withinInteractionRadius(player, currentLevel, spriteBatch);
+            entity.withinInteractionRadius(player, currentLevel, (SpriteBatch) spriteBatch);
         }
 
         spriteBatch.end();
@@ -859,7 +870,7 @@ public class Game {
     }
 
     public SpriteBatch getSpriteBatch() {
-        return spriteBatch;
+        return (SpriteBatch) spriteBatch;
     }
 
     public int getScore() {

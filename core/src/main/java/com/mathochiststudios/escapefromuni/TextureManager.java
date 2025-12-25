@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.utils.SharedLibraryLoadRuntimeException;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.UI.ShopUI;
 
@@ -117,7 +118,18 @@ public class TextureManager {
         // Initialize textures, sprites, fonts, and other graphical assets here
         mainLayout = new GlyphLayout();
 
-        generateFonts();
+        try {
+            this.generateFonts();
+            gameLargeFont = this.genMainFont(90);
+            gameSmallFont = this.genMainFont(30);
+            gameMediumFont = this.genMainFont(50);
+        } catch (SharedLibraryLoadRuntimeException e) {
+            mainFont = null;
+            shopFont = null;
+            gameLargeFont = null;
+            gameSmallFont = null;
+            gameMediumFont = null;
+        }
 
         menuText = new Texture("escapefromunititle.png");
         pausedText = new Texture("pausedtext.png");
@@ -226,7 +238,7 @@ public class TextureManager {
         hoverRestartSprite = new Sprite(hoverRestartTexture);
         hoverRestartSprite.setSize(300, 100);
         hoverRestartSprite.setPosition(240+80,300);
-        
+
         SubmitTexture = new Texture("Submit.png");
         SubmitSprite = new Sprite(SubmitTexture);
         SubmitSprite.setSize(300, 100);
@@ -278,10 +290,6 @@ public class TextureManager {
         buyBFSprite = new Sprite(buyBFTexture);
         //buyBFSprite.setSize(290,120);
         buyBFSprite.setPosition(viewport.getWorldWidth()/2, 250);
-
-        gameLargeFont = this.genMainFont(90);
-        gameSmallFont = this.genMainFont(30);
-        gameMediumFont = this.genMainFont(50);
 
         coinSound = Gdx.audio.newSound(Gdx.files.internal("coin-drop-422703.mp3"));
         coinTexture = new Texture("Custom_coin_sprite.png");
@@ -594,7 +602,7 @@ public class TextureManager {
     public Texture getMenuBackdropTexture() {
         return MenuBackdropTexture;
     }
-    
+
     public Texture getunExitButtonTexture() {
         return unexitButtonTexture;
     }
@@ -673,8 +681,11 @@ public class TextureManager {
 
     public void dispose() {
         // Dispose of all textures, sprites, fonts, and other graphical assets here
-        mainFont.dispose();
-        shopFont.dispose();
+        if (mainFont != null) {
+            mainFont.dispose();
+            shopFont.dispose();
+        }
+
         playButtonTexture.dispose();
         returnToMenuButtonTexture.dispose();
         resumeButtonTexture.dispose();

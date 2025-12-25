@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
@@ -53,13 +54,13 @@ public class EndGameMenu extends AbstractMenuLegacy {
     private String nextMenu = "EndMenu";
     private double buttonCooldown = 0;
 
-    public EndGameMenu(SpriteBatch batch,
-                           FitViewport viewport,
-                           int latestScore,
-                           boolean wonLastGame,
-                           boolean buttonCD,
-                           Mouse mouse,
-                           TextureManager textureManager
+    public EndGameMenu(ISpriteBatch batch,
+                       FitViewport viewport,
+                       int latestScore,
+                       boolean wonLastGame,
+                       boolean buttonCD,
+                       Mouse mouse,
+                       TextureManager textureManager
     ) {
         super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
 
@@ -74,7 +75,7 @@ public class EndGameMenu extends AbstractMenuLegacy {
         this.walkAnimation = new Animation<>(0.05f, this.walkFrames);
     }
 
-    public void update(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
+    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
         this.batch = batch;
         this.viewport = viewport;
         this.latestScore = latestScore;

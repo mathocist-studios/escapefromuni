@@ -9,9 +9,9 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
@@ -21,18 +21,18 @@ public class LeaderboardMenu extends AbstractMenu{
     String path = System.getProperty("user.dir");
     File leaderboardFile = new File(path, "leaderboards.txt");
 
-    public LeaderboardMenu(SpriteBatch batch,
-            FitViewport viewport,
-            int latestScore,
-            boolean wonLastGame,
-            boolean buttonCD,
-            Mouse mouse,
-            TextureManager textureManager
+    public LeaderboardMenu(ISpriteBatch batch,
+                           FitViewport viewport,
+                           int latestScore,
+                           boolean wonLastGame,
+                           boolean buttonCD,
+                           Mouse mouse,
+                           TextureManager textureManager
     ) {
         super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
     }
 
-    public void update(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
+    public void update(ISpriteBatch  batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
         this.batch = batch;
         this.viewport = viewport;
         this.latestScore = latestScore;
@@ -132,7 +132,7 @@ public class LeaderboardMenu extends AbstractMenu{
         Boolean hasLineBeenAdded = false;
         try (BufferedReader br = new BufferedReader(new FileReader(leaderboardFile))) {
             String line;
-            
+
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) {
                     continue;
@@ -192,5 +192,5 @@ public class LeaderboardMenu extends AbstractMenu{
             leaderboardLines.clear();
             leaderboardLines.add("Error reading leaderboard.");
         }
-    }   
+    }
 }

@@ -9,13 +9,12 @@ import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObj
 
 public class BasementKey {
 
-
     private final Texture texture = new Texture("basement_key.png");
     private final Sprite sprite = new Sprite(texture);
 
-    private int[] spawn = {38, 26}; // Fixed spawn location for the Rucksack
+    private final int[] spawn = {38, 26}; // Fixed spawn location for the Rucksack
 
-    private Rectangle rectangle;
+    private final Rectangle rectangle;
     private boolean isDisposed;
 
     public BasementKey() {

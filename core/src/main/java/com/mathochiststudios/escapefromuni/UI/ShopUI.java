@@ -14,17 +14,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.ShopStuff.Shop;
+import com.mathochiststudios.escapefromuni.Tests.HeadlessShapeRenderer;
+import com.mathochiststudios.escapefromuni.Tests.IShapeRenderer;
+import com.mathochiststudios.escapefromuni.Tests.LiveShapeRenderer;
 import com.mathochiststudios.escapefromuni.entities.Player;
 
 public class ShopUI {
 
     Mouse mouse = new Mouse();
 
-    private final ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private IShapeRenderer shapeRenderer;
 
     private Stage stage;
     private Table rootTable;
@@ -35,6 +39,17 @@ public class ShopUI {
     private Image shopIconImage;
 
     private double lastClickTime = 0.0;
+
+    public ShopUI() {
+
+        try {
+            shapeRenderer = new LiveShapeRenderer();
+        } catch (GdxRuntimeException e) {
+            // Fallback to headless shape renderer if LiveShapeRenderer cannot be created
+            shapeRenderer = new HeadlessShapeRenderer();
+        }
+
+    }
 
     public void drawShopMenu(Viewport viewport, SpriteBatch batch, Sprite shopIconSprite, Sprite buyEDSprite, Sprite buyBFSprite, BitmapFont shopfont, GlyphLayout layout) {
         viewport.apply();

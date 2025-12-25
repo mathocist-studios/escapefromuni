@@ -5,7 +5,9 @@ import java.util.Objects;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -17,10 +19,13 @@ import com.mathochiststudios.escapefromuni.Menus.PauseMenu;
 import com.mathochiststudios.escapefromuni.Menus.PreGameSettingsMenu;
 import com.mathochiststudios.escapefromuni.Menus.SettingsMenu;
 import com.mathochiststudios.escapefromuni.Menus.TutorialMenu;
+import com.mathochiststudios.escapefromuni.Tests.*;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main implements ApplicationListener {
+
+    public static boolean TESTING = true; // Set to false for production
 
     Game game;
 
@@ -28,7 +33,7 @@ public class Main implements ApplicationListener {
 
     Boolean gameStarted;
 
-    public SpriteBatch batch;
+    public ISpriteBatch batch;
     public FitViewport viewport;
 
     boolean paused = false;
@@ -64,7 +69,7 @@ public class Main implements ApplicationListener {
 
     String name = "Player";
 
-    Stage stage;
+    IStage stage;
 
     @Override
     public void create() {
@@ -73,11 +78,20 @@ public class Main implements ApplicationListener {
         buttonCD = false;
         wonLastGame = false;
 
-        batch = new SpriteBatch();
+        if (TESTING) {
+            batch = new HeadlessBatch();
+        } else {
+            batch = new LiveSpriteBatch();
+        }
+
         viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        stage = new Stage(viewport);
-        Gdx.input.setInputProcessor(stage);
+        if (TESTING) {
+            stage = new HeadlessStage(viewport);
+        } else {
+            stage = new LiveStage(viewport);
+            Gdx.input.setInputProcessor((InputProcessor) stage);
+        }
 
         game = new Game(this, gameDifficulty);
 
@@ -86,8 +100,8 @@ public class Main implements ApplicationListener {
         tutorialMenu = new TutorialMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
         endGameMenu = new EndGameMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
         pauseMenu = new PauseMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
-        settingsMenu = new SettingsMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager,name, difficulty,stage);
-        preGamesettingsMenu = new PreGameSettingsMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager,name, difficulty,stage);
+        settingsMenu = new SettingsMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager,name, difficulty, stage);
+        preGamesettingsMenu = new PreGameSettingsMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager,name, difficulty, stage);
 
         // Load fonts
         textureManager = new TextureManager(viewport);
@@ -130,7 +144,7 @@ public class Main implements ApplicationListener {
                 }
                 textureManager.getBgm().setVolume(0.3f);
                 textureManager.getBgm().play();
-                game.draw(batch, viewport);
+                game.draw((SpriteBatch) batch, viewport);
 
                 if (!paused) {
                     game.input();
@@ -208,7 +222,7 @@ public class Main implements ApplicationListener {
             }
             case "Settings" -> {
                 menuState = "PreGameSettings";
-                /* 
+                /*
                 if (hasReset) {
                     settingsMenu.resetText();
                     hasReset = false;
@@ -316,6 +330,10 @@ public class Main implements ApplicationListener {
 
     public String getPlayerName() {
         return name;
+    }
+
+    public Game getGame() {
+        return game;
     }
 
 }

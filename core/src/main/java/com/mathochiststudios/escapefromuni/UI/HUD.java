@@ -10,6 +10,10 @@ import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationMan
 import com.mathochiststudios.escapefromuni.UI.QuestSystem.QuestSystem;
 import com.mathochiststudios.escapefromuni.entities.Player;
 
+/**
+ * Heads-Up Display (HUD) class responsible for rendering UI elements such as the timer,
+ * coin counter, minimap, notifications, and quest system.
+ */
 public class HUD {
 
     private final FitViewport uiViewport;

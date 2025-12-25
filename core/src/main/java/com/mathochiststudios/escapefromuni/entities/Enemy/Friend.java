@@ -122,7 +122,7 @@ public class Friend extends Enemy {
         // Initial notification when player first gets close to friend
         if (!player.getEventsCounter().hasFoundFriend() && currentLevel.getGame().friendFollowing) {
             Notification notification = new Notification(
-                "Oh! Hey Player! Are you going to the bus?\nI'm feeling really ill can you help me get there?",
+                "Oh! Hey " + game.getMainApp().getPlayerName() +"! Are you going to the bus?\nI'm feeling really ill can you help me get there?",
                 5,
                 NotificationType.SPEECH,
                 currentLevel.getGame().getTextureManager().getGameSmallFont()

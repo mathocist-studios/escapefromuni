@@ -18,6 +18,8 @@ import java.util.List;
 
 public class Player {
 
+    public static final String ASSET = "prototype_character.png";
+
     // Bringing declaration of all player-related values across.
     Texture moneyTexture = new Texture("vecteezy_pack-of-dollars-money-clipart-design-illustration_9391394.png");
     private Sprite moneySprite = new Sprite(this.moneyTexture);
@@ -27,7 +29,7 @@ public class Player {
     // Assign the atlas, and it is final as it does not change.
     private final TextureAtlas atlas = new TextureAtlas();
     // Assign the walkSheet, and it is final as it does not change.
-    private final Texture walkSheet = new Texture("prototype_character.png");
+    private final Texture walkSheet = new Texture(ASSET);
     Animation<TextureRegion> stationaryAnimation;
     Animation<TextureRegion> upAnimation;
     Animation<TextureRegion> downAnimation;
@@ -49,14 +51,14 @@ public class Player {
     // Game start with this speed.
     public float defaultSpeed;
     // This will be the list containing all the active power-ups.
-    private List<SpeedPowerup> activePowerUps = new ArrayList<>();
+    private final List<SpeedPowerup> activePowerUps = new ArrayList<>();
     private int coins;
     private int totalCoinsCollected;
     private int totalSpeedPowerupsCollected;
     private double happiness = 50;
 
     // janky variable to know if slowed by water
-    private int slowedByWater = 0;
+    private double slowedByWater = 0;
     private double startTimeLongBoiPet = -1;
 
     private final Inventory inventory;
@@ -252,7 +254,7 @@ public class Player {
     }
 
     public float getSpeed(){
-        return this.speed - slowedByWater;
+        return (float) (this.speed * slowedByWater);
     }
 
     public void update(float deltaTime) {
@@ -271,7 +273,7 @@ public class Player {
     }
 
     public void setSlowedByWater(boolean slowedByWater) {
-        this.slowedByWater = slowedByWater ? 7 : 0;
+        this.slowedByWater = slowedByWater ? 0.5 : 1;
     }
 
     public int getTotalCoinsCollected() {

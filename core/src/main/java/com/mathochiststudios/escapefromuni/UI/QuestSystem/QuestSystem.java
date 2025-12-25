@@ -24,11 +24,11 @@ public class QuestSystem {
     }
 
     public void addMainQuest(Quest quest) {
-        if (mainQuests.isEmpty()) {
+        if (mainQuests.isEmpty()) { // no main quests yet
             mainQuests.push(quest);
             return;
         }
-        if (quest.getLevel() <= mainQuests.peek().getLevel()) {
+        if (quest.getLevel() <= mainQuests.peek().getLevel()) { // quest already exists or is lower level
             return;
         }
         mainQuests.push(quest);
@@ -69,9 +69,13 @@ public class QuestSystem {
 
         batch.begin();
         font.setColor(1, 1, 0, 1);
+
+        // draw header
         font.draw(batch, "Quests", camera.viewportWidth - layout.width - 20, y);
         y -= layout.height + 10;
         font.setColor(1, 1, 1, 1);
+
+        // draw main quest
         if (getCurrentMainQuest() != null) {
             layout.setText(font, "Main: " + getCurrentMainQuest().getTitle());
             font.draw(batch, "Main: " + getCurrentMainQuest().getTitle(), camera.viewportWidth - layout.width - 20, y);
@@ -80,6 +84,8 @@ public class QuestSystem {
             font.draw(batch, "Main: None", camera.viewportWidth - layout.width - 20, y);
         }
         y -= layout.height + 10;
+
+        // draw side quests
         for (Quest quest : sideQuests) {
             layout.setText(font, "Side: " + quest.getTitle());
             font.draw(batch, "Side: " + quest.getTitle(), camera.viewportWidth - layout.width - 20, y);

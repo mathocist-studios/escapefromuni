@@ -5,6 +5,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.mathochiststudios.escapefromuni.Tests.HeadlessShapeRenderer;
+import com.mathochiststudios.escapefromuni.Tests.IShapeRenderer;
+import com.mathochiststudios.escapefromuni.Tests.LiveShapeRenderer;
 
 public class Notification {
 
@@ -13,14 +17,18 @@ public class Notification {
     private final NotificationType type;
 
     private double startTimeMillis = 0;
-    private final ShapeRenderer shapeRenderer;
+    private IShapeRenderer shapeRenderer;
     private final BitmapFont font;
 
     public Notification(String message, double duration, NotificationType type, BitmapFont font) {
         this.message = message;
         this.duration = duration;
         this.type = type;
-        this.shapeRenderer = new ShapeRenderer();
+        try {
+            shapeRenderer = new LiveShapeRenderer();
+        } catch (GdxRuntimeException e) {
+            shapeRenderer = new HeadlessShapeRenderer();
+        }
         this.font = font;
     }
 

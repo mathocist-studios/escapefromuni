@@ -2,17 +2,17 @@ package com.mathochiststudios.escapefromuni.Menus;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
 public class MainMenu extends AbstractMenu{
 
     public MainMenu(
-            SpriteBatch batch,
+            ISpriteBatch batch,
             FitViewport viewport,
             int latestScore,
             boolean wonLastGame,
@@ -30,7 +30,7 @@ public class MainMenu extends AbstractMenu{
         this.acceleration = 40;
     }
 
-    public void update(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
+    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
         this.batch = batch;
         this.viewport = viewport;
         this.latestScore = latestScore;
@@ -55,7 +55,7 @@ public class MainMenu extends AbstractMenu{
                 )) {
                 return "Tutorial";
             }
-            
+
             if (!buttonCD &&
                 textureManager.getSettingsButtonSprite().getBoundingRectangle().contains(
                     new Vector2(mouse.getX(),mouse.getY())
@@ -102,7 +102,7 @@ public class MainMenu extends AbstractMenu{
         return "Main";
     }
 
-    
+
     public void draw() {
 
         ScreenUtils.clear(Color.BLACK);
@@ -155,10 +155,10 @@ public class MainMenu extends AbstractMenu{
         batch.draw(textureManager.getunLeaderboardButtonSprite(),textX,300, 700, 100);
         batch.draw(textureManager.getunExitButtonSprite(),textX,200, 700, 100);
         }
-        
 
-        
-        
+
+
+
 
         if (latestScore > -1) {
 

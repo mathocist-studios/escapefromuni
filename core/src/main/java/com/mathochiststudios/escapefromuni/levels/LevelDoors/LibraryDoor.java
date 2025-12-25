@@ -8,6 +8,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
+/**
+ * Represents the library door that blocks the player's exit until they have the required items.
+ */
 public class LibraryDoor {
 
     // Instantiate rectangle to cover desired section of map to block.

@@ -19,8 +19,10 @@ public class DuckAI implements IEnemyAI {
     private float[] nextPoint = {0, 0};
     private final float[] seedDestination = {0, 0};
 
+    // handle moving towards birdseed if placed down
     private EnemyMoveDirection handleBirdSeedDown(Game game, Enemy enemy, float deltaTime, Level currentLevel, Player player, float speed) {
 
+        // if not point select a point near the birdseed to stop at
         if (seedDestination[0] == 0 && seedDestination[1] == 0) {
             float birdSeedX = ((Duck) enemy).getBirdSeed().getEntityX() + ((Duck) enemy).getBirdSeed().getEntityWidth() / 2;
             float birdSeedY = ((Duck) enemy).getBirdSeed().getEntityY() + ((Duck) enemy).getBirdSeed().getEntityHeight() / 2;
@@ -51,7 +53,7 @@ public class DuckAI implements IEnemyAI {
         }
 
         // check if moving in that direction will cause a collision
-
+        // if so try to move in the other axis first
         if (Math.abs(dx) >= Math.abs(dy)) {
             if (dx > 0 && !collisions[3]) {
                 enemy.setEnemyX( enemyX + dx );
@@ -86,6 +88,7 @@ public class DuckAI implements IEnemyAI {
 
     @Override
     public EnemyMoveDirection update(Game game, Enemy enemy, float deltaTime, Level currentLevel, Player player, float speed) {
+        // ensure enemy is a duck so we can access duck specific methods like getBirdSeed
         if (!(enemy instanceof Duck)) {
             throw new IllegalArgumentException("DuckAI can only be used with Duck enemies.");
         }

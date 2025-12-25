@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
 public class TutorialMenu extends AbstractMenu{
 
     public TutorialMenu(
-            SpriteBatch batch,
+            ISpriteBatch batch,
             FitViewport viewport,
             int latestScore,
             boolean wonLastGame,
@@ -23,7 +24,7 @@ public class TutorialMenu extends AbstractMenu{
         super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
     }
 
-    public void update(SpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
+    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
         this.batch = batch;
         this.viewport = viewport;
         this.latestScore = latestScore;
@@ -63,7 +64,7 @@ public class TutorialMenu extends AbstractMenu{
         this.acceleration = 40;
     }
 
-    
+
     public void draw() {
 
         textX=textX+acceleration;
@@ -91,8 +92,8 @@ public class TutorialMenu extends AbstractMenu{
         else {
         batch.draw(textureManager.getunStartButtonSprite(),textX,100, 700, 100);
         }
-        
-        
+
+
 
         batch.end();
     }

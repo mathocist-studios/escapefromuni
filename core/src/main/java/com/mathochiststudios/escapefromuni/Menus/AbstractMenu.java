@@ -2,12 +2,13 @@ package com.mathochiststudios.escapefromuni.Menus;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
 import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
 public abstract class AbstractMenu {
 
-    protected SpriteBatch batch;
+    protected ISpriteBatch batch;
     protected FitViewport viewport;
 
     protected int latestScore = -1;
@@ -23,7 +24,7 @@ public abstract class AbstractMenu {
     protected int acceleration = 10;
 
     protected AbstractMenu(
-            SpriteBatch batch,
+            ISpriteBatch batch,
             FitViewport viewport,
             int latestScore,
             boolean wonLastGame,
@@ -44,7 +45,7 @@ public abstract class AbstractMenu {
      * Update shared menu state (useful when switching menus)
      */
     public void update(
-            SpriteBatch batch,
+            ISpriteBatch batch,
             FitViewport viewport,
             int latestScore,
             boolean wonLastGame,

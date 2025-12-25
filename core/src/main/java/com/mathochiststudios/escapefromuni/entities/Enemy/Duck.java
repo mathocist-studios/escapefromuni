@@ -13,8 +13,8 @@ import com.mathochiststudios.escapefromuni.levels.Level;
 
 public class Duck extends Enemy {
 
-    private Animation<TextureRegion> stationaryAnimation;
-    private Animation<TextureRegion> walkAnimation;
+    private final Animation<TextureRegion> stationaryAnimation;
+    private final Animation<TextureRegion> walkAnimation;
 
     // Player starts standing still.
     private EnemyMoveDirection moveDirection = EnemyMoveDirection.STATIONARY;

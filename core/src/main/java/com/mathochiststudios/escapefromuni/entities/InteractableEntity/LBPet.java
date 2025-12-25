@@ -10,6 +10,9 @@ import com.mathochiststudios.escapefromuni.Game;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.levels.Level;
 
+/**
+ * A pet that follows the player around after being summoned.
+ */
 public class LBPet extends InteractableEntity {
 
     private final Animation<TextureRegion> stationaryAnimation;

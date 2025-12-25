@@ -7,14 +7,18 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
 
+/**
+ * This class represents the Rucksack collectible in the game.
+ * When the player collides with the Rucksack, it is added to their inventory.
+ */
 public class Rucksack {
 
     private final Texture texture = new Texture("rucksack.png");
     private final Sprite sprite = new Sprite(texture);
 
-    private int[] spawn = {35, 24}; // Fixed spawn location for the Rucksack
+    private final int[] spawn = {35, 24}; // Fixed spawn location for the Rucksack
 
-    private Rectangle rectangle;
+    private final Rectangle rectangle;
     private boolean isDisposed;
 
     public Rucksack() {
