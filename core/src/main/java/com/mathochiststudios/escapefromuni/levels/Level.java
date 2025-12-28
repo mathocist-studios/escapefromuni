@@ -180,4 +180,8 @@ public abstract class Level {
         return this.game;
     }
 
+    public void addSpeedPowerup(SpeedPowerup sp) {
+        this.levelSpeedPowerups.add(sp);
+    }
+
 }

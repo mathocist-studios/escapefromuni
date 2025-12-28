@@ -54,12 +54,20 @@ public class EventsCounter {
         this.foundLibraryCard = true;
     }
 
+    public boolean hasFoundLibraryCard() {
+        return this.foundLibraryCard;
+    }
+
     public void foundBasementKey() {
         if (this.foundBasementKey) {
             return;
         }
         this.negativeEventsEncountered += 1;
         this.foundBasementKey = true;
+    }
+
+    public boolean hasFoundBasementKey() {
+        return this.foundBasementKey;
     }
 
     public void handedInWallet() {
@@ -102,12 +110,20 @@ public class EventsCounter {
         this.buyRollerSkates = true;
     }
 
+    public boolean hasBoughtRollerSkates() {
+        return this.buyRollerSkates;
+    }
+
     public void slowedByWater() {
         if (this.isSlowedByWater) {
             return;
         }
         this.negativeEventsEncountered += 1;
         this.isSlowedByWater = true;
+    }
+
+    public boolean hasBeenSlowedByWater() {
+        return this.isSlowedByWater;
     }
 
     public void foundFriend() {
@@ -130,12 +146,20 @@ public class EventsCounter {
         this.boughtEnergyDrink = true;
     }
 
+    public boolean hasBoughtEnergyDrink() {
+        return this.boughtEnergyDrink;
+    }
+
     public void movedDucks() {
         if (this.movedDucks) {
             return;
         }
         this.negativeEventsEncountered += 1;
         this.movedDucks = true;
+    }
+
+    public boolean hasMovedDucks() {
+        return this.movedDucks;
     }
 
     public void madeItToBusStop() {

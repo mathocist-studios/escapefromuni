@@ -8,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -888,6 +886,10 @@ public class Game {
             (player.getInventory().hasItem(InventoryObject.ROLLERBLADES) ? 50 : 0) +
             (player.getInventory().hasItem(InventoryObject.ENERGY_DRINK) ? 50 : 0)
         ));
+    }
+
+    public Level getCurrentLevel() {
+        return currentLevel;
     }
 
 }
