@@ -1,9 +1,7 @@
 package com.mathochiststudios.escapefromuni.Menus;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
-import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
 public abstract class AbstractMenu {
@@ -16,7 +14,7 @@ public abstract class AbstractMenu {
     protected boolean buttonCD;
 
     protected Mouse mouse;
-    protected TextureManager textureManager;
+    protected MenuTextureManager textureManager;
 
     protected String hoveredOver = "Play";
 
@@ -30,7 +28,7 @@ public abstract class AbstractMenu {
             boolean wonLastGame,
             boolean buttonCD,
             Mouse mouse,
-            TextureManager textureManager
+            MenuTextureManager textureManager
     ) {
         this.batch = batch;
         this.viewport = viewport;
@@ -51,7 +49,7 @@ public abstract class AbstractMenu {
             boolean wonLastGame,
             boolean buttonCD,
             Mouse mouse,
-            TextureManager textureManager,
+            MenuTextureManager textureManager,
             String hoveredOver
     ) {
         this.batch = batch;

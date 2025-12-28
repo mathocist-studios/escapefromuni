@@ -7,19 +7,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.Menus.EndGameMenu;
 import com.mathochiststudios.escapefromuni.Menus.LeaderboardMenu;
 import com.mathochiststudios.escapefromuni.Menus.MainMenu;
+import com.mathochiststudios.escapefromuni.Menus.MenuTextureManager;
 import com.mathochiststudios.escapefromuni.Menus.PauseMenu;
 import com.mathochiststudios.escapefromuni.Menus.PreGameSettingsMenu;
 import com.mathochiststudios.escapefromuni.Menus.SettingsMenu;
 import com.mathochiststudios.escapefromuni.Menus.TutorialMenu;
-import com.mathochiststudios.escapefromuni.Tests.*;
+import com.mathochiststudios.escapefromuni.Tests.HeadlessBatch;
+import com.mathochiststudios.escapefromuni.Tests.HeadlessStage;
+import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
+import com.mathochiststudios.escapefromuni.Tests.IStage;
+import com.mathochiststudios.escapefromuni.Tests.LiveSpriteBatch;
+import com.mathochiststudios.escapefromuni.Tests.LiveStage;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -47,7 +51,9 @@ public class Main implements ApplicationListener {
     //used for mouse coordinates
     Mouse mouse = new Mouse();
 
-    TextureManager textureManager;
+    MenuTextureManager textureManager;
+
+    TextureManager textureManagerClassic;
 
     String menuState = "Main";
 
@@ -104,7 +110,8 @@ public class Main implements ApplicationListener {
         preGamesettingsMenu = new PreGameSettingsMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager,name, difficulty, stage);
 
         // Load fonts
-        textureManager = new TextureManager(viewport);
+        textureManager = new MenuTextureManager(viewport);
+        textureManagerClassic = new TextureManager(viewport);
     }
 
     public void startGame() {
@@ -142,8 +149,8 @@ public class Main implements ApplicationListener {
                     paused = !paused;
                     ScreenUtils.clear(Color.CLEAR);
                 }
-                textureManager.getBgm().setVolume(0.3f);
-                textureManager.getBgm().play();
+                textureManagerClassic.getBgm().setVolume(0.3f);
+                textureManagerClassic.getBgm().play();
                 game.draw((SpriteBatch) batch, viewport);
 
                 if (!paused) {
@@ -159,10 +166,10 @@ public class Main implements ApplicationListener {
                     pauseMenu.resetText();
                 }
                 else if(pauseState.equals("Main")){
-                    textureManager.getBgm().stop();
-                    textureManager.getBgm().pause();
+                    textureManagerClassic.getBgm().stop();
+                    textureManagerClassic.getBgm().pause();
                     endGame(game.getScore(), game.WinOrLose);
-                    textureManager.getBgm().stop();
+                    textureManagerClassic.getBgm().stop();
                 }
                 else if(pauseState.equals("Restart")){
                     startGame();

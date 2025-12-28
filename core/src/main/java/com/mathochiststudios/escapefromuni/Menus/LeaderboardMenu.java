@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
-import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
 public class LeaderboardMenu extends AbstractMenu{
@@ -27,12 +26,12 @@ public class LeaderboardMenu extends AbstractMenu{
                            boolean wonLastGame,
                            boolean buttonCD,
                            Mouse mouse,
-                           TextureManager textureManager
+                           MenuTextureManager textureManager
     ) {
         super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
     }
 
-    public void update(ISpriteBatch  batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
+    public void update(ISpriteBatch  batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, MenuTextureManager textureManager) {
         this.batch = batch;
         this.viewport = viewport;
         this.latestScore = latestScore;

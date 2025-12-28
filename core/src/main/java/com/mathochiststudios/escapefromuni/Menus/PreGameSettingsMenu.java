@@ -11,7 +11,6 @@ import com.mathochiststudios.escapefromuni.Tests.HeadlessStage;
 import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
 import com.mathochiststudios.escapefromuni.Tests.IStage;
 import com.mathochiststudios.escapefromuni.Tests.LiveStage;
-import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 import com.mathochiststudios.escapefromuni.UI.TextBox;
 
@@ -28,7 +27,7 @@ public class PreGameSettingsMenu extends AbstractMenu{
                                boolean wonLastGame,
                                boolean buttonCD,
                                Mouse mouse,
-                               TextureManager textureManager,
+                               MenuTextureManager textureManager,
                                String name,
                                String difficulty,
                                IStage stage
@@ -50,7 +49,7 @@ public class PreGameSettingsMenu extends AbstractMenu{
 
     }
 
-    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
+    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, MenuTextureManager textureManager) {
         this.batch = batch;
         this.viewport = viewport;
         this.latestScore = latestScore;

@@ -5,13 +5,10 @@ import javax.swing.JOptionPane;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
 import com.mathochiststudios.escapefromuni.Tests.IStage;
-import com.mathochiststudios.escapefromuni.TextureManager;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 import com.mathochiststudios.escapefromuni.UI.TextBox;
 
@@ -35,7 +32,7 @@ public class SettingsMenu extends AbstractMenu{
                         boolean wonLastGame,
                         boolean buttonCD,
                         Mouse mouse,
-                        TextureManager textureManager,
+                        MenuTextureManager textureManager,
                         String name,
                         String difficulty,
                         IStage stage
@@ -49,7 +46,7 @@ public class SettingsMenu extends AbstractMenu{
 
     }
 
-    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, TextureManager textureManager) {
+    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, MenuTextureManager textureManager) {
         this.batch = batch;
         this.viewport = viewport;
         this.latestScore = latestScore;
