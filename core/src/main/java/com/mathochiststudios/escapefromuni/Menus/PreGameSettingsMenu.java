@@ -23,8 +23,6 @@ public class PreGameSettingsMenu extends AbstractMenu{
 
     public PreGameSettingsMenu(ISpriteBatch batch,
                                FitViewport viewport,
-                               int latestScore,
-                               boolean wonLastGame,
                                boolean buttonCD,
                                Mouse mouse,
                                MenuTextureManager textureManager,
@@ -32,7 +30,7 @@ public class PreGameSettingsMenu extends AbstractMenu{
                                String difficulty,
                                IStage stage
     ) {
-        super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+        super(batch, viewport, buttonCD, mouse, textureManager);
 
         try {
             stage = new LiveStage(viewport);
@@ -49,15 +47,6 @@ public class PreGameSettingsMenu extends AbstractMenu{
 
     }
 
-    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, MenuTextureManager textureManager) {
-        this.batch = batch;
-        this.viewport = viewport;
-        this.latestScore = latestScore;
-        this.wonLastGame = wonLastGame;
-        this.buttonCD = buttonCD;
-        this.mouse = mouse;
-        this.textureManager = textureManager;
-    }
 
     boolean alreadyClicked = true;
 

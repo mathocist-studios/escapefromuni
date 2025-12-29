@@ -13,23 +13,11 @@ public class PauseMenu extends AbstractMenu{
     public PauseMenu(
             ISpriteBatch batch,
             FitViewport viewport,
-            int latestScore,
-            boolean wonLastGame,
             boolean buttonCD,
             Mouse mouse,
             MenuTextureManager textureManager
     ) {
-        super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
-    }
-
-    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, MenuTextureManager textureManager) {
-        this.batch = batch;
-        this.viewport = viewport;
-        this.latestScore = latestScore;
-        this.wonLastGame = wonLastGame;
-        this.buttonCD = buttonCD;
-        this.mouse = mouse;
-        this.textureManager = textureManager;
+        super(batch, viewport, buttonCD, mouse, textureManager);
     }
 
     @Override

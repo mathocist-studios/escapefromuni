@@ -28,8 +28,6 @@ public class SettingsMenu extends AbstractMenu{
 
     public SettingsMenu(ISpriteBatch batch,
                         FitViewport viewport,
-                        int latestScore,
-                        boolean wonLastGame,
                         boolean buttonCD,
                         Mouse mouse,
                         MenuTextureManager textureManager,
@@ -37,7 +35,7 @@ public class SettingsMenu extends AbstractMenu{
                         String difficulty,
                         IStage stage
     ) {
-        super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+        super(batch, viewport, buttonCD, mouse, textureManager);
         this.name = name;
         this.difficulty = difficulty;
         this.stage = stage;
@@ -46,15 +44,6 @@ public class SettingsMenu extends AbstractMenu{
 
     }
 
-    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, MenuTextureManager textureManager) {
-        this.batch = batch;
-        this.viewport = viewport;
-        this.latestScore = latestScore;
-        this.wonLastGame = wonLastGame;
-        this.buttonCD = buttonCD;
-        this.mouse = mouse;
-        this.textureManager = textureManager;
-    }
 
     boolean alreadyClicked = true;
 

@@ -102,12 +102,12 @@ public class Main implements ApplicationListener {
         game = new Game(this, gameDifficulty);
 
         mainMenu = new MainMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
-        leaderboardMenu = new LeaderboardMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
-        tutorialMenu = new TutorialMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
+        leaderboardMenu = new LeaderboardMenu(batch, viewport,buttonCD,mouse,textureManager);
+        tutorialMenu = new TutorialMenu(batch, viewport,buttonCD,mouse,textureManager);
         endGameMenu = new EndGameMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
-        pauseMenu = new PauseMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
-        settingsMenu = new SettingsMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager,name, difficulty, stage);
-        preGamesettingsMenu = new PreGameSettingsMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager,name, difficulty, stage);
+        pauseMenu = new PauseMenu(batch, viewport,buttonCD,mouse,textureManager);
+        settingsMenu = new SettingsMenu(batch, viewport,buttonCD,mouse,textureManager,name, difficulty, stage);
+        preGamesettingsMenu = new PreGameSettingsMenu(batch, viewport,buttonCD,mouse,textureManager,name, difficulty, stage);
 
         // Load fonts
         textureManager = new MenuTextureManager(viewport);
@@ -161,19 +161,23 @@ public class Main implements ApplicationListener {
                 pauseMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
                 pauseMenu.draw();
                 pauseState=pauseMenu.input();
-                if(pauseState.equals("Resume")){
-                    paused=false;
-                    pauseMenu.resetText();
-                }
-                else if(pauseState.equals("Main")){
-                    textureManagerClassic.getBgm().stop();
-                    textureManagerClassic.getBgm().pause();
-                    endGame(game.getScore(), game.WinOrLose);
-                    textureManagerClassic.getBgm().stop();
-                }
-                else if(pauseState.equals("Restart")){
-                    startGame();
-                    menuState = "Main";
+                switch (pauseState) {
+                    case "Resume" -> {
+                        paused=false;
+                        pauseMenu.resetText();
+                    }
+                    case "Main" -> {
+                        textureManagerClassic.getBgm().stop();
+                        textureManagerClassic.getBgm().pause();
+                        endGame(game.getScore(), game.WinOrLose);
+                        textureManagerClassic.getBgm().stop();
+                    }
+                    case "Restart" -> {
+                        startGame();
+                        menuState = "Main";
+                    }
+                    default -> {
+                    }
                 }
                 return;
             }

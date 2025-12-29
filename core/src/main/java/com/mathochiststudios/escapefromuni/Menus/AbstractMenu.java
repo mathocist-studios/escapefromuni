@@ -24,16 +24,12 @@ public abstract class AbstractMenu {
     protected AbstractMenu(
             ISpriteBatch batch,
             FitViewport viewport,
-            int latestScore,
-            boolean wonLastGame,
             boolean buttonCD,
             Mouse mouse,
             MenuTextureManager textureManager
     ) {
         this.batch = batch;
         this.viewport = viewport;
-        this.latestScore = latestScore;
-        this.wonLastGame = wonLastGame;
         this.buttonCD = buttonCD;
         this.mouse = mouse;
         this.textureManager = textureManager;
@@ -49,8 +45,7 @@ public abstract class AbstractMenu {
             boolean wonLastGame,
             boolean buttonCD,
             Mouse mouse,
-            MenuTextureManager textureManager,
-            String hoveredOver
+            MenuTextureManager textureManager
     ) {
         this.batch = batch;
         this.viewport = viewport;
@@ -59,7 +54,6 @@ public abstract class AbstractMenu {
         this.buttonCD = buttonCD;
         this.mouse = mouse;
         this.textureManager = textureManager;
-        this.hoveredOver = hoveredOver;
     }
 
     /**

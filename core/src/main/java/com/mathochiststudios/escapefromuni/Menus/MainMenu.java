@@ -10,6 +10,9 @@ import com.mathochiststudios.escapefromuni.UI.Mouse;
 
 public class MainMenu extends AbstractMenu{
 
+    boolean wonLastGame = false;
+    int latestScore = -1;
+
     public MainMenu(
             ISpriteBatch batch,
             FitViewport viewport,
@@ -19,7 +22,9 @@ public class MainMenu extends AbstractMenu{
             Mouse mouse,
             MenuTextureManager textureManager
     ) {
-        super(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+        super(batch, viewport, buttonCD, mouse, textureManager);
+        this.latestScore = latestScore;
+        this.wonLastGame = wonLastGame;
         textX=0;
     }
 
@@ -27,16 +32,6 @@ public class MainMenu extends AbstractMenu{
     public void resetText() {
         this.textX = -400;
         this.acceleration = 40;
-    }
-
-    public void update(ISpriteBatch batch, FitViewport viewport, int latestScore, boolean wonLastGame, boolean buttonCD, Mouse mouse, MenuTextureManager textureManager) {
-        this.batch = batch;
-        this.viewport = viewport;
-        this.latestScore = latestScore;
-        this.wonLastGame = wonLastGame;
-        this.buttonCD = buttonCD;
-        this.mouse = mouse;
-        this.textureManager = textureManager;
     }
 
 
