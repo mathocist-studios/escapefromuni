@@ -44,7 +44,6 @@ public class PreGameSettingsMenu extends AbstractMenu{
         this.stage = stage;
 
         nameBox = new TextBox(stage, 250+80, 600, 300, 40);
-
     }
 
 
@@ -117,13 +116,6 @@ public class PreGameSettingsMenu extends AbstractMenu{
     @Override
     public void draw() {
 
-        if (nameBox.getText().length() == 0) {
-            name = "Player";
-        }
-        if (nameBox.getText().length() > 15) {
-            name = "Shorten your name!";
-        }
-
         viewport.apply();
 
 
@@ -186,5 +178,16 @@ public class PreGameSettingsMenu extends AbstractMenu{
 
     public String getDifficulty() {
         return this.difficulty;
+    }
+
+    public void textBoxFix(){
+        nameBox.dispose();
+    }
+    public void textBoxunFix(){
+        nameBox = new TextBox(stage, 250+80, 600, 300, 40);
+    }
+
+    public String getName(){
+        return this.name;
     }
 }

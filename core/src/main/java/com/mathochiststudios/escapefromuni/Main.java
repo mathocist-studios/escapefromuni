@@ -18,13 +18,18 @@ import com.mathochiststudios.escapefromuni.Menus.PauseMenu;
 import com.mathochiststudios.escapefromuni.Menus.PreGameSettingsMenu;
 import com.mathochiststudios.escapefromuni.Menus.SettingsMenu;
 import com.mathochiststudios.escapefromuni.Menus.TutorialMenu;
-import com.mathochiststudios.escapefromuni.Tests.*;
+import com.mathochiststudios.escapefromuni.Tests.HeadlessBatch;
+import com.mathochiststudios.escapefromuni.Tests.HeadlessStage;
+import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
+import com.mathochiststudios.escapefromuni.Tests.IStage;
+import com.mathochiststudios.escapefromuni.Tests.LiveSpriteBatch;
+import com.mathochiststudios.escapefromuni.Tests.LiveStage;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
 /** {@link ApplicationListener} implementation shared by all platforms. */
 public class Main implements ApplicationListener {
 
-    public static boolean TESTING = true; // Set to false for production
+    public static boolean TESTING = false; // Set to false for production
 
     Game game;
 
@@ -260,14 +265,17 @@ public class Main implements ApplicationListener {
             }
             case "PreGameSettings" -> {
                 if (hasReset) {
+                    preGamesettingsMenu.textBoxunFix();
                     preGamesettingsMenu.resetText();
                     hasReset = false;
                 }
                 preGamesettingsMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
                 preGamesettingsMenu.draw();
                 menuState = preGamesettingsMenu.input();
+                name= preGamesettingsMenu.getName();
                 if (!menuState.equals("PreGameSettings")) {
                     hasReset = true;
+                    preGamesettingsMenu.textBoxFix();
                 }
                 difficulty = preGamesettingsMenu.getDifficulty();
                 if (preGamesettingsMenu.getDifficulty().equals("Easy")) {

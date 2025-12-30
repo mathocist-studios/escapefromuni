@@ -1,9 +1,6 @@
 package com.mathochiststudios.escapefromuni.Menus;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +10,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
+import com.mathochiststudios.escapefromuni.entities.Utils.Leaderboard;
 
 public class LeaderboardMenu extends AbstractMenu{
 
     private List<String> leaderboardLines = new ArrayList<>();
     String path = System.getProperty("user.dir");
     File leaderboardFile = new File(path, "leaderboards.txt");
+    private Leaderboard leaderboard;
 
     public LeaderboardMenu(ISpriteBatch batch,
                            FitViewport viewport,
@@ -27,6 +26,8 @@ public class LeaderboardMenu extends AbstractMenu{
                            MenuTextureManager textureManager
     ) {
         super(batch, viewport, buttonCD, mouse, textureManager);
+        leaderboard = new Leaderboard();
+        leaderboard.loadLeaderboard();
     }
 
     @Override
@@ -54,7 +55,6 @@ public class LeaderboardMenu extends AbstractMenu{
 
     @Override
     public void draw() {
-        loadLeaderboard();
 
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
@@ -69,13 +69,13 @@ public class LeaderboardMenu extends AbstractMenu{
         float startY = titleY - 60;
         float lineSpacing = 48f;
         int count = 1;
-        if (leaderboardLines.size() == 0) {
+        if (leaderboard.getLeaderboardLines().size() == 0) {
             textureManager.getMainLayout().setText(textureManager.getGameSmallFont(), "No leaderboard has been created. Please do at least 1 playthrough.");
             float x = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
             textureManager.getGameSmallFont().draw(batch, textureManager.getMainLayout(), x, startY);
         } else {
             float y = startY;
-            for (String line : leaderboardLines) {
+            for (String line : leaderboard.getLeaderboardLines()) {
                 if (count<11){
                     String[] parts = line.split(" - ");
                     String[] scoreParts = parts[1].split("-");
@@ -114,70 +114,6 @@ public class LeaderboardMenu extends AbstractMenu{
     }
 
     public void addLeaderboardEntry(String name, int score, String difficulty) {
-        List<String> newleaderboardLines = new ArrayList<>();
-        System.out.println("trying to add" + name + " - " + score + "-" + difficulty);
-        Boolean hasLineBeenAdded = false;
-        try (BufferedReader br = new BufferedReader(new FileReader(leaderboardFile))) {
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                if (line.trim().isEmpty()) {
-                    continue;
-                }
-                String[] parts = line.split(" - ");
-                String[] scoreParts = parts[1].split("-");
-                int lineScore = Integer.parseInt(scoreParts[0]);
-                if (lineScore <= score && !hasLineBeenAdded) {
-                    newleaderboardLines.add(name + " - " + score + "-" + difficulty);
-                    hasLineBeenAdded = true;
-                }
-                newleaderboardLines.add(line);
-            }
-            if (!hasLineBeenAdded) {
-                newleaderboardLines.add(name + " - " + score + "-" + difficulty);
-            }
-        } catch (IOException e) {
-            leaderboardLines.clear();
-            leaderboardLines.add("Error reading leaderboard.");
-        }
-
-        try {
-            if (!leaderboardFile.exists()) {
-                leaderboardFile.createNewFile();
-            }
-            java.io.FileWriter writer = new java.io.FileWriter(leaderboardFile, false);
-            for (String line : newleaderboardLines) {
-                System.out.println(line);
-                writer.write(line + "\n");
-            }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadLeaderboard() {
-        leaderboardLines.clear();
-
-        try {
-            leaderboardFile.createNewFile();
-        } catch (IOException e) {
-            return;
-        }
-
-        if (!leaderboardFile.exists()) {
-            return;
-        }
-
-        try (BufferedReader br = new BufferedReader(new FileReader(leaderboardFile))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                leaderboardLines.add(line);
-                if (leaderboardLines.size() >= 20) break;
-            }
-        } catch (IOException e) {
-            leaderboardLines.clear();
-            leaderboardLines.add("Error reading leaderboard.");
-        }
+        leaderboard.addLeaderboardEntry(name, score, difficulty);
     }
 }

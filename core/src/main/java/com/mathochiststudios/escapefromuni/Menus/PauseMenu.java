@@ -8,8 +8,6 @@ import com.mathochiststudios.escapefromuni.UI.Mouse;
 
 public class PauseMenu extends AbstractMenu{
 
-    String hovedStringOver = "Resume";
-
     public PauseMenu(
             ISpriteBatch batch,
             FitViewport viewport,

@@ -69,6 +69,7 @@ public class TextBox{
         background.dispose();
         cursor.dispose();
         selection.dispose();
+        textField.remove();
     }
 
     private Texture createTexture(int width, int height, Color color) {
