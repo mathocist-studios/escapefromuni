@@ -24,4 +24,14 @@ public class TestingUtils {
         return new SimulateKeyPress(mockInput, keycode);
     }
 
+    public static SimulateKeyPress simulateMultiGdxInputKeyPress(int... keycodes) {
+        Input mockInput = mock(Input.class);
+        for (int keycode : keycodes) {
+            Mockito.when(mockInput.isKeyPressed(keycode)).thenReturn(true);
+            Mockito.when(mockInput.isKeyJustPressed(keycode)).thenReturn(true);
+        }
+        Gdx.input = mockInput;
+        return new SimulateKeyPress(mockInput, keycodes);
+    }
+
 }

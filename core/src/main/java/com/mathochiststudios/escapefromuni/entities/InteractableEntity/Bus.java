@@ -30,6 +30,7 @@ public class Bus extends InteractableEntity {
     private final float[] objectivePoint;
     private final float busSpeed = 2.0f;
     private boolean isMoving = true;
+    private TextureRegion currentFrame;
 
     public Bus(Game game, float x, float y, float interactionRadius, float[] objectivePoint) {
         super(game, new Texture("yellow_bus_driving.png"), x, y, 10, 5, interactionRadius, true);
@@ -42,6 +43,7 @@ public class Bus extends InteractableEntity {
         this.populateFrames();
         this.stationaryAnimation = new Animation<>(0.1f, this.stationaryFrames);
         this.walkAnimation = new Animation<>(0.05f, this.walkFrames);
+        this.currentFrame = walkAnimation.getKeyFrame(0);
     }
 
     @Override
@@ -71,7 +73,7 @@ public class Bus extends InteractableEntity {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void update(float deltaTime, Level level) {
         stateTime += Gdx.graphics.getDeltaTime()*0.25f; // Accumulate elapsed animation time
 
         // move the bus towards the objective point
@@ -96,6 +98,11 @@ public class Bus extends InteractableEntity {
             currentFrame = stationaryAnimation.getKeyFrame(stateTime, true);
         }
 
+        this.currentFrame = currentFrame;
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
         batch.draw(
             currentFrame,
             getEntityX(),

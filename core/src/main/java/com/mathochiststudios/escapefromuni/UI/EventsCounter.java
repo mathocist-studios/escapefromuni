@@ -198,7 +198,7 @@ public class EventsCounter {
         if (this.hasLongBoiPet) {
             return;
         }
-        this.positiveEventsEncountered += 1;
+        this.hiddenEventsEncountered += 1;
         this.hasLongBoiPet = true;
     }
 

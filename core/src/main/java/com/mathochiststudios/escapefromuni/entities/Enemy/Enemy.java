@@ -141,4 +141,12 @@ public abstract class Enemy {
         this.SPEED = speed;
     }
 
+    public EnemyAI getEnemyAI() {
+        return enemyAI;
+    }
+
+    public IEnemyAI getAiBehavior() {
+        return aiBehavior;
+    }
+
 }

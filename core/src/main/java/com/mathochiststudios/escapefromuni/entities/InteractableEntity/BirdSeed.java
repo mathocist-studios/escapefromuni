@@ -21,6 +21,11 @@ public class BirdSeed extends InteractableEntity {
     }
 
     @Override
+    public void update(float deltaTime, Level level) {
+
+    }
+
+    @Override
     public void onInteract(Player p, Level level) {
 
     }

@@ -22,6 +22,11 @@ public class LBEntity extends InteractableEntity {
     }
 
     @Override
+    public void update(float deltaTime, Level level) {
+
+    }
+
+    @Override
     public void onInteract(Player p, Level level) {
         if (p.getEventsCounter().getHasLongBoiPet()) {
             return;

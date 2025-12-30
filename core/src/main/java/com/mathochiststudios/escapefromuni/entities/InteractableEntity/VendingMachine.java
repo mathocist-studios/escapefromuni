@@ -42,6 +42,11 @@ public class VendingMachine extends InteractableEntity {
     }
 
     @Override
+    public void update(float deltaTime, Level level) {
+
+    }
+
+    @Override
     public void onInteract(Player p, Level level) {
         if (p.getInventory().hasItem(InventoryObject.ROLLERBLADES)) {
             sendNotification("Vending machine is empty!");

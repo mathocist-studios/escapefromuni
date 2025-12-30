@@ -28,6 +28,8 @@ public class LBPet extends InteractableEntity {
     private float[] objectivePoint;
     private boolean isVisible = false;
 
+    private TextureRegion currentFrame;
+
     public LBPet(Game game, float x, float y, float interactionRadius, float[] objectivePoint) {
         super(game, new Texture("duck_spritesheet.png"), x, y, 1, 1, interactionRadius, true);
 
@@ -37,6 +39,13 @@ public class LBPet extends InteractableEntity {
         this.populateFrames();
         this.stationaryAnimation = new Animation<>(0.1f, this.stationaryFrames);
         this.walkAnimation = new Animation<>(0.1f, this.walkFrames);
+
+        this.currentFrame = stationaryAnimation.getKeyFrame(0);
+    }
+
+    @Override
+    public void update(float deltaTime, Level level) {
+
     }
 
     @Override
@@ -49,8 +58,9 @@ public class LBPet extends InteractableEntity {
 
     }
 
-    @Override
-    public void render(SpriteBatch batch) {
+    // Update method to move the pet towards the objective point
+    // added to made it easier to unit test the pet movement
+    public void update() {
         stateTime += Gdx.graphics.getDeltaTime()*0.25f; // Accumulate elapsed animation time
 
         // move the bus towards the objective point
@@ -81,6 +91,12 @@ public class LBPet extends InteractableEntity {
         } else if (moveDirectionRight && currentFrame.isFlipX()) {
             currentFrame.flip(true, false);
         }
+
+        this.currentFrame = currentFrame;
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
 
         if (!isVisible) {
             return;

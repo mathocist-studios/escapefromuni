@@ -40,6 +40,8 @@ import com.mathochiststudios.escapefromuni.levels.R05_MarketSquare;
 import com.mathochiststudios.escapefromuni.levels.ShopLevel;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 
+import javax.annotation.processing.Generated;
+
 public class Game {
 
     public boolean gameEnded;
@@ -89,7 +91,7 @@ public class Game {
 
     private final HUD hud;
     private final TextureManager textureManager;
-    private final GameDifficulty gameDifficulty;
+    private GameDifficulty gameDifficulty;
 
     private final Main mainApp;
 
@@ -490,6 +492,9 @@ public class Game {
             }
         }
 
+        player.getLbPet().setObjectivePoint(new float[] {player.getMoneySprite().getX(), player.getMoneySprite().getY()});
+        player.getLbPet().update();
+
     }
 
     private ArrayList<InteractableEntity> getInteractableInRange(float playerX, float playerY) {
@@ -729,7 +734,6 @@ public class Game {
         }
         //moneySprite.draw(spriteBatch); // Draw the character
 
-        player.getLbPet().setObjectivePoint(new float[] {player.getMoneySprite().getX(), player.getMoneySprite().getY()});
         player.getLbPet().render((SpriteBatch) spriteBatch);
 
         for (InteractableEntity entity : currentLevel.getLevelInteractableEntities()) {
@@ -884,12 +888,17 @@ public class Game {
                 gameDifficulty == GameDifficulty.IMPOSSIBLE ? 150 : 0
             ) +
             (player.getInventory().hasItem(InventoryObject.ROLLERBLADES) ? 50 : 0) +
-            (player.getInventory().hasItem(InventoryObject.ENERGY_DRINK) ? 50 : 0)
+            (player.getInventory().hasItem(InventoryObject.ENERGY_DRINK) ? 50 : 0) +
+            (player.getEventsCounter().hasCompletedGame() ? 200 : 0)
         ));
     }
 
     public Level getCurrentLevel() {
         return currentLevel;
+    }
+
+    public void setGameDifficulty(GameDifficulty gameDifficulty) {
+        this.gameDifficulty = gameDifficulty;
     }
 
 }

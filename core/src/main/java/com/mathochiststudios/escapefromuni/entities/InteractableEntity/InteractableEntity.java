@@ -50,6 +50,8 @@ public abstract class InteractableEntity {
 
     }
 
+    public abstract void update(float deltaTime, Level level);
+
     public abstract void onInteract(Player p, Level level);
 
     public abstract void withinInteractionRadius(Player p, Level level, SpriteBatch batch);

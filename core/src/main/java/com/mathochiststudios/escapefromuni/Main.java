@@ -18,18 +18,13 @@ import com.mathochiststudios.escapefromuni.Menus.PauseMenu;
 import com.mathochiststudios.escapefromuni.Menus.PreGameSettingsMenu;
 import com.mathochiststudios.escapefromuni.Menus.SettingsMenu;
 import com.mathochiststudios.escapefromuni.Menus.TutorialMenu;
-import com.mathochiststudios.escapefromuni.Tests.HeadlessBatch;
-import com.mathochiststudios.escapefromuni.Tests.HeadlessStage;
-import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
-import com.mathochiststudios.escapefromuni.Tests.IStage;
-import com.mathochiststudios.escapefromuni.Tests.LiveSpriteBatch;
-import com.mathochiststudios.escapefromuni.Tests.LiveStage;
+import com.mathochiststudios.escapefromuni.Tests.*;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
+/** {@link ApplicationListener} implementation shared by all platforms. */
 public class Main implements ApplicationListener {
 
-    public static boolean TESTING = false; // Set to false for production
+    public static boolean TESTING = true; // Set to false for production
 
     Game game;
 
@@ -151,7 +146,10 @@ public class Main implements ApplicationListener {
                 }
                 textureManagerClassic.getBgm().setVolume(0.3f);
                 textureManagerClassic.getBgm().play();
-                game.draw((SpriteBatch) batch, viewport);
+
+                if (!TESTING) {
+                    game.draw((SpriteBatch) batch, viewport);
+                }
 
                 if (!paused) {
                     game.input();
@@ -159,6 +157,10 @@ public class Main implements ApplicationListener {
                     return;
                 }
                 pauseMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+
+                if (TESTING) {
+                    return;
+                }
                 pauseMenu.draw();
                 pauseState=pauseMenu.input();
                 switch (pauseState) {
@@ -339,12 +341,29 @@ public class Main implements ApplicationListener {
         this.menuState = state;
     }
 
+    public String getMenuState() {
+        return this.menuState;
+    }
+
     public String getPlayerName() {
         return name;
     }
 
     public Game getGame() {
         return game;
+    }
+
+    // For testing purposes
+    public void setPauseMenu(PauseMenu pm) {
+        this.pauseMenu = pm;
+    }
+
+    public void setTextureManagerClassic(TextureManager tm) {
+        this.textureManagerClassic = tm;
+    }
+
+    public TextureManager getTextureManagerClassic() {
+        return this.textureManagerClassic;
     }
 
 }

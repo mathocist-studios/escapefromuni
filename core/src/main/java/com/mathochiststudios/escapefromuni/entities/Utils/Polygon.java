@@ -65,7 +65,7 @@ public record Polygon(float[][] vertices) {
      * @param verts The vertices of the polygon.
      * @return The signed area of the polygon.
      */
-    private static float signedArea(float[][] verts) {
+    public static float signedArea(float[][] verts) {
         int n = verts.length;
         float sum = 0f;
         for (int i = 0; i < n; i++) {
@@ -74,6 +74,18 @@ public record Polygon(float[][] vertices) {
             sum += a[0] * b[1] - b[0] * a[1];
         }
         return sum / 2f;
+    }
+
+    public float signedArea() {
+        return signedArea(this.vertices);
+    }
+
+    public static float area(float[][] verts) {
+        return Math.abs(signedArea(verts));
+    }
+
+    public float area() {
+        return area(this.vertices);
     }
 
     /**

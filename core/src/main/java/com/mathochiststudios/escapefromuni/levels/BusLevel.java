@@ -61,6 +61,7 @@ public class BusLevel extends Level {
     @Override
     public void update(float deltaTime, Player player) {
         this.friend.update(deltaTime, this, player);
+        this.bus.update(deltaTime, this);
     }
 
     @Override

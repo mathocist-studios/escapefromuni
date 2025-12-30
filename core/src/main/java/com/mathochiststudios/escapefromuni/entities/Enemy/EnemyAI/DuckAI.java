@@ -161,4 +161,18 @@ public class DuckAI implements IEnemyAI {
 
     }
 
+    // for testing purposes
+    public float[] getNextPoint() {
+        return nextPoint;
+    }
+
+    public Polygon getRoamArea() {
+        return roamArea;
+    }
+
+    public float[] getSeedDestination() {
+        return seedDestination;
+    }
+    /// ///
+
 }

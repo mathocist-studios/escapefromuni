@@ -278,6 +278,10 @@ public class TextureManager {
         return bgm;
     }
 
+    public void setBgm(Music bgm) {
+        this.bgm = bgm;
+    }
+
     public void dispose() {
         // Dispose of all textures, sprites, fonts, and other graphical assets here
         if (mainFont != null) {

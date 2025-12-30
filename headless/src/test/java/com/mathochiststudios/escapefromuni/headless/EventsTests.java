@@ -1,9 +1,9 @@
 package com.mathochiststudios.escapefromuni.headless;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.mathochiststudios.escapefromuni.GameDifficulty;
 import com.mathochiststudios.escapefromuni.Main;
 import com.mathochiststudios.escapefromuni.ShopStuff.Shop;
 import com.mathochiststudios.escapefromuni.entities.InteractableEntity.InteractableEntity;
@@ -12,13 +12,15 @@ import com.mathochiststudios.escapefromuni.headless.Utils.SimulateKeyPress;
 import com.mathochiststudios.escapefromuni.headless.Utils.TestingUtils;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 public class EventsTests extends AbstractHeadlessGdxTest {
+
+    private static final int TOTAL_COINS_IN_GAME = 12; // Update this if more coins are added
+    private static final int TOTAL_SPEED_POWERUPS_IN_GAME = 2; // Update this if more speed powerups are added
 
     @Test
     public void testSpeedPositiveEvent() {
@@ -188,6 +190,11 @@ public class EventsTests extends AbstractHeadlessGdxTest {
             app.getGame().getPlayer().getEventsCounter().hasBoughtRollerSkates(),
             "Player should have bought roller skates"
         );
+        // Check that the rollerskates are in the player's inventory
+        assertTrue(
+            app.getGame().getPlayer().getInventory().hasItem(InventoryObject.ROLLERBLADES),
+            "Player should have roller skates in inventory"
+        );
 
     }
 
@@ -320,7 +327,7 @@ public class EventsTests extends AbstractHeadlessGdxTest {
         Main app = TestingUtils.createTestGame();
 
         // Simulate encountering 2 positive events
-        app.getGame().getPlayer().getEventsCounter().hasLongBoiPet();
+        app.getGame().getPlayer().getEventsCounter().boughtRollerSkates();
         app.getGame().getPlayer().getEventsCounter().boughtEnergyDrink();
 
         // Simulate encountering 3 negative events
@@ -333,7 +340,7 @@ public class EventsTests extends AbstractHeadlessGdxTest {
         app.getGame().getPlayer().getEventsCounter().handedInWallet();
 
         // Simulate encountering the same events again to ensure they are not double-counted
-        app.getGame().getPlayer().getEventsCounter().hasLongBoiPet();
+        app.getGame().getPlayer().getEventsCounter().boughtRollerSkates();
         app.getGame().getPlayer().getEventsCounter().boughtEnergyDrink();
         app.getGame().getPlayer().getEventsCounter().foundFriend();
         app.getGame().getPlayer().getEventsCounter().slowedByWater();
@@ -358,6 +365,187 @@ public class EventsTests extends AbstractHeadlessGdxTest {
             "Player should have encountered 2 hidden events"
         );
 
+    }
+
+    @Test
+    public void testHasLongBoiPetEvent() {
+
+        Main app = TestingUtils.createTestGame();
+
+        // Switch to level with Long Boi altar
+        app.getGame().switchToLevel(app.getGame().getLevels().get(1).getSide2Level(), "Forward");
+
+        // Move player into Long Boi altar area to trigger Long Boi pet event
+        app.getGame().getPlayer().getMoneySprite().setX(12);
+        app.getGame().getPlayer().getMoneySprite().setY(14);
+        app.getGame().getPlayer().getMoneyRectangle().x = app.getGame().getPlayer().getMoneySprite().getX();
+        app.getGame().getPlayer().getMoneyRectangle().y = app.getGame().getPlayer().getMoneySprite().getY();
+
+        // Mock Gdx.input so the game sees the E key as pressed during input()
+        SimulateKeyPress simulateEKeyPress = TestingUtils.simulateGdxInputKeyPress(Input.Keys.E);
+
+        // Simulate input and logic to trigger Long Boi pet event
+        app.getGame().input();
+        app.getGame().logic();
+
+        // Restore/release the key state
+        simulateEKeyPress.release();
+
+        // Check that the event was registered
+        assertTrue(
+            app.getGame().getPlayer().getEventsCounter().getHasLongBoiPet(),
+            "Player should have obtained Long Boi Pet"
+        );
+
+    }
+
+    @Test
+    public void testHasExitLibraryAchievement() {
+
+        Main app = TestingUtils.createTestGame();
+
+        // Switch to last level with library exit door
+        app.getGame().switchToLevel(app.getGame().getLevels().get(1), "ExitForward");
+
+        // Add required items to inventory to exit library
+        app.getGame().getPlayer().getInventory().addItem(InventoryObject.KEYCARD);
+        app.getGame().getPlayer().getInventory().addItem(InventoryObject.RUCKSACK);
+
+        // Move player to library exit door position to trigger exit event
+        app.getGame().getPlayer().getMoneySprite().setX(4);
+        app.getGame().getPlayer().getMoneySprite().setY(3);
+        app.getGame().getPlayer().getMoneyRectangle().x = app.getGame().getPlayer().getMoneySprite().getX();
+        app.getGame().getPlayer().getMoneyRectangle().y = app.getGame().getPlayer().getMoneySprite().getY();
+
+        // Simulate input and logic to trigger exit library event
+        app.getGame().input();
+        app.getGame().logic();
+
+        // Check that the achievement was registered
+        assertTrue(
+            app.getGame().getPlayer().getEventsCounter().getHasExitLibraryAchieved(),
+            "Player should have achieved exiting the library"
+        );
+
+    }
+
+    @Test
+    public void testCollectedAllCoinsAchievement() {
+
+        Main app = TestingUtils.createTestGame();
+
+        // Simulate collecting all coins in the game
+        app.getGame().getPlayer().addCoins(TOTAL_COINS_IN_GAME);
+
+        // Simulate input and logic to register coin collection
+        app.getGame().input();
+        app.getGame().logic();
+
+        // Check that the achievement was registered
+        assertTrue(
+            app.getGame().getPlayer().getEventsCounter().hasCollectedAllCoins(),
+            "Player should have achieved collecting all coins"
+        );
+
+    }
+
+    @Test
+    public void testCollectedAllSpeedPowerupsAchievement() {
+
+        Main app = TestingUtils.createTestGame();
+
+        // Simulate collecting all speed powerups in the game
+        for (int i = 0; i < TOTAL_SPEED_POWERUPS_IN_GAME; i++) {
+            app.getGame().getPlayer().incrementTotalSpeedPowerupsCollected();
+        }
+
+        // give player the rollerskates and energy drink
+        app.getGame().getPlayer().getInventory().addItem(InventoryObject.ROLLERBLADES);
+        app.getGame().getPlayer().getInventory().addItem(InventoryObject.ENERGY_DRINK);
+
+        // Simulate input and logic to register speed powerup collection
+        app.getGame().input();
+        app.getGame().logic();
+
+        // Check that the achievement was registered
+        assertTrue(
+            app.getGame().getPlayer().getEventsCounter().hasCollectedAllPowerUps(),
+            "Player should have achieved collecting all speed powerups"
+        );
+
+    }
+
+    @Test
+    public void testPerfectionAchievement() {
+
+        Main app = TestingUtils.createTestGame();
+
+        // Simulate collecting all speed powerups in the game
+        app.getGame().getPlayer().getEventsCounter().collectedAllPowerUps();
+
+        // Simulate collecting all coins in the game
+        app.getGame().getPlayer().getEventsCounter().collectedAllCoins();
+
+        // Simulate has made it to bus stop event
+        app.getGame().getPlayer().getEventsCounter().madeItToBusStop();
+
+        // Simulate has exit library achievement
+        app.getGame().getPlayer().getEventsCounter().hasExitLibrary();
+
+        // Simulate has long boi pet event
+        app.getGame().getPlayer().getEventsCounter().hasLongBoiPet();
+
+        // Simulate input and logic to register all achievements
+        app.getGame().input();
+        app.getGame().logic();
+
+        // Check that the achievement was registered
+        assertTrue(
+            app.getGame().getPlayer().getEventsCounter().hasCompletedGame(),
+            "Player should have achieved perfection by completing all achievements"
+        );
+    }
+
+    @Test
+    public void testScoreValueCalculation() {
+
+        Main app = TestingUtils.createTestGame();
+
+        // Simulate various events and achievements //
+
+        // test zero score
+        app.getGame().setGameDifficulty(GameDifficulty.EASY);
+        app.getGame().getPlayer().getGameTimer().removeTime(300);
+        app.getGame().getPlayer().setHappiness(0);
+        assertEquals(0, app.getGame().getScore(), "Score should be 0 for no events and EASY difficulty");
+
+        // test 2 coins, 1 speed, 50% time, 50% happiness on Normal difficulty
+        app.getGame().setGameDifficulty(GameDifficulty.NORMAL);
+        app.getGame().getPlayer().addCoins(2);
+        app.getGame().getPlayer().incrementTotalSpeedPowerupsCollected();
+        app.getGame().getPlayer().getGameTimer().addTime(150);
+        app.getGame().getPlayer().setHappiness(50);
+        assertEquals(290, app.getGame().getScore(), "Score should be 290 for 2 coins, 1 speed, 50% time, 50% happiness on NORMAL difficulty");
+
+        // test all coins, all speed, full time, full happiness on Impossible difficulty
+        app.getGame().setGameDifficulty(GameDifficulty.IMPOSSIBLE);
+        app.getGame().getPlayer().addCoins(TOTAL_COINS_IN_GAME - 2); // already had 2 coins
+        for (int i = 0; i < TOTAL_SPEED_POWERUPS_IN_GAME - 1; i++) { // already had 1 speed powerup
+            app.getGame().getPlayer().incrementTotalSpeedPowerupsCollected();
+        }
+        app.getGame().getPlayer().getGameTimer().addTime(150); // now full time
+        app.getGame().getPlayer().setHappiness(100);
+        app.getGame().getPlayer().getInventory().addItem(InventoryObject.ROLLERBLADES);
+        app.getGame().getPlayer().getInventory().addItem(InventoryObject.ENERGY_DRINK);
+        app.getGame().getPlayer().getEventsCounter().madeItToBusStop();
+        app.getGame().getPlayer().getEventsCounter().hasExitLibrary();
+        app.getGame().getPlayer().getEventsCounter().hasLongBoiPet();
+
+        // simulate perfection achievement
+        app.getGame().input();
+        app.getGame().logic();
+
+        assertEquals(1010, app.getGame().getScore(), "Score should be 810 for all coins, all speed, full time, full happiness on IMPOSSIBLE difficulty");
     }
 
 }
