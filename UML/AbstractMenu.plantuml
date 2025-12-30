@@ -1,0 +1,115 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AbstractMenu {
+  # buttonCD: boolean
+  # mouse: Mouse
+  # textX: int
+  # acceleration: int
+  # batch: ISpriteBatch
+  # wonLastGame: boolean
+  # latestScore: int
+  # viewport: FitViewport
+  # textureManager: MenuTextureManager
+  # hoveredOver: String
+  + resetText(): void
+  + input(): String
+  + draw(): void
+  + update(ISpriteBatch, FitViewport, int, boolean, boolean, Mouse, MenuTextureManager): void
+}
+class AbstractMenuLegacy {
+  # wonLastGame: boolean
+  # hoveredOver: String
+  # mouse: Mouse
+  # textureManager: MenuTextureManager
+  # latestScore: int
+  # batch: ISpriteBatch
+  # viewport: FitViewport
+  # buttonCD: boolean
+  + input(): String
+  + update(ISpriteBatch, FitViewport, int, boolean, boolean, Mouse, MenuTextureManager, String): void
+  + draw(): void
+}
+class EndGameMenu {
+  - backgroundLayer1: Texture
+  - sprite: Sprite
+  - creditsLines: String[][]
+  - SCROLL_SPEED: float
+  - CREDITS_SCROLL_SPEED: float
+  - backgroundLayer3: Texture
+  - walkFrames: TextureRegion[]
+  - backgroundLayer2: Texture
+  - walkAnimation: Animation<TextureRegion>
+  - stateTime: float
+  - nextMenu: String
+  - creditsOffset: float
+  - buttonCooldown: double
+  - parallaxOffset: float
+  - backgroundLayer4: Texture
+  + draw(): void
+  + update(ISpriteBatch, FitViewport, int, boolean, boolean, Mouse, MenuTextureManager): void
+  - drawParallaxBackground(): void
+  - drawTextOverlay(): void
+  - positiveMod(float, float): float
+  - drawParallaxForeground(): void
+  - drawCredits(): void
+  - populateFrames(): void
+  + input(): String
+  + onSwitchIn(): void
+}
+class LeaderboardMenu {
+  ~ path: String
+  - leaderboardLines: List<String>
+  ~ leaderboardFile: File
+  + resetText(): void
+  + loadLeaderboard(): void
+  + addLeaderboardEntry(String, int, String): void
+  + input(): String
+  + draw(): void
+}
+class MainMenu {
+  ~ wonLastGame: boolean
+  ~ latestScore: int
+  + input(): String
+  + resetText(): void
+  + draw(): void
+}
+class PauseMenu {
+  ~ hovedStringOver: String
+  + resetText(): void
+  + draw(): void
+  + input(): String
+}
+class PreGameSettingsMenu {
+  ~ nameBox: TextBox
+  ~ name: String
+  ~ alreadyClicked: boolean
+  ~ stage: IStage
+  ~ difficulty: String
+  + input(): String
+  + draw(): void
+  + resetText(): void
+  + getDifficulty(): String
+}
+class SettingsMenu {
+  ~ name: String
+  ~ alreadyClicked: boolean
+  ~ stage: IStage
+  ~ difficulty: String
+  ~ nameBox: TextBox
+  + draw(): void
+  + resetText(): void
+  + getDifficulty(): String
+  + input(): String
+}
+
+EndGameMenu          -[#000082,plain]-^  AbstractMenuLegacy  
+LeaderboardMenu      -[#000082,plain]-^  AbstractMenu        
+MainMenu             -[#000082,plain]-^  AbstractMenu        
+PauseMenu            -[#000082,plain]-^  AbstractMenu        
+PreGameSettingsMenu  -[#000082,plain]-^  AbstractMenu        
+SettingsMenu         -[#000082,plain]-^  AbstractMenu        
+@enduml

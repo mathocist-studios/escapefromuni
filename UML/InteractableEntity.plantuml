@@ -1,0 +1,110 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class BirdSeed {
+  + onInteract(Player, Level): void
+  + render(SpriteBatch): void
+  + update(float, Level): void
+  + withinInteractionRadius(Player, Level, SpriteBatch): void
+}
+class Bus {
+  - isMoving: boolean
+  - currentFrame: TextureRegion
+  - stateTime: float
+  - stationaryFrames: TextureRegion[]
+  - walkAnimation: Animation<TextureRegion>
+  - walkFrames: TextureRegion[]
+  - stationaryAnimation: Animation<TextureRegion>
+  - hintTexture: Texture
+  - sprite: Sprite
+  - objectivePoint: float[]
+  - busSpeed: float
+  + getSprite(): Sprite
+  + withinInteractionRadius(Player, Level, SpriteBatch): void
+  + onInteract(Player, Level): void
+  + render(SpriteBatch): void
+  - populateFrames(): void
+  + update(float, Level): void
+}
+class InteractableEntity {
+  - texture: Texture
+  - entityY: float
+  - interactionRadius: float
+  - entityCollision: Rectangle
+  # game: Game
+  - entitySprite: Sprite
+  - entityHeight: float
+  - entityWidth: float
+  - isAbovePlayer: boolean
+  - entityX: float
+  + getEntitySprite(): Sprite
+  + onInteract(Player, Level): void
+  + render(SpriteBatch): void
+  + update(float, Level): void
+  + getEntityY(): float
+  + getTexture(): Texture
+  + getEntityX(): float
+  + isAbovePlayer(): boolean
+  + getGame(): Game
+  + setEntityX(float): void
+  + getEntityWidth(): float
+  + getEntityHeight(): float
+  + withinInteractionRadius(Player, Level, SpriteBatch): void
+  + getInteractionRadius(): float
+  + setEntityY(float): void
+  + getEntityCollision(): Rectangle
+}
+class LBEntity {
+  - hintTexture: Texture
+  + render(SpriteBatch): void
+  + withinInteractionRadius(Player, Level, SpriteBatch): void
+  + onInteract(Player, Level): void
+  + update(float, Level): void
+}
+class LBPet {
+  - stateTime: float
+  - walkFrames: TextureRegion[]
+  - stationaryAnimation: Animation<TextureRegion>
+  - isVisible: boolean
+  - currentFrame: TextureRegion
+  - walkAnimation: Animation<TextureRegion>
+  - sprite: Sprite
+  - stationaryFrames: TextureRegion[]
+  - objectivePoint: float[]
+  + render(SpriteBatch): void
+  + setVisible(boolean): void
+  + withinInteractionRadius(Player, Level, SpriteBatch): void
+  - populateFrames(): void
+  + onInteract(Player, Level): void
+  + setObjectivePoint(float[]): void
+  + getSprite(): Sprite
+  + update(): void
+  + update(float, Level): void
+}
+class ShopEntity {
+  - hintTexture: Texture
+  + update(float, Level): void
+  + render(SpriteBatch): void
+  + withinInteractionRadius(Player, Level, SpriteBatch): void
+  + onInteract(Player, Level): void
+}
+class VendingMachine {
+  - hintTexture: Texture
+  - notificationCooldown: float
+  + update(float, Level): void
+  + render(SpriteBatch): void
+  - sendNotification(String): void
+  + onInteract(Player, Level): void
+  + withinInteractionRadius(Player, Level, SpriteBatch): void
+}
+
+BirdSeed            -[#000082,plain]-^  InteractableEntity 
+Bus                 -[#000082,plain]-^  InteractableEntity 
+LBEntity            -[#000082,plain]-^  InteractableEntity 
+LBPet               -[#000082,plain]-^  InteractableEntity 
+ShopEntity          -[#000082,plain]-^  InteractableEntity 
+VendingMachine      -[#000082,plain]-^  InteractableEntity 
+@enduml

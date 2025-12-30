@@ -1,0 +1,141 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class BasementLevel {
+  ~ dean: Dean
+  ~ libraryCard: LibraryCard
+  + update(float, Player): void
+  + collides(Player): boolean
+  + draw(SpriteBatch): void
+  + onEnter(TiledMapTileLayer, ArrayList<Rectangle>, Player): void
+}
+class BusLevel {
+  - friend: Friend
+  - bus: Bus
+  + onEnter(TiledMapTileLayer, ArrayList<Rectangle>, Player): void
+  + update(float, Player): void
+  + draw(SpriteBatch): void
+  + collides(Player): boolean
+}
+class LBShrineLevel {
+  - lbEntity: LBEntity
+  + draw(SpriteBatch): void
+  + update(float, Player): void
+  + collides(Player): boolean
+  + onEnter(TiledMapTileLayer, ArrayList<Rectangle>, Player): void
+}
+class LakeLevel {
+  - duck3: Duck
+  - duck1: Duck
+  - duckBlockerP1: DuckBlockerP1
+  - friend: Friend
+  - birdSeedPlaceArea: Polygon
+  - isPlayerInBirdSeedArea: boolean
+  - duck2: Duck
+  - hintTexture: Texture
+  - birdSeed: BirdSeed
+  - duckBlockerP2: DuckBlockerP2
+  + draw(SpriteBatch): void
+  + onEnter(TiledMapTileLayer, ArrayList<Rectangle>, Player): void
+  + collides(Player): boolean
+  + update(float, Player): void
+}
+class Level {
+  - game: Game
+  # mapName: String
+  # nextLevel: Level
+  # endX: int
+  # minimapIcon: Sprite
+  # levelCoins: ArrayList<Collectible>
+  # sideY: int
+  # levelInteractableEntities: ArrayList<InteractableEntity>
+  # levelSpeedPowerups: ArrayList<SpeedPowerup>
+  # startY: int
+  # side2Level: Level
+  # endY: int
+  # startX: int
+  # side2Y: int
+  # sideX: int
+  # prevLevel: Level
+  # side2X: int
+  # sideLevel: Level
+  # levelEnemies: ArrayList<Enemy>
+  + getStartY(): int
+  + setPrevLevel(Level): void
+  + getEndY(): int
+  + draw(SpriteBatch): void
+  + setNextLevel(Level): void
+  + setSideLevel(Level): void
+  + getSide2Level(): Level
+  + getSideLevel(): Level
+  + getLevelPowerups(): ArrayList<SpeedPowerup>
+  + getLevelEnemies(): ArrayList<Enemy>
+  + getLevelCoins(): ArrayList<Collectible>
+  + getLevelInteractableEntities(): ArrayList<InteractableEntity>
+  + addSpeedPowerup(SpeedPowerup): void
+  + getMapName(): String
+  + getSideY(): int
+  + getEndX(): int
+  + getSideX(): int
+  + setSide2Level(Level): void
+  + onEnter(TiledMapTileLayer, ArrayList<Rectangle>, Player): void
+  + generateLevelCoins(int[][]): ArrayList<Collectible>
+  + getSide2Y(): int
+  + getNextLevel(): Level
+  + getGame(): Game
+  + getSide2X(): int
+  + collides(Player): boolean
+  + getStartX(): int
+  + setMinimapSprite(Sprite): void
+  + getMinimapSprite(): Sprite
+  + update(float, Player): void
+  + getPrevLevel(): Level
+}
+class R01_LibraryFloor3 {
+  - rucksack: Rucksack
+  - wallet: Wallet
+  + update(float, Player): void
+  + draw(SpriteBatch): void
+  + collides(Player): boolean
+  + onEnter(TiledMapTileLayer, ArrayList<Rectangle>, Player): void
+}
+class R04_LibraryFloor0 {
+  - receptionistTexture: Texture
+  - receptionist: Receptionist
+  - libraryDoor: LibraryDoor
+  - vendingMachine: VendingMachine
+  - libraryBasementDoor: LibraryBasementDoor
+  - basementKey: BasementKey
+  + collides(Player): boolean
+  + update(float, Player): void
+  + draw(SpriteBatch): void
+  + onEnter(TiledMapTileLayer, ArrayList<Rectangle>, Player): void
+}
+class R05_MarketSquare {
+  - friend: Friend
+  - busStopCheckpoint: BusStopCheckpoint
+  + update(float, Player): void
+  + collides(Player): boolean
+  + onEnter(TiledMapTileLayer, ArrayList<Rectangle>, Player): void
+  + draw(SpriteBatch): void
+}
+class ShopLevel {
+  - shopEntity: ShopEntity
+  + draw(SpriteBatch): void
+  + onEnter(TiledMapTileLayer, ArrayList<Rectangle>, Player): void
+  + update(float, Player): void
+  + collides(Player): boolean
+}
+
+BasementLevel      -[#000082,plain]-^  Level             
+BusLevel           -[#000082,plain]-^  Level             
+LBShrineLevel      -[#000082,plain]-^  Level             
+LakeLevel          -[#000082,plain]-^  Level             
+R01_LibraryFloor3  -[#000082,plain]-^  Level             
+R04_LibraryFloor0  -[#000082,plain]-^  Level             
+R05_MarketSquare   -[#000082,plain]-^  Level             
+ShopLevel          -[#000082,plain]-^  Level             
+@enduml

@@ -1,0 +1,58 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AStarAI {
+  + update(Game, Enemy, float, Level, Player, float): EnemyMoveDirection
+}
+class DuckAI {
+  - roamArea: Polygon
+  - nextPoint: float[]
+  - seedDestination: float[]
+  + getRoamArea(): Polygon
+  - handleBirdSeedDown(Game, Enemy, float, Level, Player, float): EnemyMoveDirection
+  + getNextPoint(): float[]
+  + getSeedDestination(): float[]
+  + update(Game, Enemy, float, Level, Player, float): EnemyMoveDirection
+}
+enum EnemyAI << enumeration >> {
+  + DUCK: 
+  + A_STAR: 
+  + aiClass: Class<IEnemyAI>
+  + FRIEND: 
+  + values(): EnemyAI[]
+  + getAIClass(): Class<IEnemyAI>
+  + getCollisions(Game, float, Rectangle): boolean[]
+  + valueOf(String): EnemyAI
+}
+enum EnemyMoveDirection << enumeration >> {
+  + DOWN: 
+  + RIGHT: 
+  + STATIONARY: 
+  + LEFT: 
+  + UP: 
+  + valueOf(String): EnemyMoveDirection
+  + values(): EnemyMoveDirection[]
+}
+class FriendAI {
+  - recentMoves: ArrayList<EnemyMoveDirection>
+  - MAX_HISTORY: int
+  - chooseBreakMove(Game, Enemy, float, Level, Player, float, EnemyMoveDirection): EnemyMoveDirection
+  - isDirectionAllowed(EnemyMoveDirection, boolean[]): boolean
+  - applyMove(Enemy, EnemyMoveDirection, float, float): void
+  - wouldCreatePattern(List<EnemyMoveDirection>, EnemyMoveDirection): boolean
+  - projectedPos(float, float, EnemyMoveDirection, float): float[]
+  - manhattanDist(float, float, float, float): float
+  + update(Game, Enemy, float, Level, Player, float): EnemyMoveDirection
+  - evaluate_next_move(Game, Enemy, float, Level, Player, float): EnemyMoveDirection
+}
+interface IEnemyAI << interface >> {
+  + update(Game, Enemy, float, Level, Player, float): EnemyMoveDirection
+}
+
+AStarAI             -[#008200,dashed]-^  IEnemyAI           
+DuckAI              -[#008200,dashed]-^  IEnemyAI           
+FriendAI            -[#008200,dashed]-^  IEnemyAI           
+@enduml

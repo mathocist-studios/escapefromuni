@@ -1,0 +1,49 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+interface Powerup << interface >> {
+  + setPowerUpAdded(boolean): void
+  + update(Player, float): boolean
+  + render(SpriteBatch): void
+  + deleteItem(): void
+  + getCollider(): Rectangle
+  + apply(Player): void
+  + isPowerUpAdded(): boolean
+  + isCollected(): Boolean
+  + remove(Player): void
+  + isTemp(): boolean
+  + collect(): void
+  + getSoundEffect(): Sound
+}
+class SpeedPowerup {
+  # itemCollision: Rectangle
+  - timeActive: float
+  - duration: float
+  # itemY: float
+  # texture: Texture
+  - speedPowerUpAdded: boolean
+  # itemX: float
+  - speedMult: float
+  # SoundEffect: Sound
+  # collected: Boolean
+  + getSoundEffect(): Sound
+  + apply(Player): void
+  + render(SpriteBatch): void
+  + isCollected(): Boolean
+  + isPowerUpAdded(): boolean
+  + update(Player, float): boolean
+  + setSpeedPowerUpAdded(boolean): void
+  + getCollider(): Rectangle
+  + isSpeedPowerUpAdded(): boolean
+  + collect(): void
+  + isTemp(): boolean
+  + deleteItem(): void
+  + setPowerUpAdded(boolean): void
+  + remove(Player): void
+}
+
+SpeedPowerup  -[#008200,dashed]-^  Powerup      
+@enduml

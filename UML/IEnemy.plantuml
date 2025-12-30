@@ -1,0 +1,97 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Dean {
+  - stateTime: float
+  - downAnimation: Animation<TextureRegion>
+  - upFrames: TextureRegion[]
+  - rightAnimation: Animation<TextureRegion>
+  - upAnimation: Animation<TextureRegion>
+  - moveDirection: EnemyMoveDirection
+  - downFrames: TextureRegion[]
+  - stationaryFrames: TextureRegion[]
+  - rightFrames: TextureRegion[]
+  - stationaryAnimation: Animation<TextureRegion>
+  + isMoving(EnemyMoveDirection): void
+  + triggerCollisionBehavior(Player): void
+  + localUpdate(float, Level, Player): void
+  - populateFrames(): void
+}
+class Duck {
+  - moveDirection: EnemyMoveDirection
+  - birdSeed: BirdSeed
+  - stationaryAnimation: Animation<TextureRegion>
+  - stationaryFrames: TextureRegion[]
+  - isLeft: boolean
+  - walkFrames: TextureRegion[]
+  - walkAnimation: Animation<TextureRegion>
+  - stateTime: float
+  + setBirdSeed(BirdSeed): void
+  + localUpdate(float, Level, Player): void
+  + triggerCollisionBehavior(Player): void
+  + isMoving(EnemyMoveDirection): void
+  - populateFrames(): void
+  + getBirdSeed(): BirdSeed
+}
+class Enemy {
+  - enemySprite: Sprite
+  - SPEED: float
+  - aiBehavior: IEnemyAI
+  # game: Game
+  - enemyAI: EnemyAI
+  - texture: Texture
+  - enemyX: float
+  # spriteScale: double
+  # enemyCollision: Rectangle
+  - enemyY: float
+  - isDead: Boolean
+  + triggerCollisionBehavior(Player): void
+  + setEnemyY(float): void
+  + render(SpriteBatch): void
+  + setEnemyX(float): void
+  + isDead(): Boolean
+  + localUpdate(float, Level, Player): void
+  + getSprite(): Sprite
+  + setTexture(Texture): void
+  + update(float, Level, Player): void
+  # setSpeed(float): void
+  + getCollider(): Rectangle
+  + getTexture(): Texture
+  + setDead(Boolean): void
+  + getEnemyY(): float
+  + isMoving(EnemyMoveDirection): void
+  + getAIType(): EnemyAI
+  + getEnemyX(): float
+  + getEnemyCollision(): Rectangle
+  + deleteEnemy(): void
+  + getAiBehavior(): IEnemyAI
+  + collect(): void
+  + getEnemyAI(): EnemyAI
+}
+class Friend {
+  - timeSinceNotifiedTooFar: double
+  - stateTime: float
+  - hasBeenNotifiedTooFar: boolean
+  - rightFrames: TextureRegion[]
+  - downAnimation: Animation<TextureRegion>
+  - rightAnimation: Animation<TextureRegion>
+  - stationaryFrames: TextureRegion[]
+  - upFrames: TextureRegion[]
+  - downFrames: TextureRegion[]
+  - timesOutOfRange: int
+  - stationaryAnimation: Animation<TextureRegion>
+  - upAnimation: Animation<TextureRegion>
+  - moveDirection: EnemyMoveDirection
+  + triggerCollisionBehavior(Player): void
+  - populateFrames(): void
+  + localUpdate(float, Level, Player): void
+  + isMoving(EnemyMoveDirection): void
+}
+
+Dean    -[#000082,plain]-^  Enemy  
+Duck    -[#000082,plain]-^  Enemy  
+Friend  -[#000082,plain]-^  Enemy  
+@enduml

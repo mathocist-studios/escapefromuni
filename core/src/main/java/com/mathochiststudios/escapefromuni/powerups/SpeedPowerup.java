@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.audio.Sound;
 
-public class SpeedPowerup {
+public class SpeedPowerup implements Powerup {
     private float speedMult;
     private float duration; //seconds
     private float timeActive;
@@ -33,6 +33,11 @@ public class SpeedPowerup {
     //@Override
     public boolean isPowerUpAdded() {
         return isSpeedPowerUpAdded();
+    }
+
+    @Override
+    public void setPowerUpAdded(boolean powerUpAdded) {
+
     }
 
     public void setSpeedPowerUpAdded(boolean speedPowerUpAdded) {

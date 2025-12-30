@@ -1,0 +1,46 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class BuyBirdSeedSideQuest {
+  + isCompleted(Game): boolean
+}
+class EnterBasementQuest {
+  + isCompleted(Game): boolean
+}
+class EscapeUniQuest {
+  + isCompleted(Game): boolean
+}
+class FindFriendQuest {
+  + isCompleted(Game): boolean
+}
+class HandInWalletSideQuest {
+  + isCompleted(Game): boolean
+}
+class Quest {
+  - title: String
+  - level: int
+  + getLevel(): int
+  + isCompleted(Game): boolean
+  + getTitle(): String
+}
+class QuestSystem {
+  - sideQuests: ArrayList<Quest>
+  - mainQuests: Stack<Quest>
+  - game: Game
+  + getSideQuests(): ArrayList<Quest>
+  + update(): void
+  + getCurrentMainQuest(): Quest
+  + addMainQuest(Quest): void
+  + addSideQuest(Quest): void
+  + render(SpriteBatch, OrthographicCamera): void
+}
+
+BuyBirdSeedSideQuest   -[#000082,plain]-^  Quest                 
+EnterBasementQuest     -[#000082,plain]-^  Quest                 
+EscapeUniQuest         -[#000082,plain]-^  Quest                 
+FindFriendQuest        -[#000082,plain]-^  Quest                 
+HandInWalletSideQuest  -[#000082,plain]-^  Quest                 
+@enduml
