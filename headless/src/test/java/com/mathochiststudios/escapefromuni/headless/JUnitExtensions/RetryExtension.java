@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * JUnit 5 extension that retries a test up to a maximum number of attempts if it fails. <br>
  * I have added this because some tests are flaky and the texture manager sometimes fails
- * in headless mode for unknown reasons. Possibly due to resource loading timing issues or race conditions.
+ * in headless mode for unknown reasons. Possibly due to resource loading timing issues / race conditions.
  * This extension helps to mitigate those issues by allowing tests to be retried automatically to avoid
  * false negatives in test results and CI pipelines.
  * <br>
@@ -19,7 +19,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class RetryExtension implements TestExecutionExceptionHandler {
 
-    // will retry a failed test up to 5 times (total of 4 retries)
+    // will run a failed test up to 5 times (total of 4 retries)
     private static final int MAX_RETRIES = 4;
     private static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create("RetryExtension");
 

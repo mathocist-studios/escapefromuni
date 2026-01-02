@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Leaderboard {
 
-    //does nothing lol 
+    //does nothing lol
     public void Leaderboard() {
         loadLeaderboard();
     }
@@ -73,7 +73,7 @@ public class Leaderboard {
             leaderboardLines.add("Error reading leaderboard.");
         }
 
-        //now we write the file with the newleaderboardLines which contains the up to date leaderboard, apparently you can just put the filewriter second variable to 
+        //now we write the file with the newleaderboardLines which contains the up to date leaderboard, apparently you can just put the filewriter second variable to
         //false and it just overwrites each line instead which works brillantly here since the new leaderboard will always be bigger than the old
         try {
             if (!leaderboardFile.exists()) {
@@ -122,4 +122,18 @@ public class Leaderboard {
             leaderboardLines.add("Error reading leaderboard.");
         }
     }
+
+    public void clearLeaderboard() {
+        leaderboardLines.clear();
+        try {
+            if (leaderboardFile.exists()) {
+                java.io.FileWriter writer = new java.io.FileWriter(leaderboardFile, false);
+                writer.write("");
+                writer.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
