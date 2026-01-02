@@ -29,7 +29,7 @@ import com.mathochiststudios.escapefromuni.UI.Mouse;
 /** {@link ApplicationListener} implementation shared by all platforms. */
 public class Main implements ApplicationListener {
 
-    public static boolean TESTING = false; // Set to false for production
+    public static boolean TESTING = true; // Set to false for production
 
     Game game;
 
@@ -48,7 +48,7 @@ public class Main implements ApplicationListener {
 
     boolean buttonCD;
 
-    //used for mouse coordinates
+    // used for mouse coordinates
     Mouse mouse = new Mouse();
 
     MenuTextureManager textureManager;
@@ -62,7 +62,7 @@ public class Main implements ApplicationListener {
 
     MainMenu mainMenu;
     LeaderboardMenu leaderboardMenu;
-    TutorialMenu tutorialMenu ;
+    TutorialMenu tutorialMenu;
     EndGameMenu endGameMenu;
     PauseMenu pauseMenu;
     SettingsMenu settingsMenu;
@@ -101,13 +101,14 @@ public class Main implements ApplicationListener {
 
         game = new Game(this, gameDifficulty);
 
-        mainMenu = new MainMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
-        leaderboardMenu = new LeaderboardMenu(batch, viewport,buttonCD,mouse,textureManager);
-        tutorialMenu = new TutorialMenu(batch, viewport,buttonCD,mouse,textureManager);
-        endGameMenu = new EndGameMenu(batch, viewport,latestScore,wonLastGame,buttonCD,mouse,textureManager);
-        pauseMenu = new PauseMenu(batch, viewport,buttonCD,mouse,textureManager);
-        settingsMenu = new SettingsMenu(batch, viewport,buttonCD,mouse,textureManager,name, difficulty, stage);
-        preGamesettingsMenu = new PreGameSettingsMenu(batch, viewport,buttonCD,mouse,textureManager,name, difficulty, stage);
+        mainMenu = new MainMenu(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+        leaderboardMenu = new LeaderboardMenu(batch, viewport, buttonCD, mouse, textureManager);
+        tutorialMenu = new TutorialMenu(batch, viewport, buttonCD, mouse, textureManager);
+        endGameMenu = new EndGameMenu(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+        pauseMenu = new PauseMenu(batch, viewport, buttonCD, mouse, textureManager);
+        settingsMenu = new SettingsMenu(batch, viewport, buttonCD, mouse, textureManager, name, difficulty, stage);
+        preGamesettingsMenu = new PreGameSettingsMenu(batch, viewport, buttonCD, mouse, textureManager, name,
+                difficulty, stage);
 
         // Load fonts
         textureManager = new MenuTextureManager(viewport);
@@ -132,7 +133,6 @@ public class Main implements ApplicationListener {
         }
     }
 
-
     // Runs every frame
     @Override
     public void render() {
@@ -143,8 +143,8 @@ public class Main implements ApplicationListener {
 
         if (gameStarted) {
             if (!game.gameEnded) {
-                if(allowPauseButton && Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-                    //allowPauseButton = false;
+                if (allowPauseButton && Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+                    // allowPauseButton = false;
                     pauseMenu.resetText();
                     paused = !paused;
                     ScreenUtils.clear(Color.CLEAR);
@@ -167,10 +167,10 @@ public class Main implements ApplicationListener {
                     return;
                 }
                 pauseMenu.draw();
-                pauseState=pauseMenu.input();
+                pauseState = pauseMenu.input();
                 switch (pauseState) {
                     case "Resume" -> {
-                        paused=false;
+                        paused = false;
                         pauseMenu.resetText();
                     }
                     case "Main" -> {
@@ -193,7 +193,6 @@ public class Main implements ApplicationListener {
             return;
         }
 
-
         switch (menuState) {
             case "Main" -> {
                 if (hasReset) {
@@ -208,16 +207,16 @@ public class Main implements ApplicationListener {
                 }
             }
             case "Tutorial" -> {
-                    if (hasReset) {
-                        tutorialMenu.resetText();
-                        hasReset = false;
-                    }
-                    tutorialMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
-                    tutorialMenu.draw();
-                    menuState = tutorialMenu.input();
-                    if (!menuState.equals("Tutorial")) {
-                        hasReset = true;
-                    }
+                if (hasReset) {
+                    tutorialMenu.resetText();
+                    hasReset = false;
+                }
+                tutorialMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+                tutorialMenu.draw();
+                menuState = tutorialMenu.input();
+                if (!menuState.equals("Tutorial")) {
+                    hasReset = true;
+                }
             }
             case "Start Game" -> {
                 startGame();
@@ -225,9 +224,9 @@ public class Main implements ApplicationListener {
             }
             case "Leaderboard" -> {
                 if (hasReset) {
-                    //leaderboardMenu.addLeaderboardEntry("test", 184, "Easy");
-                    //leaderboardMenu.addLeaderboardEntry("test2", 1834, "Normal");
-                    //leaderboardMenu.addLeaderboardEntry("test3", 14, "Hard");
+                    // leaderboardMenu.addLeaderboardEntry("test", 184, "Easy");
+                    // leaderboardMenu.addLeaderboardEntry("test2", 1834, "Normal");
+                    // leaderboardMenu.addLeaderboardEntry("test3", 14, "Hard");
                     leaderboardMenu.resetText();
                     hasReset = false;
                 }
@@ -241,27 +240,28 @@ public class Main implements ApplicationListener {
             case "Settings" -> {
                 menuState = "PreGameSettings";
                 /*
-                if (hasReset) {
-                    settingsMenu.resetText();
-                    hasReset = false;
-                }
-                settingsMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
-                settingsMenu.draw();
-                menuState = settingsMenu.input();
-                if (!menuState.equals("Settings")) {
-                    hasReset = true;
-                }
-                difficulty = settingsMenu.getDifficulty();
-                if (settingsMenu.getDifficulty().equals("Easy")) {
-                    gameDifficulty = GameDifficulty.EASY;
-                }
-                else if (settingsMenu.getDifficulty().equals("Normal")) {
-                    gameDifficulty = GameDifficulty.NORMAL;
-                }
-                else if (settingsMenu.getDifficulty().equals("Hard")) {
-                    gameDifficulty = GameDifficulty.HARD;
-                }
-                */
+                 * if (hasReset) {
+                 * settingsMenu.resetText();
+                 * hasReset = false;
+                 * }
+                 * settingsMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD,
+                 * mouse, textureManager);
+                 * settingsMenu.draw();
+                 * menuState = settingsMenu.input();
+                 * if (!menuState.equals("Settings")) {
+                 * hasReset = true;
+                 * }
+                 * difficulty = settingsMenu.getDifficulty();
+                 * if (settingsMenu.getDifficulty().equals("Easy")) {
+                 * gameDifficulty = GameDifficulty.EASY;
+                 * }
+                 * else if (settingsMenu.getDifficulty().equals("Normal")) {
+                 * gameDifficulty = GameDifficulty.NORMAL;
+                 * }
+                 * else if (settingsMenu.getDifficulty().equals("Hard")) {
+                 * gameDifficulty = GameDifficulty.HARD;
+                 * }
+                 */
             }
             case "PreGameSettings" -> {
                 if (hasReset) {
@@ -272,7 +272,7 @@ public class Main implements ApplicationListener {
                 preGamesettingsMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
                 preGamesettingsMenu.draw();
                 menuState = preGamesettingsMenu.input();
-                name= preGamesettingsMenu.getName();
+                name = preGamesettingsMenu.getName();
                 if (!menuState.equals("PreGameSettings")) {
                     hasReset = true;
                     preGamesettingsMenu.textBoxFix();
@@ -280,11 +280,9 @@ public class Main implements ApplicationListener {
                 difficulty = preGamesettingsMenu.getDifficulty();
                 if (preGamesettingsMenu.getDifficulty().equals("Easy")) {
                     gameDifficulty = GameDifficulty.EASY;
-                }
-                else if (preGamesettingsMenu.getDifficulty().equals("Normal")) {
+                } else if (preGamesettingsMenu.getDifficulty().equals("Normal")) {
                     gameDifficulty = GameDifficulty.NORMAL;
-                }
-                else if (preGamesettingsMenu.getDifficulty().equals("Hard")) {
+                } else if (preGamesettingsMenu.getDifficulty().equals("Hard")) {
                     gameDifficulty = GameDifficulty.HARD;
                 }
             }
@@ -312,7 +310,7 @@ public class Main implements ApplicationListener {
         allowPauseButton = false;
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        if (!Objects.equals(winOrLose, "Return")) { //should be not equals
+        if (!Objects.equals(winOrLose, "Return")) { // should be not equals
             latestScore = score;
             wonLastGame = Objects.equals(winOrLose, "Win");
         } else {
@@ -326,14 +324,14 @@ public class Main implements ApplicationListener {
     @Override
     public void pause() {
         // Invoked when your application is paused.
-        //game.pause();
+        // game.pause();
         paused = true;
     }
 
     @Override
     public void resume() {
         // Invoked when your application is resumed after pause.
-        //game.resume();
+        // game.resume();
         pauseMenu.resetText();
         paused = false;
     }
@@ -341,7 +339,7 @@ public class Main implements ApplicationListener {
     @Override
     public void dispose() {
         // Destroy application's resources here.
-        //game.dispose();
+        // game.dispose();
         textureManager.dispose();
     }
 
