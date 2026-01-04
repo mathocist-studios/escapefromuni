@@ -15,8 +15,11 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        os: [ubuntu-25.12, windows-2026, macos-15]
+    runs-on: ${{ matrix.os }}
 
-    runs-on: ubuntu-latest
     permissions:
       contents: read
 
@@ -74,3 +77,5 @@ jobs:
     # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
     - name: Generate and submit dependency graph
       uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+
