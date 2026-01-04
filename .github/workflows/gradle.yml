@@ -50,6 +50,19 @@ jobs:
         # Keep the JAR for a week, to manage quota usage
         retention-days: 1
 
+    - name: Upload library JAR
+      uses: actions/upload-artifact@v4.3.1
+      with:
+        name: lib-${{ matrix.os }}.jar
+        path: triangle/lib/build/libs/lib.jar
+        retention-days: 1
+    - name: Upload Checkstyle report
+      uses: actions/upload-artifact@v4.3.1
+      if: startsWith(matrix.os, 'ubuntu')
+      with:
+        name: checkstyle-report
+        path: triangle/lib/build/reports/checkstyle
+        retention-days: 1
     
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
