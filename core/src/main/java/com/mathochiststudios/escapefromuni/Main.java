@@ -1,5 +1,6 @@
 package com.mathochiststudios.escapefromuni;
 
+import java.awt.GraphicsEnvironment;
 import java.util.Objects;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -26,10 +27,12 @@ import com.mathochiststudios.escapefromuni.Tests.LiveSpriteBatch;
 import com.mathochiststudios.escapefromuni.Tests.LiveStage;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 
+
+
 /** {@link ApplicationListener} implementation shared by all platforms. */
 public class Main implements ApplicationListener {
 
-    public static boolean TESTING = true; // Set to false for production
+    public static boolean TESTING = GraphicsEnvironment.isHeadless(); // Set to false for production
     //
 
     Game game;
@@ -51,6 +54,7 @@ public class Main implements ApplicationListener {
 
     // used for mouse coordinates
     Mouse mouse = new Mouse();
+    
 
     MenuTextureManager textureManager;
 
