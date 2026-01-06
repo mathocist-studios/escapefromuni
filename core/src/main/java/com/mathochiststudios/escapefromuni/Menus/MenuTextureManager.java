@@ -129,12 +129,12 @@ public class MenuTextureManager {
         startButtonTexture = new Texture("startButton.png");
         startButtonSprite = new Sprite(startButtonTexture);
         startButtonSprite.setSize(700, 100);
-        startButtonSprite.setPosition(100,100);
+        startButtonSprite.setPosition(80,100);
 
         unstartButtonTexture = new Texture("unstartButton.png");
         unstartButtonSprite = new Sprite(unstartButtonTexture);
         unstartButtonSprite.setSize(700, 100);
-        unstartButtonSprite.setPosition(100,100);
+        unstartButtonSprite.setPosition(80,100);
 
         settingsButtonTexture = new Texture("settingsButton.png");
         settingsButtonSprite = new Sprite(settingsButtonTexture);

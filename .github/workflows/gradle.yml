@@ -17,7 +17,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-25.12, windows-2026, macos-15]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     permissions:
@@ -89,10 +89,6 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-      with:
-        build-root-directory: triangle
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
@@ -117,19 +113,19 @@ jobs:
     - name: Download Ubuntu Build Artifact
       uses: actions/download-artifact@v4.1.4
       with:
-        name: lib-ubuntu-2026.jar
+        name: lib-ubuntu-latest.jar
     - name: Rename Ubuntu Build Artifact
       run: mv lib.jar lib-ubuntu.jar
     - name: Download MacOS Build Artifact
       uses: actions/download-artifact@v4.1.4
       with:
-        name: lib-macos-15.jar
+        name: lib-macos-latest.jar
     - name: Rename MacOS Build Artifact
       run: mv lib.jar lib-macos.jar
     - name: Download Windows Build Artifact
       uses: actions/download-artifact@v4.1.4
       with:
-        name: lib-windows-2026.jar
+        name: lib-windows-latest.jar
     - name: Rename Windows Build Artifact
       run: mv lib.jar lib-windows.jar
     - name: Release

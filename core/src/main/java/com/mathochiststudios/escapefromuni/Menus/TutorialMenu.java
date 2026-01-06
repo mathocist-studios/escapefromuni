@@ -59,8 +59,8 @@ public class TutorialMenu extends AbstractMenu{
             acceleration=0;
         }
 
-        if (textX>500) {
-            textX=500;
+        if (textX>80) {
+            textX=80;
         }
 
         ScreenUtils.clear(Color.BLACK);
@@ -70,6 +70,16 @@ public class TutorialMenu extends AbstractMenu{
         batch.draw(textureManager.getMenuBackdropSprite(),0,0, 1280, 960);
 
         batch.draw(textureManager.getTutorialSprite(),0,0, 1280, 960);
+
+        textureManager.getMainLayout().setText(textureManager.getGameLargeFont(), "Tutorial");
+        float titleX = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
+        float titleY = Gdx.graphics.getHeight() - 100;
+        textureManager.getGameLargeFont().draw(batch, "Tutorial" , titleX, titleY);
+
+        textureManager.getGameMediumFont().draw(batch, 
+            "Welcome to Escape From Uni!\n\nYou're studying in the library when you realise you forgot to \nsubmit your coursework with only 5 minues to the deadline! Sadly\nyour only copy of the document is on your computer at home,\nso can you get back in time to submit or fail your course?" 
+            , titleX/8, titleY-130);
+
 
         if (hoveredOver.equals("Start")) {
         batch.draw(textureManager.getStartButtonSprite(),textX,100, 700, 100);
