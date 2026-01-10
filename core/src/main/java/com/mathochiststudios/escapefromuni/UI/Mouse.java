@@ -1,31 +1,31 @@
 package com.mathochiststudios.escapefromuni.UI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-/**The mouse class is used to get the coordinates of your mouse
- * (the y is upside down by default in libgdx so it is flipped)
+/**
+ * Mouse class that provides WORLD coordinates
+ * Works correctly with camera + viewport resizing
  */
-
 public class Mouse {
-    private float x;
-    private float y;
-    Viewport viewport;
 
-    /**
-     * updates the x and y coordinates to the current mouse position
-     * @param viewport used to flip the y coordinate
-     */
+    private final Vector2 position = new Vector2();
+
     public void update(Viewport viewport) {
-        x = Gdx.input.getX();
-        y = viewport.getScreenHeight()-Gdx.input.getY();
+        position.set(Gdx.input.getX(), Gdx.input.getY());
+        viewport.unproject(position);
     }
 
     public float getX() {
-        return x;
+        return position.x;
     }
 
     public float getY() {
-        return y;
+        return position.y;
+    }
+
+    public Vector2 getPosition() {
+        return position;
     }
 }

@@ -29,6 +29,10 @@ public class MenuTextureManager {
 
     private Sprite playButtonSprite;
     private Texture playButtonTexture;
+    private Sprite creditsButtonSprite;
+    private Texture creditsButtonTexture;
+    private Sprite uncreditsButtonSprite;
+    private Texture uncreditsButtonTexture;
     private Sprite settingsButtonSprite;
     private Texture settingsButtonTexture;
     private Sprite exitButtonSprite;
@@ -82,6 +86,11 @@ public class MenuTextureManager {
     private Sprite LeftArrowSprite;
     private Texture LeftArrowTexture;
 
+    private Sprite TwoRightArrowSprite;
+    private Texture TwoRightArrowTexture;
+    private Sprite TwoLeftArrowSprite;
+    private Texture TwoLeftArrowTexture;
+
     private Sprite nextButtonSprite;
     private Texture nextButtonTexture;
     private Sprite hovernextButtonSprite;
@@ -121,10 +130,20 @@ public class MenuTextureManager {
         playButtonSprite.setSize(700, 100);
         playButtonSprite.setPosition(100,500);
 
+        creditsButtonTexture = new Texture("creditsButton.png");
+        creditsButtonSprite = new Sprite(creditsButtonTexture);
+        creditsButtonSprite.setSize(700, 100);
+        creditsButtonSprite.setPosition(100,200);
+
+        uncreditsButtonTexture = new Texture("uncreditsButton.png");
+        uncreditsButtonSprite = new Sprite(uncreditsButtonTexture);
+        uncreditsButtonSprite.setSize(700, 100);
+        uncreditsButtonSprite.setPosition(100,100);
+
         exitButtonTexture = new Texture("exitButton.png");
         exitButtonSprite = new Sprite(exitButtonTexture);
         exitButtonSprite.setSize(700, 100);
-        exitButtonSprite.setPosition(100,200);
+        exitButtonSprite.setPosition(100,100);
 
         startButtonTexture = new Texture("startButton.png");
         startButtonSprite = new Sprite(startButtonTexture);
@@ -235,6 +254,16 @@ public class MenuTextureManager {
         LeftArrowSprite = new Sprite(LeftArrowTexture);
         LeftArrowSprite.setSize(100, 100);
         LeftArrowSprite.setPosition(400+30,370);
+
+        TwoRightArrowTexture = new Texture("RightArrow.png");
+        TwoRightArrowSprite = new Sprite(RightArrowTexture);
+        TwoRightArrowSprite.setSize(100, 100);
+        TwoRightArrowSprite.setPosition(400+200, 800-640);
+
+        TwoLeftArrowTexture = new Texture("LeftArrow.png");
+        TwoLeftArrowSprite = new Sprite(LeftArrowTexture);
+        TwoLeftArrowSprite.setSize(100, 100);
+        TwoLeftArrowSprite.setPosition(400+30,800-640);
 
         hoverRestartTexture = new Texture("hoverRestart.png");
         hoverRestartSprite = new Sprite(hoverRestartTexture);
@@ -562,6 +591,22 @@ public class MenuTextureManager {
         return LeftArrowTexture;
     }
 
+    public Sprite getTwoRightArrowSprite() {
+        return TwoRightArrowSprite;
+    }
+
+    public Texture getTwoRightArrowTexture() {
+        return TwoRightArrowTexture;
+    }
+
+    public Sprite getTwoLeftArrowSprite() {
+        return TwoLeftArrowSprite;
+    }
+
+    public Texture getTwoLeftArrowTexture() {
+        return TwoLeftArrowTexture;
+    }
+
     public Sprite getNextButtonSprite() {
         return nextButtonSprite;
     }
@@ -584,6 +629,22 @@ public class MenuTextureManager {
 
     public void setShopFont(BitmapFont shopfont) {
         this.shopFont = shopfont;
+    }
+
+    public Sprite getuncreditsButtonSprite() {
+        return uncreditsButtonSprite;
+    }
+
+    public Texture getuncreditsButtonTexture() {
+        return uncreditsButtonTexture;
+    }
+
+    public Sprite getcreditsButtonSprite() {
+        return creditsButtonSprite;
+    }
+
+    public Texture getcreditsButtonTexture() {
+        return creditsButtonTexture;
     }
 
 }

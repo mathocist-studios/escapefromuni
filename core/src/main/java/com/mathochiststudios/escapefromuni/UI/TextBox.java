@@ -8,11 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mathochiststudios.escapefromuni.Tests.IStage;
 
-public class TextBox{
-    private TextField textField;
-    private Texture background;
-    private Texture cursor;
-    private Texture selection;
+public class TextBox {
+
+    private final TextField textField;
+    private final Texture background;
+    private final Texture cursor;
+    private final Texture selection;
 
     public TextBox(IStage stage, float x, float y, float width, float height) {
 
@@ -54,11 +55,6 @@ public class TextBox{
 
     public void setMaxLength(int length) {
         textField.setMaxLength(length);
-    }
-
-    public void setPasswordMode(char maskChar) {
-        textField.setPasswordMode(true);
-        textField.setPasswordCharacter(maskChar);
     }
 
     public TextField getActor() {

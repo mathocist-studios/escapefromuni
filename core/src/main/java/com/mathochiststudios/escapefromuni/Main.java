@@ -11,12 +11,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.Menus.CreditsMenu;
 import com.mathochiststudios.escapefromuni.Menus.EndGameMenu;
 import com.mathochiststudios.escapefromuni.Menus.LeaderboardMenu;
 import com.mathochiststudios.escapefromuni.Menus.MainMenu;
 import com.mathochiststudios.escapefromuni.Menus.MenuTextureManager;
 import com.mathochiststudios.escapefromuni.Menus.PauseMenu;
-import com.mathochiststudios.escapefromuni.Menus.PreGameSettingsMenu;
 import com.mathochiststudios.escapefromuni.Menus.SettingsMenu;
 import com.mathochiststudios.escapefromuni.Menus.TutorialMenu;
 import com.mathochiststudios.escapefromuni.Tests.HeadlessBatch;
@@ -54,6 +54,7 @@ public class Main implements ApplicationListener {
 
     // used for mouse coordinates
     Mouse mouse = new Mouse();
+    Boolean music;
     
 
     MenuTextureManager textureManager;
@@ -71,7 +72,7 @@ public class Main implements ApplicationListener {
     EndGameMenu endGameMenu;
     PauseMenu pauseMenu;
     SettingsMenu settingsMenu;
-    PreGameSettingsMenu preGamesettingsMenu;
+    CreditsMenu creditsMenu;
 
     String input;
     String pauseState;
@@ -106,14 +107,15 @@ public class Main implements ApplicationListener {
 
         game = new Game(this, gameDifficulty);
 
+        music=true;
+
         mainMenu = new MainMenu(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
         leaderboardMenu = new LeaderboardMenu(batch, viewport, buttonCD, mouse, textureManager);
         tutorialMenu = new TutorialMenu(batch, viewport, buttonCD, mouse, textureManager);
         endGameMenu = new EndGameMenu(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
         pauseMenu = new PauseMenu(batch, viewport, buttonCD, mouse, textureManager);
-        settingsMenu = new SettingsMenu(batch, viewport, buttonCD, mouse, textureManager, name, difficulty, stage);
-        preGamesettingsMenu = new PreGameSettingsMenu(batch, viewport, buttonCD, mouse, textureManager, name,
-                difficulty, stage);
+        settingsMenu = new SettingsMenu(batch, viewport, buttonCD, mouse, textureManager, name, difficulty, music,stage);
+        creditsMenu = new CreditsMenu(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
 
         // Load fonts
         textureManager = new MenuTextureManager(viewport);
@@ -244,50 +246,28 @@ public class Main implements ApplicationListener {
             }
             case "Settings" -> {
                 menuState = "PreGameSettings";
-                /*
-                 * if (hasReset) {
-                 * settingsMenu.resetText();
-                 * hasReset = false;
-                 * }
-                 * settingsMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD,
-                 * mouse, textureManager);
-                 * settingsMenu.draw();
-                 * menuState = settingsMenu.input();
-                 * if (!menuState.equals("Settings")) {
-                 * hasReset = true;
-                 * }
-                 * difficulty = settingsMenu.getDifficulty();
-                 * if (settingsMenu.getDifficulty().equals("Easy")) {
-                 * gameDifficulty = GameDifficulty.EASY;
-                 * }
-                 * else if (settingsMenu.getDifficulty().equals("Normal")) {
-                 * gameDifficulty = GameDifficulty.NORMAL;
-                 * }
-                 * else if (settingsMenu.getDifficulty().equals("Hard")) {
-                 * gameDifficulty = GameDifficulty.HARD;
-                 * }
-                 */
             }
             case "PreGameSettings" -> {
                 if (hasReset) {
-                    preGamesettingsMenu.textBoxunFix();
-                    preGamesettingsMenu.resetText();
+                    settingsMenu.textBoxunFix();
+                    settingsMenu.resetText();
                     hasReset = false;
                 }
-                preGamesettingsMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
-                preGamesettingsMenu.draw();
-                menuState = preGamesettingsMenu.input();
-                name = preGamesettingsMenu.getName();
+                settingsMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+                settingsMenu.draw();
+                menuState = settingsMenu.input();
+                name = settingsMenu.getName();
                 if (!menuState.equals("PreGameSettings")) {
                     hasReset = true;
-                    preGamesettingsMenu.textBoxFix();
+                    settingsMenu.textBoxFix();
                 }
-                difficulty = preGamesettingsMenu.getDifficulty();
-                if (preGamesettingsMenu.getDifficulty().equals("Easy")) {
+                difficulty = settingsMenu.getDifficulty();
+                music = settingsMenu.getMusic();
+                if (settingsMenu.getDifficulty().equals("Easy")) {
                     gameDifficulty = GameDifficulty.EASY;
-                } else if (preGamesettingsMenu.getDifficulty().equals("Normal")) {
+                } else if (settingsMenu.getDifficulty().equals("Normal")) {
                     gameDifficulty = GameDifficulty.NORMAL;
-                } else if (preGamesettingsMenu.getDifficulty().equals("Hard")) {
+                } else if (settingsMenu.getDifficulty().equals("Hard")) {
                     gameDifficulty = GameDifficulty.HARD;
                 }
             }
@@ -302,6 +282,19 @@ public class Main implements ApplicationListener {
                 menuState = endGameMenu.input();
                 if (!menuState.equals("EndMenu")) {
                     isEndGameMenu = false;
+                    hasReset = true;
+                }
+            }
+            case "Credits" -> {
+                if (hasReset) {
+                    creditsMenu.onSwitchIn();
+                    hasReset = false;
+                }
+                creditsMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+                creditsMenu.draw();
+                menuState = creditsMenu.input();
+                if (!menuState.equals("Credits")) {
+                    hasReset = true;
                 }
             }
             default -> menuState = "Main";

@@ -72,12 +72,12 @@ public class TutorialMenu extends AbstractMenu{
         batch.draw(textureManager.getTutorialSprite(),0,0, 1280, 960);
 
         textureManager.getMainLayout().setText(textureManager.getGameLargeFont(), "Tutorial");
-        float titleX = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
-        float titleY = Gdx.graphics.getHeight() - 100;
+        float titleX = 250;
+        float titleY = 900;
         textureManager.getGameLargeFont().draw(batch, "Tutorial" , titleX, titleY);
 
         textureManager.getGameMediumFont().draw(batch, 
-            "Welcome to Escape From Uni!\n\nYou're studying in the library when you realise you forgot to \nsubmit your coursework with only 5 minues to the deadline! Sadly\nyour only copy of the document is on your computer at home,\nso can you get back in time to submit or fail your course?" 
+            "Welcome to Escape From Uni!\n\nYou're studying in the library when you realise you forgot to \nsubmit your coursework with only 5 minues to the deadline!\nSadly your only copy of the coursework is on your computer \nat home, can you get back in time to save your grade?" 
             , titleX/8, titleY-130);
 
 

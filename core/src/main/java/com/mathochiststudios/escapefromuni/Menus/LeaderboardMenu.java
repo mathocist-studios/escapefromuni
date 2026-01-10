@@ -62,9 +62,9 @@ public class LeaderboardMenu extends AbstractMenu{
         batch.draw(textureManager.getMenuBackdropSprite(),0,0, 1280, 960);
 
         textureManager.getMainLayout().setText(textureManager.getGameSmallFont(), "Leaderboard");
-        float titleX = (Gdx.graphics.getWidth() - textureManager.getMainLayout().width) / 2f;
-        float titleY = Gdx.graphics.getHeight() - 100;
-        textureManager.getGameLargeFont().draw(batch, "Leaderboard" , titleX-130, titleY+50);
+        float titleX = 400;
+        float titleY = 800;
+        textureManager.getGameLargeFont().draw(batch, "Leaderboard" , titleX+40, titleY+50);
 
         float startY = titleY - 60;
         float lineSpacing = 48f;

@@ -57,6 +57,12 @@ public class MainMenu extends AbstractMenu{
                 return "PreGameSettings";
             }
             if (!buttonCD &&
+                textureManager.getcreditsButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                return "Credits";
+            }
+            if (!buttonCD &&
                 textureManager.getLeaderboardButtonSprite().getBoundingRectangle().contains(
                     new Vector2(mouse.getX(),mouse.getY())
                 )) {
@@ -93,6 +99,12 @@ public class MainMenu extends AbstractMenu{
                 )) {
                     hoveredOver = "Exit";
             }
+            if (
+                textureManager.getcreditsButtonSprite().getBoundingRectangle().contains(
+                    new Vector2(mouse.getX(),mouse.getY())
+                )) {
+                    hoveredOver = "Credits";
+            }
         return "Main";
     }
 
@@ -124,31 +136,43 @@ public class MainMenu extends AbstractMenu{
             batch.draw(textureManager.getPlayButtonSprite(),textX,500, 700, 100);
         batch.draw(textureManager.getunSettingsButtonSprite(),textX,400, 700, 100);
         batch.draw(textureManager.getunLeaderboardButtonSprite(),textX,300, 700, 100);
-        batch.draw(textureManager.getunExitButtonSprite(),textX,200, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),textX,100, 700, 100);
+        batch.draw(textureManager.getuncreditsButtonSprite(),textX,200, 700, 100);
         }
         else if (hoveredOver.equals("Leaderboard")) {
             batch.draw(textureManager.getunPlayButtonSprite(),textX,500, 700, 100);
         batch.draw(textureManager.getunSettingsButtonSprite(),textX,400, 700, 100);
         batch.draw(textureManager.getLeaderboardButtonSprite(),textX,300, 700, 100);
-        batch.draw(textureManager.getunExitButtonSprite(),textX,200, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),textX,100, 700, 100);
+        batch.draw(textureManager.getuncreditsButtonSprite(),textX,200, 700, 100);
         }
         else if (hoveredOver.equals("Settings")) {
             batch.draw(textureManager.getunPlayButtonSprite(),textX,500, 700, 100);
         batch.draw(textureManager.getSettingsButtonSprite(),textX,400, 700, 100);
         batch.draw(textureManager.getunLeaderboardButtonSprite(),textX,300, 700, 100);
-        batch.draw(textureManager.getunExitButtonSprite(),textX,200, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),textX,100, 700, 100);
+        batch.draw(textureManager.getuncreditsButtonSprite(),textX,200, 700, 100);
         }
         else if (hoveredOver.equals("Exit")) {
             batch.draw(textureManager.getunPlayButtonSprite(),textX,500, 700, 100);
         batch.draw(textureManager.getunSettingsButtonSprite(),textX,400, 700, 100);
         batch.draw(textureManager.getunLeaderboardButtonSprite(),textX,300, 700, 100);
-        batch.draw(textureManager.getExitButtonSprite(),textX,200, 700, 100);
+        batch.draw(textureManager.getExitButtonSprite(),textX,100, 700, 100);
+        batch.draw(textureManager.getuncreditsButtonSprite(),textX,200, 700, 100);
+        }
+        else if (hoveredOver.equals("Credits")) {
+            batch.draw(textureManager.getunPlayButtonSprite(),textX,500, 700, 100);
+        batch.draw(textureManager.getunSettingsButtonSprite(),textX,400, 700, 100);
+        batch.draw(textureManager.getunLeaderboardButtonSprite(),textX,300, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),textX,100, 700, 100);
+        batch.draw(textureManager.getcreditsButtonSprite(),textX,200, 700, 100);
         }
         else {
             batch.draw(textureManager.getunPlayButtonSprite(),textX,500, 700, 100);
         batch.draw(textureManager.getunSettingsButtonSprite(),textX,400, 700, 100);
         batch.draw(textureManager.getunLeaderboardButtonSprite(),textX,300, 700, 100);
-        batch.draw(textureManager.getunExitButtonSprite(),textX,200, 700, 100);
+        batch.draw(textureManager.getunExitButtonSprite(),textX,100, 700, 100);
+        batch.draw(textureManager.getuncreditsButtonSprite(),textX,200, 700, 100);
         }
 
 
