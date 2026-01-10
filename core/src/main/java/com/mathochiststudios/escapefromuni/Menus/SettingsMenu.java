@@ -103,6 +103,9 @@ public class SettingsMenu extends AbstractMenu{
                 alreadyClicked = true;
             }
         }
+        else {
+            alreadyClicked = false;
+        }
         if (
                 textureManager.getSubmitSprite().getBoundingRectangle().contains(
                     new Vector2(mouse.getX(),mouse.getY())
@@ -118,7 +121,7 @@ public class SettingsMenu extends AbstractMenu{
         else {
             hoveredOver = ""; }
 
-        return "PreGameSettings";
+        return "Settings";
     }
 
     @Override

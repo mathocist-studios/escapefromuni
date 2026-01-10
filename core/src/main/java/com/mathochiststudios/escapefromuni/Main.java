@@ -124,6 +124,13 @@ public class Main implements ApplicationListener {
 
     public void startGame() {
         game = new Game(this, gameDifficulty);
+        if (difficulty.equals("Easy")) {
+            textureManagerClassic.setBgm(Gdx.audio.newMusic(Gdx.files.internal("EscapeAdventure.ogg")));
+        } else if (difficulty.equals("Normal")) {
+            textureManagerClassic.setBgm(Gdx.audio.newMusic(Gdx.files.internal("EscapeAdventure.ogg")));
+        } else if (difficulty.equals("Hard")) {
+            textureManagerClassic.setBgm(Gdx.audio.newMusic(Gdx.files.internal("FreakyEscapeAdventure.ogg")));
+        }
 
         gameStarted = true;
         paused = false;
@@ -156,8 +163,11 @@ public class Main implements ApplicationListener {
                     paused = !paused;
                     ScreenUtils.clear(Color.CLEAR);
                 }
-                textureManagerClassic.getBgm().setVolume(0.3f);
-                textureManagerClassic.getBgm().play();
+
+                if (music){
+                    textureManagerClassic.getBgm().setVolume(0.3f);
+                    textureManagerClassic.getBgm().play();
+                }
 
                 if (!TESTING) {
                     game.draw((SpriteBatch) batch, viewport);
