@@ -199,12 +199,12 @@ public class MenuTextureManager {
         unexitButtonSprite.setSize(700, 100);
         unexitButtonSprite.setPosition(100, 200);
 
-        nextButtonTexture = new Texture("next.png");
+        nextButtonTexture = new Texture("Next.png");
         nextButtonSprite = new Sprite(nextButtonTexture);
         nextButtonSprite.setSize(300, 100);
         nextButtonSprite.setPosition(900, 20);
 
-        hovernextButtonTexture = new Texture("hovernext.png");
+        hovernextButtonTexture = new Texture("hoverNext.png");
         hovernextButtonSprite = new Sprite(nextButtonTexture);
         hovernextButtonSprite.setSize(300, 100);
         hovernextButtonSprite.setPosition(900, 20);
@@ -239,7 +239,7 @@ public class MenuTextureManager {
         hoverresumeButtonSprite.setSize(300, 100);
         hoverresumeButtonSprite.setPosition(240, 500);
 
-        MenuBackdropTexture = new Texture("MenuBackdrop.png");
+        MenuBackdropTexture = new Texture("menuBackdrop.png");
         MenuBackdropSprite = new Sprite(MenuBackdropTexture);
         MenuBackdropSprite.setSize((float) 1280 / 3, 200);
         MenuBackdropSprite.setPosition((float) 1280 / 3, 330);
@@ -304,7 +304,7 @@ public class MenuTextureManager {
     }
 
     public BitmapFont genMainFont(int size) {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Jersey25-Regular.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Jersey25-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
         parameter.borderWidth = 1;
