@@ -128,6 +128,8 @@ public class Main implements ApplicationListener {
 
     public void startGame() {
         game = new Game(this, gameDifficulty);
+        textureManagerClassic.getBgm().stop();
+
         if (difficulty.equals("Easy")) {
             textureManagerClassic.setBgm(Gdx.audio.newMusic(Gdx.files.internal("EscapeAdventure.ogg")));
         } else if (difficulty.equals("Normal")) {
