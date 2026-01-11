@@ -42,6 +42,8 @@ import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 
 public class Game {
 
+    boolean hasBeenSlowedBefore = false;
+
     public boolean gameEnded;
     public String WinOrLose;
 
@@ -582,12 +584,22 @@ public class Game {
         boolean isSlowed = false;
         for (Rectangle tileRect : mapSlowCollisions) {
             if (pRect.overlaps(tileRect)) {
+                if (!hasBeenSlowedBefore) {
+                    hasBeenSlowedBefore = true;
+                    hud.getNotificationManager().addNotification(new Notification(
+                            "Your feet are wet! Speed reduced!",
+                            2,
+                            NotificationType.SPEECH,
+                            textureManager.getGameSmallFont()));
+
+                }
                 isSlowed = true;
                 player.getEventsCounter().slowedByWater();
                 player.setHappiness(player.getHappiness() - Gdx.graphics.getDeltaTime() * 2); // Decrease happiness over
                                                                                               // time in water
                 break;
             }
+
         }
         player.setSlowedByWater(isSlowed);
 
