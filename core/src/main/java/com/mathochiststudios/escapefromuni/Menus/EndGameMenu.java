@@ -42,9 +42,13 @@ public class EndGameMenu extends AbstractMenuLegacy {
         {"small", " - Harri Thorman"},
         {"big", "User Testing:"},
         {"small", " - Will King"},
+        {"small", " - Charlie Thoo-tinsley"},
         {"big", "Method Selection and Project Management:"},
         {"small", " - Josh Zacek"},
         {"small", " - Euan Cottam"},
+        {"big", "Art and Asset Creation: "},
+        {"small", " - Will King"},
+        {"small", " - Marcus Williamson"},
         {"big", "Special Thanks to Team 9 for their initial work on the project!"},
         {"big", "Thank you for playing Escape From Uni!"}
     };

@@ -65,6 +65,7 @@ public class Main implements ApplicationListener {
 
     String hoveredOver = "";
     boolean isEndGameMenu = false; // dont ask. I needed a on switch event for end menu
+    public static boolean isStartingUp = false;
 
     MainMenu mainMenu;
     LeaderboardMenu leaderboardMenu;
@@ -127,6 +128,8 @@ public class Main implements ApplicationListener {
 
     public void startGame() {
         game = new Game(this, gameDifficulty);
+        textureManagerClassic.getBgm().stop();
+
         if (difficulty.equals("Easy")) {
             textureManagerClassic.setBgm(Gdx.audio.newMusic(Gdx.files.internal("EscapeAdventure.ogg")));
         } else if (difficulty.equals("Normal")) {
@@ -229,9 +232,7 @@ public class Main implements ApplicationListener {
             case "Tutorial" -> {
                 if (name.equals("Player")) {
                     menuState = "Settings";
-                    JFrame coolbox = new JFrame();
-                    JOptionPane.showMessageDialog(coolbox,
-                            "Please pick a name, difficulty before you start for the first time.");
+                    isStartingUp = true;
                 } else {
                     if (hasReset) {
                         tutorialMenu.resetText();
@@ -290,6 +291,7 @@ public class Main implements ApplicationListener {
                 if (!menuState.equals("Settings")) {
                     hasReset = true;
                     settingsMenu.textBoxunFix();
+                    isStartingUp = false;
                 }
                 difficulty = settingsMenu.getDifficulty();
                 music = settingsMenu.getMusic();

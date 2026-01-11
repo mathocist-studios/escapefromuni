@@ -1,7 +1,6 @@
 package com.mathochiststudios.escapefromuni.Menus;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -9,12 +8,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mathochiststudios.escapefromuni.Main;
 import com.mathochiststudios.escapefromuni.Tests.HeadlessStage;
 import com.mathochiststudios.escapefromuni.Tests.ISpriteBatch;
 import com.mathochiststudios.escapefromuni.Tests.IStage;
 import com.mathochiststudios.escapefromuni.Tests.LiveStage;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
 import com.mathochiststudios.escapefromuni.UI.TextBox;
+
+import java.awt.*;
 
 public class SettingsMenu extends AbstractMenu {
 
@@ -60,11 +62,8 @@ public class SettingsMenu extends AbstractMenu {
 
                 if (textureManager.getNextButtonSprite().getBoundingRectangle()
                         .contains(new Vector2(mouse.getX(), mouse.getY()))) {
-                    if (name.length() > 0 && name.length() <= 15) {
-                        return "Main";
-                    } else {
-                        JFrame coolbox = new JFrame();
-                        JOptionPane.showMessageDialog(coolbox, "Pick a valid name below 15 characters!");
+                    if (!name.isEmpty()) {
+                        return Main.isStartingUp ? "Tutorial" : "MainMenu";
                     }
                 }
                 if (textureManager.getSubmitSprite().getBoundingRectangle()

@@ -102,7 +102,7 @@ public class TextureManager {
         coinSprite = new Sprite(coinTexture);
 
         planetSound = Gdx.audio.newSound(Gdx.files.internal("laser-90052.mp3"));
-        planetTexture = new Texture("Neptune_planet_v2.png");
+        planetTexture = new Texture("chocolate.png");
         planetSprite = new Sprite(planetTexture);
 
         duckSound = Gdx.audio.newSound(Gdx.files.internal("duck-quack-112941.mp3"));

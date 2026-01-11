@@ -187,12 +187,12 @@ public class EventsTests extends AbstractHeadlessGdxTest {
 
         // Check that the event was registered
         assertTrue(
-            app.getGame().getPlayer().getEventsCounter().hasBoughtRollerSkates(),
+            app.getGame().getPlayer().getEventsCounter().hasBoughtYorCup(),
             "Player should have bought roller skates"
         );
         // Check that the rollerskates are in the player's inventory
         assertTrue(
-            app.getGame().getPlayer().getInventory().hasItem(InventoryObject.ROLLERBLADES),
+            app.getGame().getPlayer().getInventory().hasItem(InventoryObject.YORCUP),
             "Player should have roller skates in inventory"
         );
 
@@ -327,7 +327,7 @@ public class EventsTests extends AbstractHeadlessGdxTest {
         Main app = TestingUtils.createTestGame();
 
         // Simulate encountering 2 positive events
-        app.getGame().getPlayer().getEventsCounter().boughtRollerSkates();
+        app.getGame().getPlayer().getEventsCounter().boughtYorCup();
         app.getGame().getPlayer().getEventsCounter().boughtEnergyDrink();
 
         // Simulate encountering 3 negative events
@@ -340,7 +340,7 @@ public class EventsTests extends AbstractHeadlessGdxTest {
         app.getGame().getPlayer().getEventsCounter().handedInWallet();
 
         // Simulate encountering the same events again to ensure they are not double-counted
-        app.getGame().getPlayer().getEventsCounter().boughtRollerSkates();
+        app.getGame().getPlayer().getEventsCounter().boughtYorCup();
         app.getGame().getPlayer().getEventsCounter().boughtEnergyDrink();
         app.getGame().getPlayer().getEventsCounter().foundFriend();
         app.getGame().getPlayer().getEventsCounter().slowedByWater();
@@ -460,7 +460,7 @@ public class EventsTests extends AbstractHeadlessGdxTest {
         }
 
         // give player the rollerskates and energy drink
-        app.getGame().getPlayer().getInventory().addItem(InventoryObject.ROLLERBLADES);
+        app.getGame().getPlayer().getInventory().addItem(InventoryObject.YORCUP);
         app.getGame().getPlayer().getInventory().addItem(InventoryObject.ENERGY_DRINK);
 
         // Simulate input and logic to register speed powerup collection
@@ -535,7 +535,7 @@ public class EventsTests extends AbstractHeadlessGdxTest {
         }
         app.getGame().getPlayer().getGameTimer().addTime(150); // now full time
         app.getGame().getPlayer().setHappiness(100);
-        app.getGame().getPlayer().getInventory().addItem(InventoryObject.ROLLERBLADES);
+        app.getGame().getPlayer().getInventory().addItem(InventoryObject.YORCUP);
         app.getGame().getPlayer().getInventory().addItem(InventoryObject.ENERGY_DRINK);
         app.getGame().getPlayer().getEventsCounter().madeItToBusStop();
         app.getGame().getPlayer().getEventsCounter().hasExitLibrary();

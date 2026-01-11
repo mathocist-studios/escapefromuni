@@ -1,9 +1,5 @@
 package com.mathochiststudios.escapefromuni.UI;
 
-import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
-import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
-import com.mathochiststudios.escapefromuni.TextureManager;
-
 public class EventsCounter {
 
     private int positiveEventsEncountered = 0;
@@ -16,7 +12,7 @@ public class EventsCounter {
     private boolean foundBasementKey = false;
     private boolean handedInWallet = false;
     private boolean caughtByDean = false;
-    private boolean buyRollerSkates = false;
+    private boolean buyYorCup = false;
     private boolean isSlowedByWater = false;
     private boolean foundFriend = false;
     private boolean boughtEnergyDrink = false;
@@ -29,12 +25,6 @@ public class EventsCounter {
     private boolean collectedAllCoinsAchieved = false;
     private boolean collectedAllPowerUpsAchieved = false;
     private boolean completedGameAchieved = false;
-
-    private boolean hasStuff = false;
-
-    private TextureManager textureManager;
-
-    private Notification notification;
 
     public int getPositiveEventsEncountered() {
         return positiveEventsEncountered;
@@ -62,8 +52,6 @@ public class EventsCounter {
         }
         this.negativeEventsEncountered += 1;
         this.foundLibraryCard = true;
-
-        hasStuff = true;
     }
 
     public boolean hasFoundLibraryCard() {
@@ -83,11 +71,6 @@ public class EventsCounter {
     }
 
     public void handedInWallet() {
-        notification = new Notification(
-                "Ohh.. I think I fell asleep in the library again...\nI better get going before it closes!",
-                5,
-                NotificationType.SPEECH,
-                textureManager.getGameSmallFont());
         if (this.handedInWallet) {
             return;
         }
@@ -119,16 +102,16 @@ public class EventsCounter {
         return this.caughtByDean;
     }
 
-    public void boughtRollerSkates() {
-        if (this.buyRollerSkates) {
+    public void boughtYorCup() {
+        if (this.buyYorCup) {
             return;
         }
         this.positiveEventsEncountered += 1;
-        this.buyRollerSkates = true;
+        this.buyYorCup = true;
     }
 
-    public boolean hasBoughtRollerSkates() {
-        return this.buyRollerSkates;
+    public boolean hasBoughtYorCup() {
+        return this.buyYorCup;
     }
 
     public void slowedByWater() {
