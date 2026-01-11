@@ -9,13 +9,13 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.SharedLibraryLoadRuntimeException;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-
-
 /**
- * TextureManager is responsible for managing and loading all textures, sprites, fonts,
+ * TextureManager is responsible for managing and loading all textures, sprites,
+ * fonts,
  * and other graphical assets used in the game.
  *
- * This was added to improve code organization and separate graphical asset management
+ * This was added to improve code organization and separate graphical asset
+ * management
  * since the last team's Main class was horrible.
  */
 public class MenuTextureManager {
@@ -61,6 +61,10 @@ public class MenuTextureManager {
     private Texture startButtonTexture;
     private Sprite unstartButtonSprite;
     private Texture unstartButtonTexture;
+    private Sprite astartButtonSprite;
+    private Texture astartButtonTexture;
+    private Sprite aunstartButtonSprite;
+    private Texture aunstartButtonTexture;
     private Sprite TutorialSprite;
     private Texture TutorialTexture;
 
@@ -120,22 +124,22 @@ public class MenuTextureManager {
         TwoRightArrowTexture = new Texture("RightArrow - Copy.png");
         TwoRightArrowSprite = new Sprite(TwoRightArrowTexture);
         TwoRightArrowSprite.setSize(100, 100);
-        TwoRightArrowSprite.setPosition(400+200, 800-640);
+        TwoRightArrowSprite.setPosition(400 + 200, 800 - 640);
 
         TwoLeftArrowTexture = new Texture("LeftArrow - Copy.png");
         TwoLeftArrowSprite = new Sprite(TwoLeftArrowTexture);
         TwoLeftArrowSprite.setSize(100, 100);
-        TwoLeftArrowSprite.setPosition(400+30,800-640);
+        TwoLeftArrowSprite.setPosition(400 + 30, 800 - 640);
 
         creditsButtonTexture = new Texture("creditsButton.png");
         creditsButtonSprite = new Sprite(creditsButtonTexture);
         creditsButtonSprite.setSize(700, 100);
-        creditsButtonSprite.setPosition(100,200);
+        creditsButtonSprite.setPosition(100, 200);
 
         uncreditsButtonTexture = new Texture("uncreditsButton.png");
         uncreditsButtonSprite = new Sprite(uncreditsButtonTexture);
         uncreditsButtonSprite.setSize(700, 100);
-        uncreditsButtonSprite.setPosition(100,100);
+        uncreditsButtonSprite.setPosition(100, 100);
 
         menuText = new Texture("escapefromunititle.png");
         pausedText = new Texture("pausedtext.png");
@@ -143,145 +147,156 @@ public class MenuTextureManager {
         TutorialTexture = new Texture("Tutorial.png");
         TutorialSprite = new Sprite(TutorialTexture);
         TutorialSprite.setSize(1280, 960);
-        TutorialSprite.setPosition(0,0);
+        TutorialSprite.setPosition(0, 0);
 
         playButtonTexture = new Texture("playButton.png");
         playButtonSprite = new Sprite(playButtonTexture);
         playButtonSprite.setSize(700, 100);
-        playButtonSprite.setPosition(100,500);
+        playButtonSprite.setPosition(100, 500);
 
         exitButtonTexture = new Texture("exitButton.png");
         exitButtonSprite = new Sprite(exitButtonTexture);
         exitButtonSprite.setSize(700, 100);
-        exitButtonSprite.setPosition(100,100);
+        exitButtonSprite.setPosition(100, 100);
 
         startButtonTexture = new Texture("startButton.png");
         startButtonSprite = new Sprite(startButtonTexture);
         startButtonSprite.setSize(700, 100);
-        startButtonSprite.setPosition(100,100);
+        startButtonSprite.setPosition(100, 100);
 
         unstartButtonTexture = new Texture("unstartButton.png");
         unstartButtonSprite = new Sprite(unstartButtonTexture);
         unstartButtonSprite.setSize(700, 100);
-        unstartButtonSprite.setPosition(100,100);
+        unstartButtonSprite.setPosition(100, 100);
+
+        astartButtonTexture = new Texture("astartButton.png");
+        astartButtonSprite = new Sprite(astartButtonTexture);
+        astartButtonSprite.setSize(700, 100);
+        astartButtonSprite.setPosition(100, 100);
+
+        aunstartButtonTexture = new Texture("aunstartButton.png");
+        aunstartButtonSprite = new Sprite(aunstartButtonTexture);
+        aunstartButtonSprite.setSize(700, 100);
+        aunstartButtonSprite.setPosition(100, 100);
 
         settingsButtonTexture = new Texture("settingsButton.png");
         settingsButtonSprite = new Sprite(settingsButtonTexture);
         settingsButtonSprite.setSize(700, 100);
-        settingsButtonSprite.setPosition(100,400);
+        settingsButtonSprite.setPosition(100, 400);
 
         leaderboardButtonTexture = new Texture("leaderboardButton.png");
         leaderboardButtonSprite = new Sprite(leaderboardButtonTexture);
         leaderboardButtonSprite.setSize(700, 100);
-        leaderboardButtonSprite.setPosition(100,300);
+        leaderboardButtonSprite.setPosition(100, 300);
 
         unplayButtonTexture = new Texture("unplayButton.png");
         unplayButtonSprite = new Sprite(unplayButtonTexture);
         unplayButtonSprite.setSize(700, 100);
-        unplayButtonSprite.setPosition(100,500);
+        unplayButtonSprite.setPosition(100, 500);
 
         unexitButtonTexture = new Texture("unexitButton.png");
         unexitButtonSprite = new Sprite(unexitButtonTexture);
         unexitButtonSprite.setSize(700, 100);
-        unexitButtonSprite.setPosition(100,200);
+        unexitButtonSprite.setPosition(100, 200);
 
         nextButtonTexture = new Texture("next.png");
         nextButtonSprite = new Sprite(nextButtonTexture);
         nextButtonSprite.setSize(300, 100);
-        nextButtonSprite.setPosition(900,20);
+        nextButtonSprite.setPosition(900, 20);
 
         hovernextButtonTexture = new Texture("hovernext.png");
         hovernextButtonSprite = new Sprite(nextButtonTexture);
         hovernextButtonSprite.setSize(300, 100);
-        hovernextButtonSprite.setPosition(900,20);
+        hovernextButtonSprite.setPosition(900, 20);
 
         unexitButtonTexture = new Texture("unexitButton.png");
         unexitButtonSprite = new Sprite(unexitButtonTexture);
         unexitButtonSprite.setSize(700, 100);
-        unexitButtonSprite.setPosition(100,200);
+        unexitButtonSprite.setPosition(100, 200);
 
         unsettingsButtonTexture = new Texture("unsettingsButton.png");
         unsettingsButtonSprite = new Sprite(unsettingsButtonTexture);
         unsettingsButtonSprite.setSize(700, 100);
-        unsettingsButtonSprite.setPosition(100,400);
+        unsettingsButtonSprite.setPosition(100, 400);
 
         unleaderboardButtonTexture = new Texture("unleaderboardButton.png");
         unleaderboardButtonSprite = new Sprite(unleaderboardButtonTexture);
         unleaderboardButtonSprite.setSize(700, 100);
-        unleaderboardButtonSprite.setPosition(100,300);
+        unleaderboardButtonSprite.setPosition(100, 300);
 
         returnToMenuButtonTexture = new Texture("returntext.png");
         returnToMenuButtonSprite = new Sprite(returnToMenuButtonTexture);
         returnToMenuButtonSprite.setSize(300, 100);
-        returnToMenuButtonSprite.setPosition(240,100);
+        returnToMenuButtonSprite.setPosition(240, 100);
 
         resumeButtonTexture = new Texture("resumetext.png");
         resumeButtonSprite = new Sprite(resumeButtonTexture);
         resumeButtonSprite.setSize(300, 100);
-        resumeButtonSprite.setPosition(240,500);
+        resumeButtonSprite.setPosition(240, 500);
 
         hoverresumeButtonTexture = new Texture("hoverresumetext.png");
         hoverresumeButtonSprite = new Sprite(hoverresumeButtonTexture);
         hoverresumeButtonSprite.setSize(300, 100);
-        hoverresumeButtonSprite.setPosition(240,500);
+        hoverresumeButtonSprite.setPosition(240, 500);
 
         MenuBackdropTexture = new Texture("MenuBackdrop.png");
         MenuBackdropSprite = new Sprite(MenuBackdropTexture);
-        MenuBackdropSprite.setSize((float) 1280 /3, 200);
-        MenuBackdropSprite.setPosition((float) 1280 /3,330);
+        MenuBackdropSprite.setSize((float) 1280 / 3, 200);
+        MenuBackdropSprite.setPosition((float) 1280 / 3, 330);
 
         OverlayTexture = new Texture("Overlay.png");
         OverlaySprite = new Sprite(OverlayTexture);
-        OverlaySprite.setSize((float) 1280 /3, 200);
-        OverlaySprite.setPosition((float) 1280 /3,330);
+        OverlaySprite.setSize((float) 1280 / 3, 200);
+        OverlaySprite.setPosition((float) 1280 / 3, 330);
 
         RestartTexture = new Texture("Restart.png");
         RestartSprite = new Sprite(RestartTexture);
         RestartSprite.setSize(300, 100);
-        RestartSprite.setPosition(240,300);
+        RestartSprite.setPosition(240, 300);
 
         hoverRestartTexture = new Texture("hoverRestart.png");
         hoverRestartSprite = new Sprite(hoverRestartTexture);
         hoverRestartSprite.setSize(300, 100);
-        hoverRestartSprite.setPosition(240+80,300);
+        hoverRestartSprite.setPosition(240 + 80, 300);
 
         SubmitTexture = new Texture("Submit.png");
         SubmitSprite = new Sprite(SubmitTexture);
         SubmitSprite.setSize(300, 100);
-        SubmitSprite.setPosition(600+80,580);
+        SubmitSprite.setPosition(600 + 80, 580);
 
         hoverSubmitTexture = new Texture("hoverSubmit.png");
         hoverSubmitSprite = new Sprite(hoverSubmitTexture);
         hoverSubmitSprite.setSize(300, 100);
-        hoverSubmitSprite.setPosition(600,580);
+        hoverSubmitSprite.setPosition(600, 580);
 
         RightArrowTexture = new Texture("RightArrow.png");
         RightArrowSprite = new Sprite(RightArrowTexture);
         RightArrowSprite.setSize(100, 100);
-        RightArrowSprite.setPosition(400+400+30,370);
+        RightArrowSprite.setPosition(400 + 400 + 30, 370);
 
         LeftArrowTexture = new Texture("LeftArrow.png");
         LeftArrowSprite = new Sprite(LeftArrowTexture);
         LeftArrowSprite.setSize(100, 100);
-        LeftArrowSprite.setPosition(400+30,370);
+        LeftArrowSprite.setPosition(400 + 30, 370);
 
         hoverRestartTexture = new Texture("hoverRestart.png");
         hoverRestartSprite = new Sprite(hoverRestartTexture);
         hoverRestartSprite.setSize(300, 100);
-        hoverRestartSprite.setPosition(240,300);
+        hoverRestartSprite.setPosition(240, 300);
 
         hoverreturnToMenuButtonTexture = new Texture("hoverreturntext.png");
         hoverreturnToMenuButtonSprite = new Sprite(hoverreturnToMenuButtonTexture);
         hoverreturnToMenuButtonSprite.setSize(300, 100);
-        hoverreturnToMenuButtonSprite.setPosition(240,100);
+        hoverreturnToMenuButtonSprite.setPosition(240, 100);
 
         hoverresumeButtonTexture = new Texture("hoverresumetext.png");
         hoverresumeButtonSprite = new Sprite(hoverresumeButtonTexture);
         hoverresumeButtonSprite.setSize(300, 100);
-        hoverresumeButtonSprite.setPosition(240,500);
+        hoverresumeButtonSprite.setPosition(240, 500);
     }
 
-    public MenuTextureManager(Sprite LeftArrowSprite, Texture LeftArrowTexture, Sprite RightArrowSprite, Texture RightArrowTexture) {
+    public MenuTextureManager(Sprite LeftArrowSprite, Texture LeftArrowTexture, Sprite RightArrowSprite,
+            Texture RightArrowTexture) {
         this.LeftArrowSprite = LeftArrowSprite;
         this.LeftArrowTexture = LeftArrowTexture;
         this.RightArrowSprite = RightArrowSprite;
@@ -457,6 +472,22 @@ public class MenuTextureManager {
         return unstartButtonTexture;
     }
 
+    public Sprite getaStartButtonSprite() {
+        return astartButtonSprite;
+    }
+
+    public Texture getaStartButtonTexture() {
+        return astartButtonTexture;
+    }
+
+    public Sprite getaunStartButtonSprite() {
+        return aunstartButtonSprite;
+    }
+
+    public Texture getaunStartButtonTexture() {
+        return aunstartButtonTexture;
+    }
+
     public Sprite getTutorialSprite() {
         return TutorialSprite;
     }
@@ -560,7 +591,7 @@ public class MenuTextureManager {
     }
 
     public Sprite getHoverSubmitSprite() {
-    return hoverSubmitSprite;
+        return hoverSubmitSprite;
     }
 
     public Texture getHoverSubmitTexture() {

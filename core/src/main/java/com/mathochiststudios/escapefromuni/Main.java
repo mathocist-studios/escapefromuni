@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mathochiststudios.escapefromuni.Menus.CreditsMenu;
 import com.mathochiststudios.escapefromuni.Menus.EndGameMenu;
 import com.mathochiststudios.escapefromuni.Menus.LeaderboardMenu;
+import com.mathochiststudios.escapefromuni.Menus.LoseMenu;
 import com.mathochiststudios.escapefromuni.Menus.MainMenu;
 import com.mathochiststudios.escapefromuni.Menus.MenuTextureManager;
 import com.mathochiststudios.escapefromuni.Menus.PauseMenu;
@@ -25,8 +26,6 @@ import com.mathochiststudios.escapefromuni.Tests.IStage;
 import com.mathochiststudios.escapefromuni.Tests.LiveSpriteBatch;
 import com.mathochiststudios.escapefromuni.Tests.LiveStage;
 import com.mathochiststudios.escapefromuni.UI.Mouse;
-
-
 
 /** {@link ApplicationListener} implementation shared by all platforms. */
 public class Main implements ApplicationListener {
@@ -55,7 +54,6 @@ public class Main implements ApplicationListener {
     Mouse mouse = new Mouse();
     Boolean music;
 
-
     MenuTextureManager textureManager;
 
     TextureManager textureManagerClassic;
@@ -72,6 +70,7 @@ public class Main implements ApplicationListener {
     PauseMenu pauseMenu;
     SettingsMenu settingsMenu;
     CreditsMenu creditsMenu;
+    LoseMenu loseMenu;
 
     String input;
     String pauseState;
@@ -106,15 +105,17 @@ public class Main implements ApplicationListener {
 
         game = new Game(this, gameDifficulty);
 
-        music=true;
+        music = true;
 
         mainMenu = new MainMenu(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
         leaderboardMenu = new LeaderboardMenu(batch, viewport, buttonCD, mouse, textureManager);
         tutorialMenu = new TutorialMenu(batch, viewport, buttonCD, mouse, textureManager);
         endGameMenu = new EndGameMenu(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
         pauseMenu = new PauseMenu(batch, viewport, buttonCD, mouse, textureManager);
-        settingsMenu = new SettingsMenu(batch, viewport, buttonCD, mouse, textureManager, name, difficulty, music,stage);
+        settingsMenu = new SettingsMenu(batch, viewport, buttonCD, mouse, textureManager, name, difficulty, music,
+                stage);
         creditsMenu = new CreditsMenu(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+        loseMenu = new LoseMenu(batch, viewport, buttonCD, mouse, textureManager);
 
         // Load fonts
         textureManager = new MenuTextureManager(viewport);
@@ -163,7 +164,7 @@ public class Main implements ApplicationListener {
                     ScreenUtils.clear(Color.CLEAR);
                 }
 
-                if (music){
+                if (music) {
                     textureManagerClassic.getBgm().setVolume(0.3f);
                     textureManagerClassic.getBgm().play();
                 }
@@ -234,6 +235,19 @@ public class Main implements ApplicationListener {
                     hasReset = true;
                 }
             }
+            case "Lose" -> {
+                if (hasReset) {
+                    loseMenu.resetText();
+                    hasReset = false;
+                }
+                loseMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+                loseMenu.draw();
+                menuState = loseMenu.input();
+                if (!menuState.equals("Tutorial")) {
+                    hasReset = true;
+                }
+            }
+
             case "Start Game" -> {
                 startGame();
                 menuState = "Main";
@@ -316,6 +330,10 @@ public class Main implements ApplicationListener {
         paused = false;
         allowPauseButton = false;
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        if (winOrLose.equals("Lose")) {
+            menuState = "Lose";
+        }
 
         if (!Objects.equals(winOrLose, "Return")) { // should be not equals
             latestScore = score;
