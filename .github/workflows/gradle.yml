@@ -80,3 +80,10 @@ jobs:
 
       - name: Generate and submit dependency graph
         uses: gradle/actions/dependency-submission@v4
+      
+      - name: Upload Gradle test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-test-report-${{ matrix.os }}
+          path: headless/build/reports/tests/test
+          retention-days: 1
