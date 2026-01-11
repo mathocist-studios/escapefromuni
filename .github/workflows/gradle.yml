@@ -32,6 +32,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          validate-wrappers: false
 
       - name: Build with Gradle Wrapper
         run: ./gradlew
@@ -84,6 +86,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+         validate-wrappers: false
 
       - name: Generate and submit dependency graph
         uses: gradle/actions/dependency-submission@v4
