@@ -1,5 +1,9 @@
 package com.mathochiststudios.escapefromuni.UI;
 
+import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
+import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
+import com.mathochiststudios.escapefromuni.TextureManager;
+
 public class EventsCounter {
 
     private int positiveEventsEncountered = 0;
@@ -25,6 +29,25 @@ public class EventsCounter {
     private boolean collectedAllCoinsAchieved = false;
     private boolean collectedAllPowerUpsAchieved = false;
     private boolean completedGameAchieved = false;
+
+    private boolean hasStuff = false;
+
+    private TextureManager textureManager;
+
+    private Notification notification;
+
+    public boolean gethasStuff() {
+        return hasStuff;
+    }
+
+    public Notification tooNotify() {
+        return notification;
+    }
+
+    public void clearNotifaction() {
+        notification = null;
+        hasStuff = false;
+    }
 
     public int getPositiveEventsEncountered() {
         return positiveEventsEncountered;
@@ -52,6 +75,14 @@ public class EventsCounter {
         }
         this.negativeEventsEncountered += 1;
         this.foundLibraryCard = true;
+
+        hasStuff = true;
+
+        notification = new Notification(
+                "Ohh.. I think I fell asleep in the library again...\nI better get going before it closes!",
+                5,
+                NotificationType.SPEECH,
+                textureManager.getGameSmallFont());
     }
 
     public boolean hasFoundLibraryCard() {
@@ -71,6 +102,11 @@ public class EventsCounter {
     }
 
     public void handedInWallet() {
+        notification = new Notification(
+                "Ohh.. I think I fell asleep in the library again...\nI better get going before it closes!",
+                5,
+                NotificationType.SPEECH,
+                textureManager.getGameSmallFont());
         if (this.handedInWallet) {
             return;
         }
