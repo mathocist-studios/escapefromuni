@@ -40,8 +40,6 @@ import com.mathochiststudios.escapefromuni.levels.R05_MarketSquare;
 import com.mathochiststudios.escapefromuni.levels.ShopLevel;
 import com.mathochiststudios.escapefromuni.powerups.SpeedPowerup;
 
-import javax.annotation.processing.Generated;
-
 public class Game {
 
     public boolean gameEnded;
@@ -654,7 +652,7 @@ public class Game {
 
         if (player.getTotalSpeedPowerupsCollected() == 2 &&
                 player.getInventory().hasItem(InventoryObject.ENERGY_DRINK) &&
-                player.getInventory().hasItem(InventoryObject.ROLLERBLADES) &&
+                player.getInventory().hasItem(InventoryObject.YORCUP) &&
                 !player.getEventsCounter().hasCollectedAllPowerUps()) {
             Notification allPowerupsNotification = new Notification(
                     "Collected all power-ups",
@@ -898,7 +896,7 @@ public class Game {
                                         : gameDifficulty == GameDifficulty.HARD ? 100
                                                 : gameDifficulty == GameDifficulty.IMPOSSIBLE ? 150 : 0)
                         +
-                        (player.getInventory().hasItem(InventoryObject.ROLLERBLADES) ? 50 : 0) +
+                        (player.getInventory().hasItem(InventoryObject.YORCUP) ? 50 : 0) +
                         (player.getInventory().hasItem(InventoryObject.ENERGY_DRINK) ? 50 : 0) +
                         (player.getEventsCounter().hasCompletedGame() ? 200 : 0)));
     }

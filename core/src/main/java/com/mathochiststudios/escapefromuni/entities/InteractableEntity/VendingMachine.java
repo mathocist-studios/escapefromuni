@@ -48,7 +48,7 @@ public class VendingMachine extends InteractableEntity {
 
     @Override
     public void onInteract(Player p, Level level) {
-        if (p.getInventory().hasItem(InventoryObject.ROLLERBLADES)) {
+        if (p.getInventory().hasItem(InventoryObject.YORCUP)) {
             sendNotification("Vending machine is empty!");
             return;
         }
@@ -57,18 +57,18 @@ public class VendingMachine extends InteractableEntity {
             return;
         }
 
-        p.getInventory().addItem(InventoryObject.ROLLERBLADES);
+        p.getInventory().addItem(InventoryObject.YORCUP);
         p.spendCoins(4);
-        sendNotification("You bought rollerblades! You can now move faster.");
+        sendNotification("You bought a Yor Cup coffee! You can now move faster.");
         p.addSpeed((float) (5 * level.getGame().getGameDifficulty().getSpeedBuffMultiplier()));
         Notification notification = new Notification(
-            "Buy rollerblades",
+            "Buy Yor Cup",
             5,
             NotificationType.ACHIEVEMENT,
             game.getTextureManager().getGameSmallFont()
         );
         game.getHud().getNotificationManager().addNotification(notification);
-        p.getEventsCounter().boughtRollerSkates();
+        p.getEventsCounter().boughtYorCup();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class VendingMachine extends InteractableEntity {
 
     @Override
     public void withinInteractionRadius(Player p, Level level, SpriteBatch batch) {
-        if (p.getInventory().hasItem(InventoryObject.ROLLERBLADES)) {
+        if (p.getInventory().hasItem(InventoryObject.YORCUP)) {
             return;
         }
 

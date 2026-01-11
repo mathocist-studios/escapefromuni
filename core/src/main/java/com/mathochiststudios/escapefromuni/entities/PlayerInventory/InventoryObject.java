@@ -7,7 +7,7 @@ public enum InventoryObject {
     RUCKSACK(false, "rucksack.png"),
     BIRDSEED(false, "birdseed.png"),
     ENERGY_DRINK(false, "energy_drink.png"),
-    ROLLERBLADES(false, "roller_skates.png"),
+    YORCUP(false, "roller_skates.png"),
     BASEMENT_KEY(false, "basement_key.png");
 
     private final boolean allowMultiple;
