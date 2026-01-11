@@ -66,7 +66,7 @@ public class LakeLevel extends Level {
 
         friend = new Friend(
             this.getGame(),
-            new Texture("prototype_character.png"),
+            new Texture("friend.png"),
             1,
             20,
             EnemyAI.FRIEND

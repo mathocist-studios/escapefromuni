@@ -75,7 +75,7 @@ public class R04_LibraryFloor0 extends Level{
         this.libraryBasementDoor.update(player, this);
         this.receptionist.update(deltaTime, player, this);
 
-        this.basementKey.update(player);
+        this.basementKey.update(player, this);
     }
 
     // To be invoked in Game to draw the entities on this level, when it is the active level.

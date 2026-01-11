@@ -4,8 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.mathochiststudios.escapefromuni.UI.NotificationSystem.Notification;
+import com.mathochiststudios.escapefromuni.UI.NotificationSystem.NotificationType;
 import com.mathochiststudios.escapefromuni.entities.Player;
 import com.mathochiststudios.escapefromuni.entities.PlayerInventory.InventoryObject;
+import com.mathochiststudios.escapefromuni.levels.Level;
 
 public class BasementKey {
 
@@ -35,10 +38,19 @@ public class BasementKey {
      *
      * @param player is Player player, the player class.
      */
-    public void update(Player player) {
+    public void update(Player player, Level level) {
         // Interaction between the player and the LibraryCard checked every frame.
         if (this.isCollidingWithPlayer(player) && !this.isDisposed) {
             this.pickUp(player);
+
+            player.getEventsCounter().foundBasementKey();
+            Notification notification = new Notification(
+                "You have picked up the Basement Key. You can now access the basement area.",
+                5f,
+                NotificationType.SPEECH,
+                level.getGame().getTextureManager().getGameSmallFont()
+            );
+            level.getGame().getHud().getNotificationManager().addNotification(notification);
         }
     }
 
@@ -51,7 +63,6 @@ public class BasementKey {
     private void pickUp(Player player) {
         player.getInventory().addItem(InventoryObject.BASEMENT_KEY);
         this.isDisposed = true;
-        player.getEventsCounter().foundBasementKey();
     }
 
     /**

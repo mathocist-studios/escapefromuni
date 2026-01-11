@@ -52,7 +52,7 @@ public class R05_MarketSquare extends Level{
 
         friend = new Friend(
             this.getGame(),
-            new Texture("prototype_character.png"),
+            new Texture("friend.png"),
             0,
             0,
             EnemyAI.FRIEND

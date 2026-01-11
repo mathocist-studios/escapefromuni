@@ -61,7 +61,7 @@ public class BasementLevel extends Level {
 
         dean = new Dean(
             this.getGame(),
-            new Texture("prototype_character.png"),
+            new Texture("Truedean.png"),
             1,
             15,
             EnemyAI.A_STAR
