@@ -12,6 +12,7 @@ public class TestingUtils {
     public static Main createTestGame() {
         Main.TESTING = true;
         Main app = new Main();
+        app.create();
         app.startGame();
         return app;
     }
