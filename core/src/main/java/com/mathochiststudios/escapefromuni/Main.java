@@ -54,7 +54,7 @@ public class Main implements ApplicationListener {
     // used for mouse coordinates
     Mouse mouse = new Mouse();
     Boolean music;
-    
+
 
     MenuTextureManager textureManager;
 
@@ -128,7 +128,7 @@ public class Main implements ApplicationListener {
         } else if (difficulty.equals("Normal")) {
             textureManagerClassic.setBgm(Gdx.audio.newMusic(Gdx.files.internal("EscapeAdventure.ogg")));
         } else if (difficulty.equals("Hard")) {
-            textureManagerClassic.setBgm(Gdx.audio.newMusic(Gdx.files.internal("FreakyEscapeAdventure.ogg")));
+            textureManagerClassic.setBgm(Gdx.audio.newMusic(Gdx.files.internal("EscapeAdventureFreaky.ogg")));
         }
 
         gameStarted = true;
