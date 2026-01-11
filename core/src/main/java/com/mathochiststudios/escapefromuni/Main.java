@@ -31,7 +31,7 @@ import com.mathochiststudios.escapefromuni.UI.Mouse;
 /** {@link ApplicationListener} implementation shared by all platforms. */
 public class Main implements ApplicationListener {
 
-    public static boolean TESTING = true; // Set to false for production
+    public static boolean TESTING = false; // Set to false for production
     //
 
     Game game;
