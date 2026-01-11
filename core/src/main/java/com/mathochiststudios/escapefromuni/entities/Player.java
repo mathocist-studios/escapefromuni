@@ -90,7 +90,8 @@ public class Player {
         this.inventory = new Inventory();
         this.eventsCounter = new EventsCounter();
 
-        this.lbPet = new LBPet(game, this.moneySprite.getX() - 0.5f, this.moneySprite.getY(), 3.0f, new float[] {this.moneySprite.getX(), this.moneySprite.getY()});
+        this.lbPet = new LBPet(game, this.moneySprite.getX() - 0.5f, this.moneySprite.getY(), 3.0f,
+                new float[] { this.moneySprite.getX(), this.moneySprite.getY() });
     }
 
     // Getter for timer.
@@ -143,7 +144,7 @@ public class Player {
         return this.rightAnimation;
     }
 
-    //Getter for moneyWidth.
+    // Getter for moneyWidth.
     public float getMoneyWidth() {
         return this.moneyWidth;
     }
@@ -188,29 +189,30 @@ public class Player {
         int ssCols = 4;
         int ssRows = 12;
 
-        TextureRegion[][] tmp = TextureRegion.split(this.walkSheet, this.walkSheet.getWidth() / ssCols, this.walkSheet.getHeight() / ssRows);
+        TextureRegion[][] tmp = TextureRegion.split(this.walkSheet, this.walkSheet.getWidth() / ssCols,
+                this.walkSheet.getHeight() / ssRows);
         // stationaryFrames setup.
         this.stationaryFrames = new TextureRegion[2];
         int index = 0;
-        for (int i = 0; i < 2; i ++) {
+        for (int i = 0; i < 2; i++) {
             this.stationaryFrames[index++] = tmp[0][i];
         }
         // upFrames setup.
         this.upFrames = new TextureRegion[4];
         index = 0;
-        for (int i = 0; i < 4; i ++) {
+        for (int i = 0; i < 4; i++) {
             this.upFrames[index++] = tmp[5][i];
         }
         // downFrames setup.
         this.downFrames = new TextureRegion[4];
         index = 0;
-        for (int i = 0; i < 4; i ++) {
+        for (int i = 0; i < 4; i++) {
             this.downFrames[index++] = tmp[3][i];
         }
         // rightFrames setup.
         this.rightFrames = new TextureRegion[4];
         index = 0;
-        for (int i = 0; i < 4; i ++) {
+        for (int i = 0; i < 4; i++) {
             this.rightFrames[index++] = tmp[4][i];
         }
     }
@@ -218,12 +220,13 @@ public class Player {
     // Used for test only
     // public Player(int startingCoins) {
     // this.coins = startingCoins;
-    //this.speed = defaultSpeed;
-    //}
+    // this.speed = defaultSpeed;
+    // }
 
     public int getCoins() {
         return coins;
     }
+
     public void addCoins(int amount) {
         coins += amount;
         totalCoinsCollected += amount;
@@ -241,19 +244,19 @@ public class Player {
         return inventory;
     }
 
-    public void increaseSpeed(float multiplier){
+    public void increaseSpeed(float multiplier) {
         this.speed *= multiplier;
     }
 
-    public void addSpeed(float increment){
+    public void addSpeed(float increment) {
         this.speed += increment;
     }
 
-    public void setSpeed(float speed){
+    public void setSpeed(float speed) {
         this.speed = speed;
     }
 
-    public float getSpeed(){
+    public float getSpeed() {
         return (float) (this.speed * slowedByWater);
     }
 

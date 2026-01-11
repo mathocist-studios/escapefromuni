@@ -36,19 +36,6 @@ public class EventsCounter {
 
     private Notification notification;
 
-    public boolean gethasStuff() {
-        return hasStuff;
-    }
-
-    public Notification tooNotify() {
-        return notification;
-    }
-
-    public void clearNotifaction() {
-        notification = null;
-        hasStuff = false;
-    }
-
     public int getPositiveEventsEncountered() {
         return positiveEventsEncountered;
     }
@@ -77,12 +64,6 @@ public class EventsCounter {
         this.foundLibraryCard = true;
 
         hasStuff = true;
-
-        notification = new Notification(
-                "Ohh.. I think I fell asleep in the library again...\nI better get going before it closes!",
-                5,
-                NotificationType.SPEECH,
-                textureManager.getGameSmallFont());
     }
 
     public boolean hasFoundLibraryCard() {
