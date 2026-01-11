@@ -2,6 +2,9 @@ package com.mathochiststudios.escapefromuni;
 
 import java.util.Objects;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -30,7 +33,7 @@ import com.mathochiststudios.escapefromuni.UI.Mouse;
 /** {@link ApplicationListener} implementation shared by all platforms. */
 public class Main implements ApplicationListener {
 
-    public static boolean TESTING = false; // Set to false for production
+    public static boolean TESTING = true; // Set to false for production
     //
 
     Game game;
@@ -165,7 +168,7 @@ public class Main implements ApplicationListener {
                 }
 
                 if (music) {
-                    textureManagerClassic.getBgm().setVolume(0.3f);
+                    textureManagerClassic.getBgm().setVolume(0.9f);
                     textureManagerClassic.getBgm().play();
                 }
 
@@ -224,15 +227,22 @@ public class Main implements ApplicationListener {
                 }
             }
             case "Tutorial" -> {
-                if (hasReset) {
-                    tutorialMenu.resetText();
-                    hasReset = false;
-                }
-                tutorialMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
-                tutorialMenu.draw();
-                menuState = tutorialMenu.input();
-                if (!menuState.equals("Tutorial")) {
-                    hasReset = true;
+                if (name.equals("Player")) {
+                    menuState = "Settings";
+                    JFrame coolbox = new JFrame();
+                    JOptionPane.showMessageDialog(coolbox,
+                            "Please pick a name, difficulty before you start for the first time.");
+                } else {
+                    if (hasReset) {
+                        tutorialMenu.resetText();
+                        hasReset = false;
+                    }
+                    tutorialMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+                    tutorialMenu.draw();
+                    menuState = tutorialMenu.input();
+                    if (!menuState.equals("Tutorial")) {
+                        hasReset = true;
+                    }
                 }
             }
             case "Lose" -> {
@@ -268,7 +278,28 @@ public class Main implements ApplicationListener {
                 }
             }
             case "Settings" -> {
-                menuState = "PreGameSettings";
+                if (hasReset) {
+
+                    settingsMenu.resetText();
+                    hasReset = false;
+                }
+                settingsMenu.update(batch, viewport, latestScore, wonLastGame, buttonCD, mouse, textureManager);
+                settingsMenu.draw();
+                menuState = settingsMenu.input();
+                name = settingsMenu.getName();
+                if (!menuState.equals("Settings")) {
+                    hasReset = true;
+                    settingsMenu.textBoxunFix();
+                }
+                difficulty = settingsMenu.getDifficulty();
+                music = settingsMenu.getMusic();
+                if (settingsMenu.getDifficulty().equals("Easy")) {
+                    gameDifficulty = GameDifficulty.EASY;
+                } else if (settingsMenu.getDifficulty().equals("Normal")) {
+                    gameDifficulty = GameDifficulty.NORMAL;
+                } else if (settingsMenu.getDifficulty().equals("Hard")) {
+                    gameDifficulty = GameDifficulty.HARD;
+                }
             }
             case "PreGameSettings" -> {
                 if (hasReset) {
@@ -282,7 +313,6 @@ public class Main implements ApplicationListener {
                 name = settingsMenu.getName();
                 if (!menuState.equals("PreGameSettings")) {
                     hasReset = true;
-                    settingsMenu.textBoxFix();
                 }
                 difficulty = settingsMenu.getDifficulty();
                 music = settingsMenu.getMusic();

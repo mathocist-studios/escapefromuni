@@ -479,6 +479,7 @@ public class Game {
                 powerup.apply(player);
                 powerup.getSoundEffect().play();
                 player.getEventsCounter().speedPositiveEventsEncountered();
+
             }
         }
 
