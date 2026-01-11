@@ -38,7 +38,7 @@ public class MainMenu extends AbstractMenu{
     @Override
     public String input() {
         mouse.update(viewport);
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.justTouched()) {
 
             //Gdx.app.log("MyTag", mouseX + " " + mouseY);
             //Gdx.app.log("buttonxy", playButtonSprite.getBoundingRectangle().x+" "+playButtonSprite.getBoundingRectangle().y);
