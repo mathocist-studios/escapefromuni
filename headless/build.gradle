@@ -3,8 +3,10 @@ apply plugin: 'application'
 // CHANGED: added jacoco plugin to produce test coverage report (for CI)
 apply plugin: 'jacoco'
 
-java.sourceCompatibility = 17
-java.targetCompatibility = 17
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 if (JavaVersion.current().isJava9Compatible()) {
   compileJava.options.release.set(17)
 }
@@ -15,8 +17,9 @@ if (JavaVersion.current().isJava9Compatible()) {
  */
 sourceSets.test.resources.srcDirs += [ rootProject.file('assets').path ]
 
-mainClassName = 'com.mathochiststudios.escapefromuni.headless.HeadlessLauncher'
-application.setMainClass(mainClassName)
+application {
+    mainClass = 'com.mathochiststudios.escapefromuni.headless.HeadlessLauncher'
+}
 eclipse.project.name = appName + '-headless'
 
 dependencies {
@@ -36,7 +39,7 @@ jar {
   dependsOn configurations.runtimeClasspath
   from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
   manifest {
-    attributes 'Main-Class': project.mainClassName
+    attributes 'Main-Class': application.mainClass.get()
   }
   doLast {
     file(archiveFile).setExecutable(true, false)
