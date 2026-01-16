@@ -26,9 +26,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Make gradlew executable
-        run: chmod +x gradlew
-
       - name: Make Gradle wrapper executable
         if: runner.os != 'Windows'
         run: chmod +x ./gradlew
@@ -38,8 +35,13 @@ jobs:
         with:
           validate-wrappers: false
 
-      - name: Build with Gradle Wrapper
-        run: ./gradlew
+      # Build + root project tests
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      # Explicitly run headless module unit tests
+      - name: Run headless unit tests
+        run: ./gradlew :headless:test
 
       - name: Upload Gradle test report
         uses: actions/upload-artifact@v4
@@ -90,7 +92,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-         validate-wrappers: false
+          validate-wrappers: false
 
       - name: Generate and submit dependency graph
         uses: gradle/actions/dependency-submission@v4
